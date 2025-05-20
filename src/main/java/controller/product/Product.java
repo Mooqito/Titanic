@@ -11,4 +11,5 @@ public class Product {
 
     private Category category;
     private List<Provider> providers;
+    private Brand brand;
 }
