@@ -1,6 +1,6 @@
 package controller.product;
 
-public class product {
+public class Product {
 
     private long id;
     private String title;
