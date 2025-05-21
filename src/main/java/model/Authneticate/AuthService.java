@@ -15,7 +15,7 @@ public class AuthService {
         Connection connection = DBconnection.connect(); //When the database is connected, the address and database returns to the desert in it
 
         String hashedpassword = HashUtil.hashpassword(password); // send tse password to the Hash function for hashed password
-        String Query = "INSERT INTO aunthnticat (username,password)"//query insert username and password
+        String Query = "INSERT INTO authnticate (username,password)"//query insert username and password
                 +"VALUES (?,?)";
 
         try{
@@ -42,7 +42,7 @@ public class AuthService {
         Connection connection = DBconnection.connect();//When the database is connected, the address and database returns to the desert in it
 
         String hashedpassword = HashUtil.hashpassword(password);// send tse password to the Hash function for hashed password
-        String Query = "SELECT FROM aunthnticat WHERE username = ? AND password = ?"; //query login
+        String Query = "SELECT FROM authnticate WHERE username = ? AND password = ?"; //query login
 
         try {
 
@@ -66,7 +66,7 @@ public class AuthService {
 
         String hashedpassword = HashUtil.hashpassword(password);// send tse password to the Hash function for hashed password
 
-        String Query = "UPDATE aunthnticat SET password = ? WHERE username = ?";//query updata password
+        String Query = "UPDATE authnticate SET password = ? WHERE username = ?";//query updata password
         try {
 
             PreparedStatement preparedStatement = connection.prepareStatement(Query);//possiblity of entering information in the table

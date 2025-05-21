@@ -1,10 +1,13 @@
 package view;
 
+import controller.product.ProductInput;
+
 import java.util.Scanner;
 
 public class Dashboard {
 
     Scanner in = new Scanner(System.in);
+    ProductInput productInput = new ProductInput();
 
     public Dashboard() {
         System.out.println(" 1) product management ");
@@ -15,7 +18,7 @@ public class Dashboard {
 
         switch (option) {
             case 1:
-                //pr;
+                product_management();
                 break;
             case 2:
                 //or;
@@ -36,7 +39,7 @@ public class Dashboard {
 
         switch (option) {
             case 1:
-                //add;
+                productInput.ProductInputList();
                 break;
             case 2:
                 //remove;

@@ -20,6 +20,7 @@ public class ProductInputTest {
         ProductInput productInput = new ProductInput();
         Product product  = productInput.ProductInputList();
 
+
         assertEquals(1001,product.getId());
         assertEquals("shampo", product.getTitle());
         assertEquals(25000, product.getPrice());

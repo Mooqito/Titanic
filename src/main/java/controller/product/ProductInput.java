@@ -1,13 +1,13 @@
 package controller.product;
 
 //import database.ProductInputToDB;
+import database.ProductInputToDB;
 import model.Product.Brand;
 import model.Product.Category;
 import model.Product.Product;
 import model.Product.Provider;
+import view.Dashboard;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class ProductInput {
@@ -42,7 +42,13 @@ public class ProductInput {
 
 
         Product product = new Product(id,title,price,description,category,providers,brand);
-//        ProductInputToDB.productInput(product);
+        if (ProductInputToDB.productInput(product)){
+            System.out.println("saccsess");
+            new Dashboard();
+        }else {
+            System.out.println("no sacc");
+            new Dashboard();
+        }
         return product;
     }
 }
