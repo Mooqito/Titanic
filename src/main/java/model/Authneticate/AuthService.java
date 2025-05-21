@@ -1,7 +1,7 @@
-package model;
+package model.Authneticate;
 
 
-import Data_Base.DBconnection;
+import database.DBconnection;
 
 import java.sql.*;
 import java.sql.Connection;

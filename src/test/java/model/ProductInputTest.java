@@ -1,6 +1,7 @@
 package model;
 
-import controller.product.Product;
+import model.Product.Product;
+import controller.product.ProductInput;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

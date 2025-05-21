@@ -1,4 +1,4 @@
-package model;
+package model.Authneticate;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -1,4 +1,4 @@
-package controller.product;
+package model.Product;
 
 public class Category {
 

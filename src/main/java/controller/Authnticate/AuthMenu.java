@@ -1,7 +1,7 @@
-package controller;
+package controller.Authnticate;
 
 
-import model.AuthService;
+import model.Authneticate.AuthService;
 import view.Dashboard;
 
 import java.util.Scanner;

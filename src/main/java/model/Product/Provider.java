@@ -1,10 +1,10 @@
-package controller.product;
+package model.Product;
 
-public class Brand {
-    private long id;
+public class Provider {
+
     private String title;
 
-    public Brand(String title) {
+    public Provider(String title) {
         this.title = title;
     }
 

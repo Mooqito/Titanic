@@ -1,6 +1,7 @@
 package model;
 
 
+import model.Authneticate.AuthService;
 import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,9 +1,9 @@
-package model;
+package controller.product;
 
-import controller.product.Brand;
-import controller.product.Category;
-import controller.product.Product;
-import controller.product.Provider;
+import model.Product.Brand;
+import model.Product.Category;
+import model.Product.Product;
+import model.Product.Provider;
 
 import java.util.ArrayList;
 import java.util.List;
