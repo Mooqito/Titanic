@@ -12,7 +12,7 @@ public class ProductInputTest {
     @Test
     public void TestProductInput() {
 
-        String FakeInput = String.join("\n", "1001","shampo","25000","head wash","behdashti","mosleh","1","bantaclin");
+        String FakeInput = String.join("\n", "1001","shampo","25000","head wash","behdashti","mosleh","bantaclin");
 
         ByteArrayInputStream inputStream = new ByteArrayInputStream(FakeInput.getBytes());
         System.setIn(inputStream);
@@ -26,8 +26,7 @@ public class ProductInputTest {
         assertEquals("head wash", product.getDescription());
         assertEquals("behdashti", product.getCategory().getTitle());
         assertEquals("mosleh", product.getBrand().getTitle());
-        assertEquals(1, product.getProviders().size());
-        assertEquals("bantaclin", product.getProviders().get(0).getTitle());
+        assertEquals("bantaclin", product.getProviders().getTitle());
 
     }
 }

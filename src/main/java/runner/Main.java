@@ -1,8 +1,8 @@
 package runner;
 
 import controller.Authnticate.AuthMenu;
-import database.DbInitializerAuth;
-import database.DbInitializerProduct;
+import database.DBinitialazation.DbInitializerAuth;
+import database.DBinitialazation.DbInitializerProduct;
 
 public class Main {
     public static void main(String[] args) {

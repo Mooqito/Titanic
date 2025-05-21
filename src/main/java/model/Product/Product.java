@@ -10,10 +10,10 @@ public class Product {
     private String description;
 
     private Category category;
-    private List<Provider> providers;
+    private Provider providers;
     private Brand brand;
 
-    public Product(long id, String title, long price, String description, Category category, List<Provider> providers, Brand brand) {
+    public Product(long id, String title, long price, String description, Category category, Provider providers, Brand brand) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -63,11 +63,11 @@ public class Product {
         this.category = category;
     }
 
-    public List<Provider> getProviders() {
+    public Provider getProviders() {
         return providers;
     }
 
-    public void setProviders(List<Provider> providers) {
+    public void setProviders(Provider providers) {
         this.providers = providers;
     }
 

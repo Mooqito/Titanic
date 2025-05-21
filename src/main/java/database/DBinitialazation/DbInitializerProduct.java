@@ -1,4 +1,6 @@
-package database;
+package database.DBinitialazation;
+
+import database.DBconnection;
 
 import java.sql.Connection;
 import java.sql.SQLException;

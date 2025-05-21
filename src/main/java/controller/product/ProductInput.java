@@ -1,5 +1,6 @@
 package controller.product;
 
+//import database.ProductInputToDB;
 import model.Product.Brand;
 import model.Product.Category;
 import model.Product.Product;
@@ -36,13 +37,12 @@ public class ProductInput {
         Brand brand = new Brand(brandTitle);
 
         System.out.println("provider title");
-        int providerCount = Integer.parseInt(scanner.nextLine());
-        List<Provider> providers = new ArrayList<>();
-        for (int i=1;i<=providerCount;i++){
-            System.out.println("provider"+i+":");
-            String providerTitle = scanner.nextLine();
-            providers.add(new Provider(providerTitle));
-        }
-        return  new Product(id,title,price,description,category,providers,brand);
+        String providerTitle = scanner.nextLine();
+        Provider providers = new Provider(providerTitle);
+
+
+        Product product = new Product(id,title,price,description,category,providers,brand);
+//        ProductInputToDB.productInput(product);
+        return product;
     }
 }
