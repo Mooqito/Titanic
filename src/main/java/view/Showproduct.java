@@ -9,7 +9,7 @@ public class Showproduct {
 
     public void show() {
 
-        List<Product> products = ReadAllproduct.writeproduct();
+        List<Product> products = ReadAllproduct.Readproduct();
 
         for (Product p : products) {
             System.out.println(p.getTitle());

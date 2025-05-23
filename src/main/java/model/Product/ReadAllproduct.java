@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ReadAllproduct {
 
-    public static List<Product> writeproduct() {
+    public static List<Product> Readproduct() {
 
         List<Product> products = new ArrayList<>();
 
