@@ -8,6 +8,7 @@ public class Dashboard {
 
     Scanner in = new Scanner(System.in);
     ProductInput productInput = new ProductInput();
+    Showproduct showproduct = new Showproduct();
 
     public Dashboard() {
         System.out.println(" 1) product management ");
@@ -34,6 +35,7 @@ public class Dashboard {
         System.out.println(" 1) add product ");
         System.out.println(" 2) remove product ");
         System.out.println(" 3) edit product ");
+        System.out.println(" 4) show ");
 
         int option = in.nextInt();
 
@@ -45,7 +47,10 @@ public class Dashboard {
                 //remove;
                 break;
             case 3:
-                //edit;
+//                showproduct.show();
+                break;
+            case 4:
+                showproduct.show();
                 break;
         }
     }

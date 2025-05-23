@@ -32,13 +32,13 @@ public class ProductInput {
         String categoryTitle = scanner.nextLine();
         Category category = new Category(categoryTitle);
 
-        System.out.println("Brand title");
-        String brandTitle = scanner.nextLine();
-        Brand brand = new Brand(brandTitle);
-
         System.out.println("provider title");
         String providerTitle = scanner.nextLine();
         Provider providers = new Provider(providerTitle);
+
+        System.out.println("Brand title");
+        String brandTitle = scanner.nextLine();
+        Brand brand = new Brand(brandTitle);
 
 
         Product product = new Product(id,title,price,description,category,providers,brand);
