@@ -10,32 +10,61 @@ public class Dashboard {
     ProductInput productInput = new ProductInput();
     Showproduct showproduct = new Showproduct();
 
-    public Dashboard() {
-        System.out.println(" 1) product management ");
-        System.out.println(" 2) order management ");
-        System.out.println(" 3) payment management ");
+    public void shop() {
+        System.out.println(" 1)وضعیت فروشگاه ");
+        System.out.println(" 2)داشبورد ");
 
         int option = in.nextInt();
 
         switch (option) {
             case 1:
-                product_management();
+                //
                 break;
             case 2:
-                //or;
-                break;
-            case 3:
-                //py;
+                product_management();
                 break;
         }
     }
 
+    public void dashbord (){
+        System.out.println("1)مدیریت محصولات");
+        System.out.println("2)مدیریت دسته بندی ها");
+        System.out.println("3)مدیریت برندها");
+        System.out.println("4)مدیریت تأمینکننده ها");
+        System.out.println("5)مدیریت کاربران");
+        System.out.println("6)مدیریت سفارش ها");
+
+        int option = in.nextInt();
+
+        switch (option) {
+            case 1:
+                //
+                break;
+            case 2:
+                //remove;
+                break;
+            case 3:
+                //
+                break;
+            case 4:
+                //
+                break;
+            case 5:
+                //
+                break;
+            case 6:
+                //
+                break;
+        }
+
+    }
+
     public void product_management() {
 
-        System.out.println(" 1) add product ");
-        System.out.println(" 2) remove product ");
-        System.out.println(" 3) edit product ");
-        System.out.println(" 4) show ");
+        System.out.println(" 1) فزودن محصول جدید ");
+        System.out.println(" 2) ویرایش محصول ");
+        System.out.println(" 3) / حذف ");
+        System.out.println(" 4) نمایش لیست محصولات ");
 
         int option = in.nextInt();
 
