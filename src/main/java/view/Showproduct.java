@@ -13,9 +13,9 @@ public class Showproduct {
 
         for (Product p : products) {
 
-            System.out.println("product "+p.getId()+" : \n"+" Title : "+p.getTitle()+"\n price : "+p.getPrice()
-                +"\n description : "+p.getDescription()+"\n category : "+p.getCategory().getTitle()
-                    +"\n brand : "+p.getBrand().getTitle()+"\n provider : "+p.getProviders().getTitle());
+            System.out.println(" Title : "+p.getTitle()+"\n price : "+p.getPrice()
+                +"\n description : "+p.getDescription()+"\n category : "+p.getCategory_id()
+                    +"\n brand : "+p.getBrand_id()+"\n provider : "+p.getProviders_id());
         }
     }
 }

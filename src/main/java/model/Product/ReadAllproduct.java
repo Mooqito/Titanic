@@ -24,7 +24,6 @@ public class ReadAllproduct {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
-                long id = resultSet.getLong("id");
                 String title = resultSet.getString("title");
                 long price = resultSet.getLong("price");
                 String description = resultSet.getString("description");
@@ -32,7 +31,7 @@ public class ReadAllproduct {
                 long brand_id = resultSet.getLong("brand");
                 long provider_id = resultSet.getLong("provider");
 
-                Product product = new Product(id,title,price,description,category_id,brand_id,provider_id);
+                Product product = new Product(title,price,description,category_id,brand_id,provider_id);
                 products.add(product);
             }
 

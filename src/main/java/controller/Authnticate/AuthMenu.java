@@ -2,13 +2,16 @@ package controller.Authnticate;
 
 
 import model.Authneticate.AuthService;
-import view.Dashboard;
+import view.Shop;
+import view.Shop;
 
 import java.util.Scanner;
 
 
 // class wellcom to app and menu for Login,Sing up,Reset password user
 public class AuthMenu {
+
+    Shop s = new Shop();
 
     Scanner input  = new Scanner(System.in);
 
@@ -48,7 +51,7 @@ public class AuthMenu {
         //Sends the password and username to the AuthService function to build an arithmetic
         if (AuthService.register(username,password)){
             System.out.println("Registered successfully."); // If no other username with this name was account
-            new Dashboard();
+            s.shop();
         }else {
             System.out.println("Registration failed."); // If no other username with this name was't account
         }
@@ -66,7 +69,7 @@ public class AuthMenu {
         // Sends the username and password to the AuthService function to lonig user in app
         if (AuthService.login(username,password)){
             System.out.println("Login successful!"); //if correct username and password user login
-            new Dashboard();
+            s.shop();
         }else {
             System.out.println("Invalid credentials."); //if wrong username and password Invalid credentials
         }

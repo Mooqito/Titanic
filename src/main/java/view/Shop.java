@@ -1,14 +1,15 @@
 package view;
 
+import controller.product.BrandInput;
+import controller.product.Categoryinput;
+import controller.product.PrividerInput;
 import controller.product.ProductInput;
 
 import java.util.Scanner;
 
-public class Dashboard {
+public class Shop {
 
     Scanner in = new Scanner(System.in);
-    ProductInput productInput = new ProductInput();
-    Showproduct showproduct = new Showproduct();
 
     public void shop() {
         System.out.println(" 1)وضعیت فروشگاه ");
@@ -21,7 +22,7 @@ public class Dashboard {
                 //
                 break;
             case 2:
-                product_management();
+                dashbord();
                 break;
         }
     }
@@ -38,7 +39,7 @@ public class Dashboard {
 
         switch (option) {
             case 1:
-                //
+                product_management();
                 break;
             case 2:
                 //remove;
@@ -59,18 +60,67 @@ public class Dashboard {
 
     }
 
+    public void category (){
+        System.out.println("1)افزودن دسته جدید");
+        System.out.println("2)لیست و ویرایش دسته ها");
+
+        int option = in.nextInt();
+
+        switch (option) {
+            case 1:
+                Categoryinput.input();
+                break;
+            case 2:
+                //remove;
+                break;
+        }
+    }
+
+    public void brand (){
+        System.out.println("1)افزودن برند جدید");
+        System.out.println("2)لیست و ویرایش برند ها");
+
+        int option = in.nextInt();
+
+        switch (option) {
+            case 1:
+                BrandInput.input();
+                break;
+            case 2:
+                //remove;
+                break;
+        }
+    }
+
+    public void provider (){
+        System.out.println("1)افزودن تامین کنندگان جدید");
+        System.out.println("2)لیست و ویرایش تامین کنندگان");
+
+        int option = in.nextInt();
+
+        switch (option) {
+            case 1:
+                PrividerInput.input();
+                break;
+            case 2:
+                //remove;
+                break;
+        }
+    }
+
     public void product_management() {
 
         System.out.println(" 1) فزودن محصول جدید ");
         System.out.println(" 2) ویرایش محصول ");
-        System.out.println(" 3) / حذف ");
+        System.out.println(" 3) ویرایش حذف ");
         System.out.println(" 4) نمایش لیست محصولات ");
 
         int option = in.nextInt();
 
         switch (option) {
             case 1:
-                productInput.ProductInputList();
+                ProductInput input = new ProductInput();
+                input.ProductInputList();
                 break;
             case 2:
                 //remove;
@@ -79,7 +129,7 @@ public class Dashboard {
 //                showproduct.show();
                 break;
             case 4:
-                showproduct.show();
+//                showproduct.show();
                 break;
         }
     }
