@@ -2,7 +2,6 @@ package model.Product;
 
 public class Product {
 
-    private long id;
     private String title;
     private long price;
     private String description;
@@ -11,8 +10,7 @@ public class Product {
     private long providers_id;
     private long brand_id;
 
-    public Product(long id, String title, long price, String description, long category_id, long providers_id, long brand_id) {
-        this.id = id;
+    public Product( String title, long price, String description, long category_id, long providers_id, long brand_id) {
         this.title = title;
         this.price = price;
         this.description = description;
@@ -20,15 +18,6 @@ public class Product {
         this.providers_id = providers_id;
         this.brand_id = brand_id;
     }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -53,7 +42,7 @@ public class Product {
         this.description = description;
     }
 
-    public String getCategory_id() {
+    public long getCategory_id() {
         return category_id;
     }
 
@@ -61,7 +50,7 @@ public class Product {
         this.category_id = category_id;
     }
 
-    public String getProviders_id() {
+    public long getProviders_id() {
         return providers_id;
     }
 
@@ -69,7 +58,7 @@ public class Product {
         this.providers_id = providers_id;
     }
 
-    public String getBrand_id() {
+    public long getBrand_id() {
         return brand_id;
     }
 
@@ -77,3 +66,4 @@ public class Product {
         this.brand_id = brand_id;
     }
 }
+

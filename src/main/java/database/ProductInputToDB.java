@@ -13,18 +13,17 @@ public class ProductInputToDB {
 
         Connection connection = DBconnection.connect();
 
-        String Query = "INSERT INTO product (id,title,price,description,category,brand,privider)" + "VALUES (?,?,?,?,?,?,?)";
+        String Query = "INSERT INTO product (title,price,description,category_id,brand_id,provider_id)" + "VALUES (?,?,?,?,?,?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setLong(1,product.getId());
-            preparedStatement.setString(2,product.getTitle());
-            preparedStatement.setLong(3,product.getPrice());
-            preparedStatement.setString(4,product.getDescription());
-            preparedStatement.setString(5,product.getCategory_id());
-            preparedStatement.setString(6,product.getBrand_id());
-            preparedStatement.setString(7,product.getProviders_id());
+            preparedStatement.setString(1,product.getTitle());
+            preparedStatement.setLong(2,product.getPrice());
+            preparedStatement.setString(3,product.getDescription());
+            preparedStatement.setLong(4,product.getCategory_id());
+            preparedStatement.setLong(5,product.getBrand_id());
+            preparedStatement.setLong(6,product.getProviders_id());
 
             preparedStatement.executeUpdate();
             return true;
