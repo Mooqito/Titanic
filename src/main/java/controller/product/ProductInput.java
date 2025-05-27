@@ -6,7 +6,8 @@ import model.Product.Brand;
 import model.Product.Category;
 import model.Product.Product;
 import model.Product.Provider;
-import view.Dashboard;
+import view.Shop;
+import view.Shop;
 
 import java.util.Scanner;
 
@@ -15,8 +16,6 @@ public class ProductInput {
     private final Scanner scanner = new Scanner(System.in);
 
     public Product ProductInputList() {
-        System.out.println("id");
-        long id = Long.parseLong(scanner.nextLine());
 
         System.out.println("title");
         String title = scanner.nextLine();
@@ -29,23 +28,40 @@ public class ProductInput {
         String description = scanner.nextLine();
 
         System.out.println("category id");
-        long category_id = Long.parseLong(scanner.nextLine());
+        long category_id = SelectCategory.select();
+        if (category_id==-1){
+            System.out.println("امکان ادامه نیست. ابتدا دسته‌بندی تعریف کنید.");
+            Shop s = new Shop();
+            s.category();
+        }
 
         System.out.println("provider id");
-        long provider_id = Long.parseLong(scanner.nextLine());
+        long provider_id = SelectProvider.select();
+        if (provider_id==-1){
+            System.out.println("امکان ادامه نیست. ابتدا تامین کنندگاه را تعریف کنید.");
+            Shop s = new Shop();
+            s.provider();
+        }
 
         System.out.println("Brand id");
-        long brand_id = Long.parseLong(scanner.nextLine());
+        long brand_id = SelectBrand.select();
+        if (brand_id==-1){
+            System.out.println("امکان ادامه نیست. ابتدا برند تعریف کنید.");
+            Shop s = new Shop();
+            s.brand();
+        }
 
-
-        Product product = new Product(id,title,price,description,category_id,provider_id,brand_id);
+        Product product = new Product(title,price,description,category_id,provider_id,brand_id);
         if (ProductInputToDB.productInput(product)){
             System.out.println("saccsess");
-            new Dashboard();
+            Shop s = new Shop();
+            s.product_management();
         }else {
             System.out.println("no sacc");
-            new Dashboard();
+            Shop s = new Shop();
+            s.product_management();
         }
         return product;
     }
+
 }

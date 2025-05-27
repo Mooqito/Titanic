@@ -19,9 +19,9 @@ public class DbInitializerProduct {
                         title VARCHAR(100) NOT NULL UNIQUE,
                         price BIGINT NOT NULL,
                         description TEXT,
-                        category_id INTEGER REFERENCES category(id),
-                        brand_id INTEGER REFERENCES brand(id),
-                        provider_id INTEGER REFERENCES provider(id)
+                        category_id INTEGER REFERENCES Category(id),
+                        brand_id INTEGER REFERENCES Brand(id),
+                        provider_id INTEGER REFERENCES Provider(id)
                         );
                     """;
             statement.executeUpdate(createTableProduct);
