@@ -16,7 +16,7 @@ public class InitCategoryProduct {
             String Query = """
                     CREATE TABLE IF NOT EXISTS Category (
                     id SERIAL PRIMARY KEY NOT NULL,
-                    Title VARCHAR(100) NOT NUL
+                    Title VARCHAR(100) NOT NULL
                     );
                     """;
 
