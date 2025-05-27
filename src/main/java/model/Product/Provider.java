@@ -1,11 +1,20 @@
 package model.Product;
 
 public class Provider {
-
+    private long id;
     private String title;
 
-    public Provider(String title) {
+    public Provider(long id, String title) {
+        this.id = id;
         this.title = title;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {

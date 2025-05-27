@@ -22,9 +22,9 @@ public class ProductInputToDB {
             preparedStatement.setString(2,product.getTitle());
             preparedStatement.setLong(3,product.getPrice());
             preparedStatement.setString(4,product.getDescription());
-            preparedStatement.setString(5,product.getCategory().getTitle());
-            preparedStatement.setString(6,product.getBrand().getTitle());
-            preparedStatement.setString(7,product.getProviders().getTitle());
+            preparedStatement.setString(5,product.getCategory_id());
+            preparedStatement.setString(6,product.getBrand_id());
+            preparedStatement.setString(7,product.getProviders_id());
 
             preparedStatement.executeUpdate();
             return true;

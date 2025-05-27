@@ -28,20 +28,17 @@ public class ProductInput {
         System.out.println("description");
         String description = scanner.nextLine();
 
-        System.out.println("category title");
-        String categoryTitle = scanner.nextLine();
-        Category category = new Category(categoryTitle);
+        System.out.println("category id");
+        long category_id = Long.parseLong(scanner.nextLine());
 
-        System.out.println("provider title");
-        String providerTitle = scanner.nextLine();
-        Provider providers = new Provider(providerTitle);
+        System.out.println("provider id");
+        long provider_id = Long.parseLong(scanner.nextLine());
 
-        System.out.println("Brand title");
-        String brandTitle = scanner.nextLine();
-        Brand brand = new Brand(brandTitle);
+        System.out.println("Brand id");
+        long brand_id = Long.parseLong(scanner.nextLine());
 
 
-        Product product = new Product(id,title,price,description,category,providers,brand);
+        Product product = new Product(id,title,price,description,category_id,provider_id,brand_id);
         if (ProductInputToDB.productInput(product)){
             System.out.println("saccsess");
             new Dashboard();

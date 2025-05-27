@@ -28,15 +28,11 @@ public class ReadAllproduct {
                 String title = resultSet.getString("title");
                 long price = resultSet.getLong("price");
                 String description = resultSet.getString("description");
-                String category = resultSet.getString("category");
-                String brand = resultSet.getString("brand");
-                String provider = resultSet.getString("privider");
+                long category_id = resultSet.getLong("category");
+                long brand_id = resultSet.getLong("brand");
+                long provider_id = resultSet.getLong("provider");
 
-                Product product = new Product(id,title,price,description,
-                        new Category(category),
-                        new Provider(provider),
-                        new model.Product.Brand(brand));
-
+                Product product = new Product(id,title,price,description,category_id,brand_id,provider_id);
                 products.add(product);
             }
 

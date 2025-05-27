@@ -1,7 +1,5 @@
 package model.Product;
 
-import java.util.List;
-
 public class Product {
 
     private long id;
@@ -9,18 +7,18 @@ public class Product {
     private long price;
     private String description;
 
-    private Category category;
-    private Provider providers;
-    private Brand brand;
+    private long category_id;
+    private long providers_id;
+    private long brand_id;
 
-    public Product(long id, String title, long price, String description, Category category, Provider providers, Brand brand) {
+    public Product(long id, String title, long price, String description, long category_id, long providers_id, long brand_id) {
         this.id = id;
         this.title = title;
         this.price = price;
         this.description = description;
-        this.category = category;
-        this.providers = providers;
-        this.brand = brand;
+        this.category_id = category_id;
+        this.providers_id = providers_id;
+        this.brand_id = brand_id;
     }
 
     public long getId() {
@@ -55,27 +53,27 @@ public class Product {
         this.description = description;
     }
 
-    public Category getCategory() {
-        return category;
+    public String getCategory_id() {
+        return category_id;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategory_id(long category_id) {
+        this.category_id = category_id;
     }
 
-    public Provider getProviders() {
-        return providers;
+    public String getProviders_id() {
+        return providers_id;
     }
 
-    public void setProviders(Provider providers) {
-        this.providers = providers;
+    public void setProviders_id(long providers_id) {
+        this.providers_id = providers_id;
     }
 
-    public Brand getBrand() {
-        return brand;
+    public String getBrand_id() {
+        return brand_id;
     }
 
-    public void setBrand(Brand brand) {
-        this.brand = brand;
+    public void setBrand_id(long brand_id) {
+        this.brand_id = brand_id;
     }
 }
