@@ -15,13 +15,13 @@ public class DbInitializerProduct {
 
             String createTableProduct = """
                     CREATE TABLE IF NOT EXISTS Product (
-                        id serial PRIMARY KEY NOT NULL,
-                        title VARCHAR(100) NOT NULL UNIQUE,
-                        price BIGINT NOT NULL,
-                        description TEXT,
+                        Id serial PRIMARY KEY NOT NULL,
+                        Title VARCHAR(100) NOT NULL UNIQUE,
+                        Price BIGINT NOT NULL,
+                        Description TEXT,
                         category VARCHAR(100) NOT NULL,
                         brand VARCHAR(100) NOT NULL,
-                        privider TEXT NOT NULL
+                        provider TEXT NOT NULL
                         );
                     """;
             statement.executeUpdate(createTableProduct);

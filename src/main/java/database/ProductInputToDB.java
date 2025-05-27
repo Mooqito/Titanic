@@ -20,7 +20,7 @@ public class ProductInputToDB {
 
             preparedStatement.setLong(1,product.getId());
             preparedStatement.setString(2,product.getTitle());
-            preparedStatement.setLong(3,product.getId());
+            preparedStatement.setLong(3,product.getPrice());
             preparedStatement.setString(4,product.getDescription());
             preparedStatement.setString(5,product.getCategory().getTitle());
             preparedStatement.setString(6,product.getBrand().getTitle());
