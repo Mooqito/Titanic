@@ -2,6 +2,7 @@ package model.Product;
 
 public class Product {
 
+    private long id;
     private String title;
     private long price;
     private String description;
@@ -25,6 +26,20 @@ public class Product {
         this.providers_id = providers_id;
         this.brand_id = brand_id;
     }
+
+    public Product(long id, String title, long price, String description, long category_id, long providers_id, long brand_id) {
+        this.id = id;
+        this.title = title;
+        this.price = price;
+        this.description = description;
+        this.category_id = category_id;
+        this.providers_id = providers_id;
+        this.brand_id = brand_id;
+    }
+
+    public long getId() { return id; }
+
+    public void setId(long id) { this.id = id; }
 
     public String getTitle() {
         return title;
@@ -97,5 +112,6 @@ public class Product {
     public void setProviderTitle(String providerTitle) {
         this.providerTitle = providerTitle;
     }
+
 }
 
