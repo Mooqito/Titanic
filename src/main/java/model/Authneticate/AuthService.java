@@ -62,20 +62,26 @@ public class AuthService {
         }
     }
 
-    public static boolean resetPassword(String usernam,String password) {
+    public static boolean resetPassword(User user) {
 
         Connection connection = DBconnection.connect();//When the database is connected, the address and database returns to the desert in it
 
-        String hashedpassword = HashUtil.hashpassword(password);// send tse password to the Hash function for hashed password
+        if (!isValidPassword(user.getPassword())) {
+            System.out.println("Password must be at least 8 characters and contain only English characters.");
+            return false;
+        }
 
-        String Query = "UPDATE Authentication SET password = ? WHERE username = ?";//query updata password
+        String hashedpassword = HashUtil.hashpassword(user.getPassword());// send tse password to the Hash function for hashed password
+
+        String Query = "UPDATE Authentication SET password = ? WHERE username = ? AND gmail = ?";//query updata password
         try {
 
             PreparedStatement preparedStatement = connection.prepareStatement(Query);//possiblity of entering information in the table
 
 
             preparedStatement.setString(1,hashedpassword);//enter username in tha table
-            preparedStatement.setString(2,usernam);//enter password in the table
+            preparedStatement.setString(2,user.getUser_name());//enter password in the table
+            preparedStatement.setString(3,user.getGmail());
 
             int affectedRows = preparedStatement.executeUpdate();//Returns the number as many rows that change
 
@@ -86,5 +92,9 @@ public class AuthService {
             return false;
         }
     }
+    public static boolean isValidPassword(String password) {
+        return password.length() >= 8 && password.matches("^[a-zA-Z0-9!@#$%^&*()_+]{8,}$");
+    }
+
 }
 
