@@ -6,11 +6,18 @@ public class Product {
     private long price;
     private String description;
 
+    // Fields for creating new products
     private long category_id;
     private long providers_id;
     private long brand_id;
 
-    public Product( String title, long price, String description, long category_id, long providers_id, long brand_id) {
+    // Fields for displaying titles
+    private String categoryTitle;
+    private String brandTitle;
+    private String providerTitle;
+
+    // Constructor for creating new products (with IDs)
+    public Product(String title, long price, String description, long category_id, long providers_id, long brand_id) {
         this.title = title;
         this.price = price;
         this.description = description;
@@ -18,6 +25,7 @@ public class Product {
         this.providers_id = providers_id;
         this.brand_id = brand_id;
     }
+
     public String getTitle() {
         return title;
     }
@@ -64,6 +72,30 @@ public class Product {
 
     public void setBrand_id(long brand_id) {
         this.brand_id = brand_id;
+    }
+
+    public String getCategoryTitle() {
+        return categoryTitle;
+    }
+
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
+    }
+
+    public String getBrandTitle() {
+        return brandTitle;
+    }
+
+    public void setBrandTitle(String brandTitle) {
+        this.brandTitle = brandTitle;
+    }
+
+    public String getProviderTitle() {
+        return providerTitle;
+    }
+
+    public void setProviderTitle(String providerTitle) {
+        this.providerTitle = providerTitle;
     }
 }
 

@@ -129,7 +129,8 @@ public class Shop {
 //                showproduct.show();
                 break;
             case 4:
-//                showproduct.show();
+                ShowProductWithTitles sp = new ShowProductWithTitles();
+                sp.show();
                 break;
         }
     }
