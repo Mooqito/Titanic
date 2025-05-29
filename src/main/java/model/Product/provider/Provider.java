@@ -1,4 +1,4 @@
-package model.Product;
+package model.Product.provider;
 
 public class Provider {
     private String title;

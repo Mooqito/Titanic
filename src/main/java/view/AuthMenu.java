@@ -1,6 +1,9 @@
-package controller.Authnticate;
+package view;
 
 
+import controller.Authnticate.ForgetPassword;
+import controller.Authnticate.Login;
+import controller.Authnticate.SingUp;
 import model.Authneticate.AuthService;
 import view.Shop;
 import view.Shop;

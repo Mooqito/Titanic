@@ -1,6 +1,7 @@
-package database;
+package model.Product.product;
 
-import model.Product.Product;
+import database.DBconnection;
+import model.Product.product.Product;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

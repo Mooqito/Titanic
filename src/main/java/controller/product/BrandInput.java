@@ -1,9 +1,7 @@
 package controller.product;
 
-import database.BrandInputToDB;
-import database.CategoruInputToDB;
-import model.Product.Brand;
-import model.Product.Category;
+import model.Product.brand.BrandInputToDB;
+import model.Product.brand.Brand;
 import view.Shop;
 
 import java.util.Scanner;

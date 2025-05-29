@@ -1,4 +1,4 @@
-package model.Product;
+package model.Product.category;
 
 public class Category {
     private String title;

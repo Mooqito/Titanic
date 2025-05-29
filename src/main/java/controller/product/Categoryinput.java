@@ -1,7 +1,7 @@
 package controller.product;
 
-import database.CategoruInputToDB;
-import model.Product.Category;
+import model.Product.category.CategoruInputToDB;
+import model.Product.category.Category;
 import view.Shop;
 
 import java.util.Scanner;

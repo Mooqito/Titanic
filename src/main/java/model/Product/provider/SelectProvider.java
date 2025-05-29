@@ -1,7 +1,6 @@
-package controller.product;
+package model.Product.provider;
 
 import database.DBconnection;
-import model.Product.Brand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,14 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class SelectBrand {
+public class SelectProvider {
 
     public static long select (){
 
         Connection connection = DBconnection.connect();
         Scanner scanner = new Scanner(System.in);
 
-        String Query = "SELECT * FROM Brand";
+        String Query = "SELECT * FROM Provider";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
@@ -32,7 +31,7 @@ public class SelectBrand {
             }
 
             if (isEmpty) {
-                System.out.println("⚠ هیچ برندی وجود ندارد. ابتدا یک برند تعریف کنید.");
+                System.out.println("⚠ هیچ تامین کننذه وجود ندارد. ابتدا یک تامین کننذه تعریف کنید.");
                 return -1;
             }
 

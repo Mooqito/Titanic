@@ -1,12 +1,5 @@
 package model;
 
-import model.Product.Product;
-import controller.product.ProductInput;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.io.ByteArrayInputStream;
-
 //public class ProductInputTest {
 //
 //    @Test

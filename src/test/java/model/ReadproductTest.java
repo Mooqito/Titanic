@@ -1,7 +1,7 @@
 package model;
 
-import model.Product.Product;
-import model.Product.ReadAllproduct;
+import model.Product.product.Product;
+import model.Product.product.ReadAllproduct;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

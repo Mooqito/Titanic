@@ -1,24 +1,24 @@
-package database;
+package model.Product.brand;
 
-import model.Product.Category;
-import model.Product.Product;
+import database.DBconnection;
+import model.Product.brand.Brand;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class CategoruInputToDB {
+public class BrandInputToDB {
 
-    public static boolean categoryInput(Category category) {
+    public static boolean brandinput (Brand brand){
 
         Connection connection = DBconnection.connect();
 
-        String Query = "INSERT INTO Category (title)" + "VALUES (?)";
+        String Query = "INSERT INTO Brand (title)" + "VALUES (?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setString(1,category.getTitle());
+            preparedStatement.setString(1,brand.getTitle());
 
             preparedStatement.executeUpdate();
             return true;
@@ -26,6 +26,5 @@ public class CategoruInputToDB {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 }

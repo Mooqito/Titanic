@@ -1,6 +1,7 @@
-package model.Product;
+package model.Product.product;
 
 import database.DBconnection;
+import model.Product.product.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

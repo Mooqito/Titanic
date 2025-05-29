@@ -1,6 +1,6 @@
 package runner;
 
-import controller.Authnticate.AuthMenu;
+import view.AuthMenu;
 import database.DBinitialazation.*;
 
 public class Main {

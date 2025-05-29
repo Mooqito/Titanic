@@ -1,4 +1,4 @@
-package controller.product;
+package model.Product.category;
 
 import database.DBconnection;
 
@@ -8,22 +8,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-public class SelectProvider {
+public class SelectCategory {
 
-    public static long select (){
-
+    public static long select() {
         Connection connection = DBconnection.connect();
         Scanner scanner = new Scanner(System.in);
 
-        String Query = "SELECT * FROM Provider";
-
+        String Query="SELECT * FROM Category";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            boolean isEmpty = true;
+            boolean isEmpty  = true;
 
-            while (resultSet.next()) {
+            while (resultSet.next()){
                 isEmpty=false;
                 long id = resultSet.getLong("id");
                 String title = resultSet.getString("title");
@@ -31,16 +29,17 @@ public class SelectProvider {
             }
 
             if (isEmpty) {
-                System.out.println("⚠ هیچ تامین کننذه وجود ندارد. ابتدا یک تامین کننذه تعریف کنید.");
+                System.out.println("⚠ هیچ دسته‌بندی‌ای وجود ندارد. ابتدا یک دسته‌بندی تعریف کنید.");
                 return -1;
             }
 
             System.out.print("Enter Category ID from the above list: ");
             return Long.parseLong(scanner.nextLine());
 
-        } catch (SQLException e) {
+        }catch (SQLException e){
             System.out.println(e.getMessage());
             return -1;
         }
+
     }
 }

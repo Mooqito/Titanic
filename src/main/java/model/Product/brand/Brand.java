@@ -1,4 +1,4 @@
-package model.Product;
+package model.Product.brand;
 
 public class Brand {
     private String title;

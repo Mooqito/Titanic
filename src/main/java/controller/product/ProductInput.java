@@ -1,12 +1,11 @@
 package controller.product;
 
-//import database.ProductInputToDB;
-import database.ProductInputToDB;
-import model.Product.Brand;
-import model.Product.Category;
-import model.Product.Product;
-import model.Product.Provider;
-import view.Shop;
+//import model.Product.product.ProductInputToDB;
+import model.Product.product.ProductInputToDB;
+import model.Product.brand.SelectBrand;
+import model.Product.category.SelectCategory;
+import model.Product.product.Product;
+import model.Product.provider.SelectProvider;
 import view.Shop;
 
 import java.util.Scanner;

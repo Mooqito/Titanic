@@ -1,8 +1,8 @@
-package database;
+package model.Product.provider;
 
-import model.Product.Provider;
+import database.DBconnection;
+import model.Product.provider.Provider;
 
-import java.security.PrivilegedAction;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
