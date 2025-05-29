@@ -27,7 +27,8 @@ public class AuthMenu {
 
             switch (choose) {
                 case 1:
-                    Sing_up(); //functio Sing up
+                    SingUp sing=new SingUp();
+                    sing.sing_up(); //functio Sing up
                     break;
                 case 2:
                     Login(); //function login
@@ -38,24 +39,6 @@ public class AuthMenu {
 
             }
         }
-
-    //functio Sing up
-    public void Sing_up() {
-
-        System.out.println("user name : ");
-        String username = input.next(); // getting username
-
-        System.out.println("password : "); // getting password
-        String password = input.next();
-
-        //Sends the password and username to the AuthService function to build an arithmetic
-        if (AuthService.register(username,password)){
-            System.out.println("Registered successfully."); // If no other username with this name was account
-            s.shop();
-        }else {
-            System.out.println("Registration failed."); // If no other username with this name was't account
-        }
-    }
 
     //function login
     public void Login() {

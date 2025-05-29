@@ -10,20 +10,21 @@ import java.sql.Connection;
 public class AuthService {
 
     //    The function of the register and the password
-    public static boolean register(String username , String password) {
+    public static boolean register(User user) {
 
         Connection connection = DBconnection.connect(); //When the database is connected, the address and database returns to the desert in it
 
-        String hashedpassword = HashUtil.hashpassword(password); // send tse password to the Hash function for hashed password
-        String Query = "INSERT INTO authnticate (username,password)"//query insert username and password
-                +"VALUES (?,?)";
+        String hashedpassword = HashUtil.hashpassword(user.getPassword()); // send tse password to the Hash function for hashed password
+        String Query = "INSERT INTO Authentication (username,password,gmail)"//query insert username and password
+                +"VALUES (?,?,?)";
 
         try{
 
             PreparedStatement preparedStatement = connection.prepareStatement(Query); //possiblity of entering information in the table
 
-            preparedStatement.setString(1,username); //enter username in tha table
+            preparedStatement.setString(1,user.getUser_name()); //enter username in tha table
             preparedStatement.setString(2,hashedpassword); //enter password in the table
+            preparedStatement.setString(3,user.getGmail());
             preparedStatement.executeUpdate(); //update table
             return true;
         } catch (SQLException e) {
@@ -42,7 +43,7 @@ public class AuthService {
         Connection connection = DBconnection.connect();//When the database is connected, the address and database returns to the desert in it
 
         String hashedpassword = HashUtil.hashpassword(password);// send tse password to the Hash function for hashed password
-        String Query = "SELECT FROM authnticate WHERE username = ? AND password = ?"; //query login
+        String Query = "SELECT FROM Authentication WHERE username = ? AND password = ?"; //query login
 
         try {
 
@@ -66,7 +67,7 @@ public class AuthService {
 
         String hashedpassword = HashUtil.hashpassword(password);// send tse password to the Hash function for hashed password
 
-        String Query = "UPDATE authnticate SET password = ? WHERE username = ?";//query updata password
+        String Query = "UPDATE Authentication SET password = ? WHERE username = ?";//query updata password
         try {
 
             PreparedStatement preparedStatement = connection.prepareStatement(Query);//possiblity of entering information in the table

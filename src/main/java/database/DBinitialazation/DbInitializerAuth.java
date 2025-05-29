@@ -12,14 +12,15 @@ public class DbInitializerAuth {
             Connection connection = DBconnection.connect();
             Statement statement = connection.createStatement();
 
-            String createAuthnticateTable = """
-                    CREATE TABLE IF NOT EXISTS authnticate (
+            String Query = """
+                    CREATE TABLE IF NOT EXISTS Authentication (
                         id SERIAL PRIMARY KEY,
                         username VARCHAR(100) NOT NULL UNIQUE,
-                        password VARCHAR(100) NOT NULL
+                        password VARCHAR(100) NOT NULL,
+                        gmail VARCHAR(100) NOT NULL
                         );
                     """;
-            statement.executeUpdate(createAuthnticateTable);
+            statement.executeUpdate(Query);
             System.out.println("CREATE OK");
         } catch (SQLException e) {
             throw new RuntimeException(e);
