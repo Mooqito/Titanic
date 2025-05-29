@@ -28,10 +28,11 @@ public class AuthMenu {
             switch (choose) {
                 case 1:
                     SingUp sing=new SingUp();
-                    sing.sing_up(); //functio Sing up
+                    sing.sing_up();
                     break;
                 case 2:
-                    Login(); //function login
+                    Login login = new Login();
+                    login.login();
                     break;
                 case 3:
                     Forget_password(); //function reset password
@@ -39,24 +40,6 @@ public class AuthMenu {
 
             }
         }
-
-    //function login
-    public void Login() {
-
-        System.out.println("user name : ");
-        String username = input.next();// getting username
-
-        System.out.println("password : ");
-        String password = input.next();// getting password
-
-        // Sends the username and password to the AuthService function to lonig user in app
-        if (AuthService.login(username,password)){
-            System.out.println("Login successful!"); //if correct username and password user login
-            s.shop();
-        }else {
-            System.out.println("Invalid credentials."); //if wrong username and password Invalid credentials
-        }
-    }
 
     // function reset password
     public void Forget_password() {
