@@ -10,6 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import runner.Main;
 
 public class LoginForm {
     private Scene scene;
@@ -118,3 +119,37 @@ public class LoginForm {
                 visiblePasswordField.setVisible(false);
             }
         });
+
+        // دکمه‌ها
+        Button loginBtn = new Button("ورود");
+        Button registerBtn = new Button("ثبت نام");
+        Button forgotPasswordBtn = new Button("فراموشی رمز عبور");
+
+        // تنظیم اندازه یکسان برای دکمه‌ها
+        loginBtn.setPrefHeight(30);
+        registerBtn.setPrefHeight(30);
+        forgotPasswordBtn.setPrefHeight(30);
+
+        loginBtn.setMaxWidth(Double.MAX_VALUE);
+        registerBtn.setMaxWidth(Double.MAX_VALUE);
+        forgotPasswordBtn.setMaxWidth(Double.MAX_VALUE);
+
+        VBox buttons = new VBox(3);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(loginBtn, registerBtn, forgotPasswordBtn);
+        grid.add(buttons, 1, 5);
+
+        loginBtn.setOnAction(e -> {
+            String username = userTextField.getText();
+            String password = pwBox.isVisible() ? pwBox.getText() : visiblePasswordField.getText();
+
+            // بررسی اعتبارسنجی‌ها
+            if (!usernameError.getText().isEmpty() || !passwordError.getText().isEmpty()) {
+                Main.showAlert("خطا", "لطفاً خطاهای فرم را برطرف کنید.");
+                return;
+            }
+
+            if (username.isEmpty() || password.isEmpty()) {
+                Main.showAlert("خطا", "لطفاً تمام فیلدها را پر کنید.");
+                return;
+            }
