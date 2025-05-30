@@ -30,12 +30,8 @@ public class AuthMenu {
 
             switch (choose) {
                 case 1:
-                    SingUp sing=new SingUp();
-                    sing.sing_up();
                     break;
                 case 2:
-                    Login login = new Login();
-//                    login.login();?
                     break;
                 case 3:
                     ForgetPassword forgetPassword = new ForgetPassword();

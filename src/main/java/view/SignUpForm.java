@@ -1,5 +1,6 @@
 package view;
 
+import controller.Authnticate.SingUp;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
@@ -11,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import runner.Main;
 
 public class SignUpForm {
     private Scene scene;
@@ -166,4 +168,140 @@ public class SignUpForm {
                 visiblePasswordField.setVisible(false);
             }
         });
+        toggleConfirmVisibilityBtn.setOnAction(e -> {
+            if (toggleConfirmVisibilityBtn.isSelected()) {
+                visibleConfirmPasswordField.setText(confirmPwBox.getText());
+                visibleConfirmPasswordField.setManaged(true);
+                visibleConfirmPasswordField.setVisible(true);
+                confirmPwBox.setManaged(false);
+                confirmPwBox.setVisible(false);
+            } else {
+                confirmPwBox.setText(visibleConfirmPasswordField.getText());
+                confirmPwBox.setManaged(true);
+                confirmPwBox.setVisible(true);
+                visibleConfirmPasswordField.setManaged(false);
+                visibleConfirmPasswordField.setVisible(false);
+            }
+        });
+
+        // اعتبارسنجی نام کاربری
+        userTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("^[a-zA-Z0-9]+$")) {
+                usernameError.setText("نام کاربری فقط باید شامل حروف انگلیسی باشد");
+                return;
+            }
+            if (newValue.length() < 4) {
+                usernameError.setText("نام کاربری باید حداقل 4 کاراکتر باشد");
+            } else {
+                usernameError.setText("");
+            }
+        });
+
+        // اعتبارسنجی رمز عبور و نمایش قدرت آن
+        pwBox.textProperty().addListener((observable, oldValue, newValue) -> {
+            checkPasswordStrength(newValue);
+            validateConfirmPassword(newValue, confirmPwBox.getText());
+        });
+
+        visiblePasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            checkPasswordStrength(newValue);
+            validateConfirmPassword(newValue, visibleConfirmPasswordField.getText());
+        });
+
+        // اعتبارسنجی تایید رمز عبور
+        confirmPwBox.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateConfirmPassword(pwBox.getText(), newValue);
+        });
+
+        visibleConfirmPasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            validateConfirmPassword(visiblePasswordField.getText(), newValue);
+        });
+
+        // اعتبارسنجی ایمیل
+        emailField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.endsWith("@gmail.com")) {
+                emailError.setText("ایمیل باید با @gmail.com تمام شود");
+            } else {
+                emailError.setText("");
+            }
+        });
+
+        registerBtn.setOnAction(e -> {
+            String username = userTextField.getText();
+            String password = pwBox.isVisible() ? pwBox.getText() : visiblePasswordField.getText();
+            String confirmPassword = confirmPwBox.isVisible() ? confirmPwBox.getText() : visibleConfirmPasswordField.getText();
+            String emailAddress = emailField.getText();
+
+            if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || emailAddress.isEmpty()) {
+                Main.showAlert("خطا", "لطفاً تمام فیلدها را پر کنید.");
+                return;
+            }
+
+            if (usernameError.getText().length() > 0 ||
+                    confirmPwError.getText().length() > 0 ||
+                    emailError.getText().length() > 0 ||
+                    password.length() < 8) {
+                Main.showAlert("خطا", "لطفاً خطاهای فرم را برطرف کنید.");
+                return;
+            }
+
+            if (SingUp.sing_up(username, password,confirmPassword,emailAddress)) {
+                Main.showAlert("موفقیت", "ثبت نام با موفقیت انجام شد!");
+                LoginForm loginForm = new LoginForm(primaryStage);
+                primaryStage.setScene(loginForm.getScene());
+            } else {
+                Main.showAlert("خطا", "خطا در ثبت نام. لطفاً دوباره تلاش کنید.");
+            }
+        });
+        backBtn.setOnAction(e -> {
+            LoginForm loginForm = new LoginForm(primaryStage);
+            primaryStage.setScene(loginForm.getScene());
+        });
+
+        scene = new Scene(grid, 400, 500);
+    }
+
+    private void checkPasswordStrength(String password) {
+        if (password.length() < 8) {
+            passwordStrengthText.setText("رمز عبور باید حداقل 8 کاراکتر باشد");
+            passwordStrengthText.setFill(Color.RED);
+            return;
+        }
+
+        boolean hasLetter = password.matches(".*[a-zA-Z].*");
+        boolean hasDigit = password.matches(".*\\d.*");
+        boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+
+        // اگر فقط یک نوع کاراکتر داشته باشد (فقط حرف یا فقط عدد یا فقط علامت)
+        if ((hasLetter && !hasDigit && !hasSpecial) ||
+                (!hasLetter && hasDigit && !hasSpecial) ||
+                (!hasLetter && !hasDigit && hasSpecial)) {
+            passwordStrengthText.setText("قدرت رمز: ضعیف");
+            passwordStrengthText.setFill(Color.RED);
+        }
+        // اگر دو نوع کاراکتر داشته باشد
+        else if ((hasLetter && hasDigit && !hasSpecial) ||
+                (hasLetter && !hasDigit && hasSpecial) ||
+                (!hasLetter && hasDigit && hasSpecial)) {
+            passwordStrengthText.setText("قدرت رمز: متوسط");
+            passwordStrengthText.setFill(Color.ORANGE);
+        }
+        // اگر هر سه نوع کاراکتر را داشته باشد
+        else if (hasLetter && hasDigit && hasSpecial) {
+            passwordStrengthText.setText("قدرت رمز: قوی");
+            passwordStrengthText.setFill(Color.GREEN);
+        }
+    }
+
+    private void validateConfirmPassword(String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            confirmPwError.setText("رمز عبور و تایید آن یکسان نیستند");
+        } else {
+            confirmPwError.setText("");
+        }
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
 }

@@ -11,50 +11,34 @@ public class SingUp {
 
     Scanner scanner = new Scanner(System.in);
 
-    public void sing_up (){
-        String username,password,confirmPassword,gmail;
+    public static boolean sing_up (String user, String pass, String cinfipass, String email){
+        String username,password,confirmPassword,emailAdress;
 
-        while (true){
-            System.out.println("نام کاربری را وراد کنید (انگلبسی باشد)");
-            username = scanner.next();
+            username = user;
             if (!Pattern.matches("^[a-zA-Z0-9_]{4,}$",username)){
-                System.out.println("user error");
-            }else break;
-        }
+                return false;
+            }
 
-        while (true){
-            System.out.println("پسورد را وراد کنید");
-            password = scanner.next();
-
+            password = pass;
             if (!Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+]{8,}$",password)){
-                System.out.println("password error");
-            }else break;
-        }
+                return false;
+            }
 
-        while (true){
-            System.out.println("confipass");
-            confirmPassword=scanner.next();
-
+            confirmPassword=cinfipass
             if (!password.equals(confirmPassword)){
-                System.out.println("password error");
-            }else break;
-        }
+                return false;
+            }
 
-        while (true){
-            System.out.println("جیمیل را وارد کنید");
-            gmail=scanner.next();
-            if (!Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+//]+@gmail\\.com$",gmail)){
-                System.out.println("gmail error");
-            }else break;
-        }
+            emailAdress=email;
+            if (!Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+//]+@gmail\\.com$",emailAdress)){
+                return false;
+            }
 
-        User user = new User(username,password,gmail);
-        if (AuthService.register(user)){
-            System.out.println("Registered successfully."); // If no other username with this name was account
-            Shop s = new Shop();
-            s.shop();
+        User u = new User(username,password,emailAdress);
+        if (AuthService.register(u)){
+            return true;
         }else {
-            System.out.println("Registration failed."); // If no other username with this name was't account
+            return false;
         }
     }
 }
