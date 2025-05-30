@@ -160,8 +160,8 @@ public class LoginForm {
             }
         });
         registerBtn.setOnAction(e -> {
-//            SignUpForm signUpForm = new SignUpForm(primaryStage);
-//            primaryStage.setScene(signUpForm.getScene());
+            SignUpForm signUpForm = new SignUpForm(primaryStage);
+            primaryStage.setScene(signUpForm.getScene());
         });
 
         forgotPasswordBtn.setOnAction(e -> {
@@ -175,10 +175,7 @@ public class LoginForm {
     private void validatePassword(String password) {
         if (password.length() < 8) {
             passwordError.setText("رمز عبور باید حداقل 8 کاراکتر باشد");
-        } else if (!password.matches(".*[a-z].*") || !password.matches(".*[A-Z].*") ||
-                !password.matches(".*\\d.*") || !password.matches(".*[!@#$%^&*()].*")) {
-            passwordError.setText("رمز عبور باید شامل حروف کوچک، بزرگ، اعداد و کاراکترهای خاص باشد");
-        } else {
+        }else {
             passwordError.setText("");
         }
     }

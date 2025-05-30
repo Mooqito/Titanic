@@ -24,7 +24,7 @@ public class SingUp {
                 return false;
             }
 
-            confirmPassword=cinfipass
+            confirmPassword=cinfipass;
             if (!password.equals(confirmPassword)){
                 return false;
             }

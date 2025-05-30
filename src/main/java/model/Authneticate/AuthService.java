@@ -65,11 +65,6 @@ public class AuthService {
 
         Connection connection = DBconnection.connect();//When the database is connected, the address and database returns to the desert in it
 
-        if (!isValidPassword(user.getPassword())) {
-            System.out.println("Password must be at least 8 characters and contain only English characters.");
-            return false;
-        }
-
         String hashedpassword = HashUtil.hashpassword(user.getPassword());// send tse password to the Hash function for hashed password
 
         String Query = "UPDATE Authentication SET password = ? WHERE username = ? AND gmail = ?";//query updata password
@@ -91,8 +86,29 @@ public class AuthService {
             return false;
         }
     }
-    public static boolean isValidPassword(String password) {
-        return password.length() >= 8 && password.matches("^[a-zA-Z0-9!@#$%^&*()_+]{8,}$");
+
+    public static String FindUser (String username, String gmail){
+
+        String query = "SELECT * FROM users WHERE username = ? AND email = ?";
+        try (Connection connection = DBconnection.connect();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, gmail);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String foundUsername = resultSet.getString("username");
+                return username;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // اگر کاربری پیدا نشد:
+        return null;
     }
 
 }
