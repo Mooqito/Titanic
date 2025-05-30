@@ -153,3 +153,5 @@ public class LoginForm {
                 Main.showAlert("خطا", "لطفاً تمام فیلدها را پر کنید.");
                 return;
             }
+
+            

@@ -38,20 +38,19 @@ public class AuthService {
     }
 
     //    The function of the login
-    public static boolean login(User user) {
+    public static boolean login(String user,String pass) {
 
         Connection connection = DBconnection.connect();//When the database is connected, the address and database returns to the desert in it
 
-        String hashedpassword = HashUtil.hashpassword(user.getPassword());// send tse password to the Hash function for hashed password
-        String Query = "SELECT FROM Authentication WHERE username = ? AND password = ? AND gmail = ?"; //query login
+        String hashedpassword = HashUtil.hashpassword(pass);// send tse password to the Hash function for hashed password
+        String Query = "SELECT FROM Authentication WHERE username = ? AND password = ?"; //query login
 
         try {
 
             PreparedStatement preparedStatement  = connection.prepareStatement(Query);//possiblity of entering information in the table
 
-            preparedStatement.setString(1,user.getUser_name());//enter username in tha table
+            preparedStatement.setString(1,user);//enter username in tha table
             preparedStatement.setString(2,hashedpassword);//enter password in the table
-            preparedStatement.setString(3,user.getGmail());
 
             ResultSet resultSet = preparedStatement.executeQuery(); //Returns the number as many rows that change
             return resultSet.next();
