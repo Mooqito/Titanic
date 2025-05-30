@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import database.DBinitialazation.*;
+import view.LoginForm;
 
 public class Main {
 
@@ -29,6 +30,10 @@ public class Main {
             DbInitializerAuth.initAuth();
             DbInitializerProduct.initProduct();
 
+            LoginForm loginForm = new LoginForm(primaryStage);
+            primaryStage.setTitle("سیستم مدیریت فروشگاه");
+            primaryStage.setScene(loginForm.getScene());
+            primaryStage.show();
         }
     }
 }
