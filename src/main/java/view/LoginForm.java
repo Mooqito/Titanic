@@ -57,3 +57,64 @@ public class LoginForm {
                 usernameError.setText("");
             }
         });
+
+        // رمز عبور
+        Label pw = new Label("رمز عبور:");
+        grid.add(pw, 0, 3);
+
+        // ایجاد HBox برای فیلد رمز عبور و دکمه نمایش
+        HBox passwordBox = new HBox(2);
+        passwordBox.setAlignment(Pos.CENTER_RIGHT);
+
+        PasswordField pwBox = new PasswordField();
+        pwBox.setAlignment(Pos.CENTER_RIGHT);
+        pwBox.setPrefHeight(30);
+        pwBox.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(pwBox, javafx.scene.layout.Priority.ALWAYS);
+
+        visiblePasswordField = new TextField();
+        visiblePasswordField.setAlignment(Pos.CENTER_RIGHT);
+        visiblePasswordField.setPrefHeight(30);
+        visiblePasswordField.setMaxWidth(Double.MAX_VALUE);
+        visiblePasswordField.setManaged(false);
+        visiblePasswordField.setVisible(false);
+        HBox.setHgrow(visiblePasswordField, javafx.scene.layout.Priority.ALWAYS);
+
+        // پیام خطای رمز عبور
+        passwordError = new Text();
+        passwordError.setStyle("-fx-fill: red; -fx-font-size: 10px;");
+        grid.add(passwordError, 1, 4);
+
+        // اعتبارسنجی رمز عبور
+        pwBox.textProperty().addListener((observable, oldValue, newValue) -> {
+            validatePassword(newValue);
+        });
+        visiblePasswordField.textProperty().addListener((observable, oldValue, newValue) -> {
+            validatePassword(newValue);
+        });
+
+        ToggleButton toggleVisibilityBtn = new ToggleButton("👁");
+        toggleVisibilityBtn.setStyle("-fx-font-size: 12px; -fx-padding: 2 5;");
+        toggleVisibilityBtn.setPrefHeight(30);
+
+        passwordBox.getChildren().addAll(toggleVisibilityBtn, pwBox, visiblePasswordField);
+        grid.add(passwordBox, 1, 3);
+
+        // همگام‌سازی فیلدهای رمز عبور
+        pwBox.textProperty().bindBidirectional(visiblePasswordField.textProperty());
+
+        toggleVisibilityBtn.setOnAction(e -> {
+            if (toggleVisibilityBtn.isSelected()) {
+                visiblePasswordField.setText(pwBox.getText());
+                visiblePasswordField.setManaged(true);
+                visiblePasswordField.setVisible(true);
+                pwBox.setManaged(false);
+                pwBox.setVisible(false);
+            } else {
+                pwBox.setText(visiblePasswordField.getText());
+                pwBox.setManaged(true);
+                pwBox.setVisible(true);
+                visiblePasswordField.setManaged(false);
+                visiblePasswordField.setVisible(false);
+            }
+        });
