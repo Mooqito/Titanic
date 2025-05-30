@@ -35,7 +35,7 @@ public class AuthMenu {
                     break;
                 case 2:
                     Login login = new Login();
-                    login.login();
+//                    login.login();?
                     break;
                 case 3:
                     ForgetPassword forgetPassword = new ForgetPassword();

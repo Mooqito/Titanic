@@ -1,5 +1,6 @@
 package view;
 
+import controller.Authnticate.Login;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
@@ -148,10 +149,41 @@ public class LoginForm {
                 Main.showAlert("خطا", "لطفاً خطاهای فرم را برطرف کنید.");
                 return;
             }
-
             if (username.isEmpty() || password.isEmpty()) {
                 Main.showAlert("خطا", "لطفاً تمام فیلدها را پر کنید.");
                 return;
             }
+            if (Login.login(username, password)) {
+                Main.showAlert("موفقیت", "ورود موفقیت‌آمیز بود!");
+            } else {
+                Main.showAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.");
+            }
+        });
+        registerBtn.setOnAction(e -> {
+//            SignUpForm signUpForm = new SignUpForm(primaryStage);
+//            primaryStage.setScene(signUpForm.getScene());
+        });
 
-            
+        forgotPasswordBtn.setOnAction(e -> {
+//            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm(primaryStage);
+//            primaryStage.setScene(forgotPasswordForm.getScene());
+        });
+
+        scene = new Scene(grid, 380, 320);
+    }
+
+    private void validatePassword(String password) {
+        if (password.length() < 8) {
+            passwordError.setText("رمز عبور باید حداقل 8 کاراکتر باشد");
+        } else if (!password.matches(".*[a-z].*") || !password.matches(".*[A-Z].*") ||
+                !password.matches(".*\\d.*") || !password.matches(".*[!@#$%^&*()].*")) {
+            passwordError.setText("رمز عبور باید شامل حروف کوچک، بزرگ، اعداد و کاراکترهای خاص باشد");
+        } else {
+            passwordError.setText("");
+        }
+    }
+
+    public Scene getScene() {
+        return scene;
+    }
+}
