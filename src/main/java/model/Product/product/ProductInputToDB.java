@@ -5,10 +5,38 @@ import model.Product.product.Product;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductInputToDB {
 
+
+    public static boolean productExist (String name, long price, String category, String provider, String brand){
+        Connection connection = DBconnection.connect();
+
+        String Query = "SELECT 1 FROM product p " +
+                "JOIN category c ON p.category_id = c.id " +
+                "JOIN provider pr ON p.provider_id = pr.id " +
+                "JOIN brand b ON p.brand_id = b.id " +
+                "WHERE p.name = ? AND p.price = ? AND c.name = ? AND s.name = ? AND b.name = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+
+            preparedStatement.setString(1,name);
+            preparedStatement.setLong(2,price);
+            preparedStatement.setString(3,category);
+            preparedStatement.setString(4,provider);
+            preparedStatement.setString(5,brand);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            return resultSet.next();
+
+        }catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
     public static boolean productInput(Product product) {
 
         Connection connection = DBconnection.connect();
