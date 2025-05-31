@@ -1,34 +1,31 @@
 package controller.Authnticate;
 
 import model.Authneticate.AuthService;
-import model.Authneticate.User;
-import view.Shop;
 
-import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class ForgetPassword {
-    Scanner scanner = new Scanner(System.in);
 
-    public void reset (){
+    public static boolean rest (String user,String pass,String confipass){
 
-        String username,password,gmail;
+        String username,password,confirmPassword;
 
-        System.out.println("نام کاربری را وراد کنید");
-        username = scanner.next();
+        password = pass;
+        if (!Pattern.matches("^[a-zA-Z0-9!@#$%^&*()_+]{8,}$",password)){
+            return false;
+        }
 
-        System.out.println("جیمیل را وارد کنید");
-        gmail=scanner.next();
+        confirmPassword=confipass;
+        if (!password.equals(confirmPassword)){
+            return false;
+        }
 
-        System.out.println("پسورد جدید را وراد کنید");
-        password = scanner.next();
+        username = user;
 
-        User user = new User(username,password,gmail);
         if (AuthService.resetPassword(username,password)){
-            System.out.println("Registered successfully."); // If no other username with this name was account
-            Shop s = new Shop();
-            s.shop();
+            return true;
         }else {
-            System.out.println("Registration failed."); // If no other username with this name was't account
+            return false;
         }
     }
 }

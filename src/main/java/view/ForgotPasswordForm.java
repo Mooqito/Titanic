@@ -1,5 +1,6 @@
 package view;
 
+import controller.Authnticate.ForgetPassword;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
@@ -247,8 +248,7 @@ public class ForgotPasswordForm {
                     return null;
                 }
 
-                // به‌روزرسانی رمز عبور
-                if (AuthService.resetPassword(resetToken, password)) {
+                if (ForgetPassword.rest(resetToken, password,confirm)) {
                     Main.showAlert("موفقیت", "رمز عبور با موفقیت تغییر کرد.");
                     LoginForm loginForm = new LoginForm(primaryStage);
                     primaryStage.setScene(loginForm.getScene());
