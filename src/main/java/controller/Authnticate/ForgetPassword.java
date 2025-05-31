@@ -23,7 +23,7 @@ public class ForgetPassword {
         password = scanner.next();
 
         User user = new User(username,password,gmail);
-        if (AuthService.resetPassword(user)){
+        if (AuthService.resetPassword(username,password)){
             System.out.println("Registered successfully."); // If no other username with this name was account
             Shop s = new Shop();
             s.shop();

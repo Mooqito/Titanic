@@ -61,21 +61,20 @@ public class AuthService {
         }
     }
 
-    public static boolean resetPassword(User user) {
+    public static boolean resetPassword(String username, String password) {
 
         Connection connection = DBconnection.connect();//When the database is connected, the address and database returns to the desert in it
 
-        String hashedpassword = HashUtil.hashpassword(user.getPassword());// send tse password to the Hash function for hashed password
+        String hashedpassword = HashUtil.hashpassword(password);// send tse password to the Hash function for hashed password
 
-        String Query = "UPDATE Authentication SET password = ? WHERE username = ? AND gmail = ?";//query updata password
+        String Query = "UPDATE Authentication SET password = ? WHERE username = ?";//query updata password
         try {
 
             PreparedStatement preparedStatement = connection.prepareStatement(Query);//possiblity of entering information in the table
 
 
             preparedStatement.setString(1,hashedpassword);//enter username in tha table
-            preparedStatement.setString(2,user.getUser_name());//enter password in the table
-            preparedStatement.setString(3,user.getGmail());
+            preparedStatement.setString(2,username);//enter password in the table
 
             int affectedRows = preparedStatement.executeUpdate();//Returns the number as many rows that change
 
@@ -89,7 +88,7 @@ public class AuthService {
 
     public static String FindUser (String username, String gmail){
 
-        String query = "SELECT * FROM users WHERE username = ? AND email = ?";
+        String query = "SELECT * FROM Authentication WHERE username = ? AND gmail = ?";
         try (Connection connection = DBconnection.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
@@ -100,7 +99,7 @@ public class AuthService {
 
             if (resultSet.next()) {
                 String foundUsername = resultSet.getString("username");
-                return username;
+                return foundUsername;
             }
 
         } catch (SQLException e) {

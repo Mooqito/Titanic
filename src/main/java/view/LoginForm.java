@@ -60,11 +60,9 @@ public class LoginForm {
             }
         });
 
-        // رمز عبور
         Label pw = new Label("رمز عبور:");
         grid.add(pw, 0, 3);
 
-        // ایجاد HBox برای فیلد رمز عبور و دکمه نمایش
         HBox passwordBox = new HBox(2);
         passwordBox.setAlignment(Pos.CENTER_RIGHT);
 
@@ -82,12 +80,10 @@ public class LoginForm {
         visiblePasswordField.setVisible(false);
         HBox.setHgrow(visiblePasswordField, javafx.scene.layout.Priority.ALWAYS);
 
-        // پیام خطای رمز عبور
         passwordError = new Text();
         passwordError.setStyle("-fx-fill: red; -fx-font-size: 10px;");
         grid.add(passwordError, 1, 4);
 
-        // اعتبارسنجی رمز عبور
         pwBox.textProperty().addListener((observable, oldValue, newValue) -> {
             validatePassword(newValue);
         });
@@ -102,7 +98,6 @@ public class LoginForm {
         passwordBox.getChildren().addAll(toggleVisibilityBtn, pwBox, visiblePasswordField);
         grid.add(passwordBox, 1, 3);
 
-        // همگام‌سازی فیلدهای رمز عبور
         pwBox.textProperty().bindBidirectional(visiblePasswordField.textProperty());
 
         toggleVisibilityBtn.setOnAction(e -> {
@@ -121,12 +116,10 @@ public class LoginForm {
             }
         });
 
-        // دکمه‌ها
         Button loginBtn = new Button("ورود");
         Button registerBtn = new Button("ثبت نام");
         Button forgotPasswordBtn = new Button("فراموشی رمز عبور");
 
-        // تنظیم اندازه یکسان برای دکمه‌ها
         loginBtn.setPrefHeight(30);
         registerBtn.setPrefHeight(30);
         forgotPasswordBtn.setPrefHeight(30);
@@ -144,7 +137,6 @@ public class LoginForm {
             String username = userTextField.getText();
             String password = pwBox.isVisible() ? pwBox.getText() : visiblePasswordField.getText();
 
-            // بررسی اعتبارسنجی‌ها
             if (!usernameError.getText().isEmpty() || !passwordError.getText().isEmpty()) {
                 Main.showAlert("خطا", "لطفاً خطاهای فرم را برطرف کنید.");
                 return;
@@ -165,8 +157,8 @@ public class LoginForm {
         });
 
         forgotPasswordBtn.setOnAction(e -> {
-//            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm(primaryStage);
-//            primaryStage.setScene(forgotPasswordForm.getScene());
+            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm(primaryStage);
+            primaryStage.setScene(forgotPasswordForm.getScene());
         });
 
         scene = new Scene(grid, 380, 320);

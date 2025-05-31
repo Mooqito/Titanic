@@ -43,7 +43,6 @@ public class SignUpForm {
         grid.add(sceneTitle, 0, rowIndex, 2, 1);
         rowIndex++;
 
-        // نام کاربری
         Label userName = new Label("نام کاربری:");
         grid.add(userName, 0, rowIndex);
         TextField userTextField = new TextField();
@@ -58,7 +57,6 @@ public class SignUpForm {
         grid.add(usernameError, 1, rowIndex);
         rowIndex++;
 
-        // رمز عبور
         Label pw = new Label("رمز عبور:");
         grid.add(pw, 0, rowIndex);
 
@@ -89,7 +87,6 @@ public class SignUpForm {
         grid.add(passwordStrengthText, 1, rowIndex);
         rowIndex++;
 
-        // تایید رمز عبور
         Label confirmPw = new Label("تایید رمز عبور:");
         grid.add(confirmPw, 0, rowIndex);
 
@@ -121,7 +118,6 @@ public class SignUpForm {
         grid.add(confirmPwError, 1, rowIndex);
         rowIndex++;
 
-        // ایمیل
         Label email = new Label("ایمیل:");
         grid.add(email, 0, rowIndex);
         TextField emailField = new TextField();
@@ -136,11 +132,9 @@ public class SignUpForm {
         grid.add(emailError, 1, rowIndex);
         rowIndex++;
 
-        // دکمه‌ها
         Button registerBtn = new Button("ثبت نام");
         Button backBtn = new Button("بازگشت به صفحه ورود");
 
-        // تنظیم عرض دکمه‌ها
         registerBtn.setMaxWidth(Double.MAX_VALUE);
         backBtn.setMaxWidth(Double.MAX_VALUE);
 
@@ -149,7 +143,6 @@ public class SignUpForm {
         buttons.getChildren().addAll(registerBtn, backBtn);
         grid.add(buttons, 1, rowIndex);
 
-        // همگام‌سازی فیلدهای رمز عبور
         pwBox.textProperty().bindBidirectional(visiblePasswordField.textProperty());
         confirmPwBox.textProperty().bindBidirectional(visibleConfirmPasswordField.textProperty());
 
@@ -184,7 +177,6 @@ public class SignUpForm {
             }
         });
 
-        // اعتبارسنجی نام کاربری
         userTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("^[a-zA-Z0-9]+$")) {
                 usernameError.setText("نام کاربری فقط باید شامل حروف انگلیسی باشد");
@@ -197,7 +189,6 @@ public class SignUpForm {
             }
         });
 
-        // اعتبارسنجی رمز عبور و نمایش قدرت آن
         pwBox.textProperty().addListener((observable, oldValue, newValue) -> {
             checkPasswordStrength(newValue);
             validateConfirmPassword(newValue, confirmPwBox.getText());
@@ -208,7 +199,6 @@ public class SignUpForm {
             validateConfirmPassword(newValue, visibleConfirmPasswordField.getText());
         });
 
-        // اعتبارسنجی تایید رمز عبور
         confirmPwBox.textProperty().addListener((observable, oldValue, newValue) -> {
             validateConfirmPassword(pwBox.getText(), newValue);
         });
@@ -217,7 +207,6 @@ public class SignUpForm {
             validateConfirmPassword(visiblePasswordField.getText(), newValue);
         });
 
-        // اعتبارسنجی ایمیل
         emailField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.endsWith("@gmail.com")) {
                 emailError.setText("ایمیل باید با @gmail.com تمام شود");
@@ -272,21 +261,18 @@ public class SignUpForm {
         boolean hasDigit = password.matches(".*\\d.*");
         boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
 
-        // اگر فقط یک نوع کاراکتر داشته باشد (فقط حرف یا فقط عدد یا فقط علامت)
         if ((hasLetter && !hasDigit && !hasSpecial) ||
                 (!hasLetter && hasDigit && !hasSpecial) ||
                 (!hasLetter && !hasDigit && hasSpecial)) {
             passwordStrengthText.setText("قدرت رمز: ضعیف");
             passwordStrengthText.setFill(Color.RED);
         }
-        // اگر دو نوع کاراکتر داشته باشد
         else if ((hasLetter && hasDigit && !hasSpecial) ||
                 (hasLetter && !hasDigit && hasSpecial) ||
                 (!hasLetter && hasDigit && hasSpecial)) {
             passwordStrengthText.setText("قدرت رمز: متوسط");
             passwordStrengthText.setFill(Color.ORANGE);
         }
-        // اگر هر سه نوع کاراکتر را داشته باشد
         else if (hasLetter && hasDigit && hasSpecial) {
             passwordStrengthText.setText("قدرت رمز: قوی");
             passwordStrengthText.setFill(Color.GREEN);
