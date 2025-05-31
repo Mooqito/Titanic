@@ -18,7 +18,8 @@ public class UpdateProduct {
                 description = ?,
                 category_id = ?,
                 brand_id = ?,
-                provider_id = ?
+                provider_id = ?,
+                Quantity = ?
             WHERE id = ?
             """;
 
@@ -31,7 +32,8 @@ public class UpdateProduct {
             preparedStatement.setLong(4, product.getCategory_id());
             preparedStatement.setLong(5, product.getBrand_id());
             preparedStatement.setLong(6, product.getProviders_id());
-            preparedStatement.setLong(7, product.getId());
+            preparedStatement.setLong(7,product.getQuantity());
+            preparedStatement.setLong(8, product.getId());
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
@@ -51,6 +53,26 @@ public class UpdateProduct {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
             preparedStatement.setLong(1, newPrice);
+            preparedStatement.setLong(2, productId);
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            System.out.println("خطا در بروزرسانی قیمت محصول: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static boolean updateProductQuantity(long productId, long newQuantity) {
+        Connection connection = DBconnection.connect();
+
+        String Query = "UPDATE product SET Quantity = ? WHERE id = ?";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+
+            preparedStatement.setLong(1, newQuantity);
             preparedStatement.setLong(2, productId);
 
             int rowsAffected = preparedStatement.executeUpdate();

@@ -50,7 +50,11 @@ public class ProductInput {
             s.brand();
         }
 
-        Product product = new Product(title,price,description,category_id,provider_id,brand_id);
+        System.out.println("Quantity");
+        long Quantity = Long.parseLong(scanner.nextLine());
+
+
+        Product product = new Product(title,price,description,category_id,provider_id,brand_id,Quantity);
         if (ProductInputToDB.productInput(product)){
             System.out.println("saccsess");
             Shop s = new Shop();

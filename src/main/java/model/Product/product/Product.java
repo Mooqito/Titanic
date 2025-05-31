@@ -17,17 +17,19 @@ public class Product {
     private String brandTitle;
     private String providerTitle;
 
+    private long Quantity;
     // Constructor for creating new products (with IDs)
-    public Product(String title, long price, String description, long category_id, long providers_id, long brand_id) {
+    public Product(String title, long price, String description, long category_id, long providers_id, long brand_id,long Quantity) {
         this.title = title;
         this.price = price;
         this.description = description;
         this.category_id = category_id;
         this.providers_id = providers_id;
         this.brand_id = brand_id;
+        this.Quantity = Quantity;
     }
 
-    public Product(long id, String title, long price, String description, long category_id, long providers_id, long brand_id) {
+    public Product(long id, String title, long price, String description, long category_id, long providers_id, long brand_id,long Quantity) {
         this.id = id;
         this.title = title;
         this.price = price;
@@ -35,6 +37,15 @@ public class Product {
         this.category_id = category_id;
         this.providers_id = providers_id;
         this.brand_id = brand_id;
+        this.Quantity = Quantity;
+    }
+
+    public long getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        Quantity = quantity;
     }
 
     public long getId() { return id; }

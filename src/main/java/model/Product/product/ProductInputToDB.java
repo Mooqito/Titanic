@@ -18,7 +18,7 @@ public class ProductInputToDB {
                 "JOIN category c ON p.category_id = c.id " +
                 "JOIN provider pr ON p.provider_id = pr.id " +
                 "JOIN brand b ON p.brand_id = b.id " +
-                "WHERE p.name = ? AND p.price = ? AND c.name = ? AND s.name = ? AND b.name = ?";
+                "WHERE p.name = ? AND p.price = ? AND c.name = ? AND pr.name = ? AND b.name = ?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
@@ -37,11 +37,13 @@ public class ProductInputToDB {
             return false;
         }
     }
+
+
     public static boolean productInput(Product product) {
 
         Connection connection = DBconnection.connect();
 
-        String Query = "INSERT INTO product (title,price,description,category_id,brand_id,provider_id)" + "VALUES (?,?,?,?,?,?)";
+        String Query = "INSERT INTO product (title,price,description,category_id,brand_id,provider_id,Quantity)" + "VALUES (?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
@@ -52,6 +54,7 @@ public class ProductInputToDB {
             preparedStatement.setLong(4,product.getCategory_id());
             preparedStatement.setLong(5,product.getBrand_id());
             preparedStatement.setLong(6,product.getProviders_id());
+            preparedStatement.setLong(7,product.getQuantity());
 
             preparedStatement.executeUpdate();
             return true;

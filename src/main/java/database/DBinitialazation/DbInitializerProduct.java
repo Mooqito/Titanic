@@ -21,7 +21,8 @@ public class DbInitializerProduct {
                         description TEXT,
                         category_id INTEGER REFERENCES Category(id),
                         brand_id INTEGER REFERENCES Brand(id),
-                        provider_id INTEGER REFERENCES Provider(id)
+                        provider_id INTEGER REFERENCES Provider(id),
+                        Quantity BIGINT NOT NULL,
                         );
                     """;
             statement.executeUpdate(createTableProduct);

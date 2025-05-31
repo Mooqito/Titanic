@@ -18,7 +18,7 @@ public class DeleteProduct {
             preparedStatement.setLong(1, productId);
 
             int affectedRows = preparedStatement.executeUpdate();
-            return affectedRows > 0; // اگر محصولی حذف شده باشد، true برمی‌گرداند
+            return affectedRows > 0;
         } catch (SQLException e) {
             System.out.println("Error deleting product: " + e.getMessage());
             return false;
