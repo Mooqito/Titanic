@@ -11,7 +11,7 @@ import java.sql.SQLException;
 public class ProductInputToDB {
 
 
-    public static boolean productExist (String name, long price, String category, String provider, String brand){
+    public static boolean productExist (String tile, long price, String category, String provider, String brand){
         Connection connection = DBconnection.connect();
 
         String Query = "SELECT 1 FROM product p " +
@@ -22,7 +22,7 @@ public class ProductInputToDB {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setString(1,name);
+            preparedStatement.setString(1,tile);
             preparedStatement.setLong(2,price);
             preparedStatement.setString(3,category);
             preparedStatement.setString(4,provider);
@@ -39,7 +39,7 @@ public class ProductInputToDB {
     }
 
 
-    public static boolean updateProductQuantity (Product product){
+    public static boolean updateProductQuantity (String title, long price, String category, String provider, String brand,long Quantity){
         Connection connection = DBconnection.connect();
 
         String Query = "UPDATE product SET Quantity = Quantity + ? " +
@@ -52,12 +52,12 @@ public class ProductInputToDB {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setLong(1,product.getQuantity());
-            preparedStatement.setString(2,product.getTitle());
-            preparedStatement.setLong(3,product.getPrice());
-            preparedStatement.setString(4,product.getCategoryTitle());
-            preparedStatement.setString(5,product.getProviderTitle());
-            preparedStatement.setString(6,product.getBrandTitle());
+            preparedStatement.setLong(1,Quantity);
+            preparedStatement.setString(2,title);
+            preparedStatement.setLong(3,price);
+            preparedStatement.setString(4,category);
+            preparedStatement.setString(5,provider);
+            preparedStatement.setString(6,brand);
 
             return preparedStatement.executeUpdate() > 0;
 
@@ -68,7 +68,7 @@ public class ProductInputToDB {
 
     }
 
-    public static boolean productInput(Product product) {
+    public static boolean productInput(String title, long price,String description, String category, String provider, String brand,long Quantity) {
 
 
 
@@ -77,19 +77,19 @@ public class ProductInputToDB {
         String Query = "INSERT INTO product (title,price,description,category_id,brand_id,provider_id,Quantity)" + "VALUES (?,?,?,?,?,?,?)";
 
         try {
-            int category_Id = getOrCreateId(connection, "category", product.getCategoryTitle());
-            int provider_Id = getOrCreateId(connection, "provider", product.getProviderTitle());
-            int brand_Id = getOrCreateId(connection, "brand",product.getBrandTitle());
+            int category_Id = getOrCreateId(connection, "category", category);
+            int provider_Id = getOrCreateId(connection, "provider", provider);
+            int brand_Id = getOrCreateId(connection, "brand",brand);
 
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setString(1,product.getTitle());
-            preparedStatement.setLong(2,product.getPrice());
-            preparedStatement.setString(3,product.getDescription());
+            preparedStatement.setString(1,title);
+            preparedStatement.setLong(2,price);
+            preparedStatement.setString(3,description);
             preparedStatement.setLong(4,category_Id);
             preparedStatement.setLong(5,provider_Id);
             preparedStatement.setLong(6,brand_Id);
-            preparedStatement.setLong(7,product.getQuantity());
+            preparedStatement.setLong(7,Quantity);
 
             preparedStatement.executeUpdate();
             return true;

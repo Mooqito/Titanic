@@ -58,7 +58,7 @@ public class ProductManagement extends VBox {
 
         switch (title) {
             case "افزودن کالا":
-//                content.getChildren().add(new AddProductForm().getContent());
+                content.getChildren().add(new AddProductForm().getContent());
                 break;
             case "ویرایش کالا":
                 content.getChildren().add(createEditForm());
