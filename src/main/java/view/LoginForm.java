@@ -147,6 +147,8 @@ public class LoginForm {
             }
             if (Login.login(username, password)) {
                 Main.showAlert("موفقیت", "ورود موفقیت‌آمیز بود!");
+                DashboardForm dashboardForm = new DashboardForm(primaryStage);
+                primaryStage.setScene(dashboardForm.getScene());
             } else {
                 Main.showAlert("خطا", "نام کاربری یا رمز عبور اشتباه است.");
             }

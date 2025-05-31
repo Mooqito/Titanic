@@ -30,8 +30,8 @@ public class MainMenu extends VBox {
         reportBtn.setMaxWidth(Double.MAX_VALUE);
 
         dashboardBtn.setOnAction(e -> {
-//            managementMenu.setVisible(true);
-//            managementMenu.setManaged(true);
+            managementMenu.setVisible(true);
+            managementMenu.setManaged(true);
             this.setVisible(false);
             this.setManaged(false);
         });
