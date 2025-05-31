@@ -39,6 +39,35 @@ public class ProductInputToDB {
     }
 
 
+    public static boolean updateProductQuantity (String name, long price, String category, String provider, String brand, int additionalQuantity){
+        Connection connection = DBconnection.connect();
+
+        String Query = "UPDATE product SET Quantity = Quantity + ? " +
+                "WHERE id IN (SELECT p.id FROM product p " +
+                "JOIN category c ON p.category_id = c.id " +
+                "OIN provider pr ON p.provider_id = pr.id " +
+                "JOIN brand b ON p.brand_id = b.id " +
+                "WHERE p.name = ? AND p.price = ? AND c.name = ? AND pr.name = ? AND b.name = ?)";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+
+            preparedStatement.setLong(1,additionalQuantity);
+            preparedStatement.setString(2,name);
+            preparedStatement.setLong(3,price);
+            preparedStatement.setString(4,category);
+            preparedStatement.setString(5,provider);
+            preparedStatement.setString(6,brand);
+
+            return preparedStatement.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+
+    }
+
     public static boolean productInput(Product product) {
 
         Connection connection = DBconnection.connect();
