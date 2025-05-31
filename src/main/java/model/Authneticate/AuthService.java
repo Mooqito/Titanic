@@ -106,8 +106,6 @@ public class AuthService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        // اگر کاربری پیدا نشد:
         return null;
     }
 
