@@ -1,6 +1,8 @@
 package controller.Authnticate;
 
+import model.Authneticate.AuthService;
 import model.Authneticate.User;
+import view.Shop;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;

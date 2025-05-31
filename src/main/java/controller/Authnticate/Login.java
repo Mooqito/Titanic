@@ -1,5 +1,7 @@
 package controller.Authnticate;
 
+import model.Authneticate.AuthService;
+
 import java.util.Scanner;
 
 public class Login {
