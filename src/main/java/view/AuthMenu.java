@@ -1,13 +1,6 @@
 package view;
 
 
-import controller.Authnticate.ForgetPassword;
-import controller.Authnticate.Login;
-import controller.Authnticate.SingUp;
-import model.Authneticate.AuthService;
-import view.Shop;
-import view.Shop;
-
 import java.util.Scanner;
 
 
@@ -34,8 +27,6 @@ public class AuthMenu {
                 case 2:
                     break;
                 case 3:
-                    ForgetPassword forgetPassword = new ForgetPassword();
-                    forgetPassword.reset();
                     break;
 
             }
