@@ -6,14 +6,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class SelectProvider {
+public class GetAllProvider {
 
-    public static long select (){
-
+    public static List<String> provider (){
+        List<String> list = new ArrayList<>();
         Connection connection = DBconnection.connect();
-        Scanner scanner = new Scanner(System.in);
 
         String Query = "SELECT * FROM Provider";
 
@@ -21,26 +22,18 @@ public class SelectProvider {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            boolean isEmpty = true;
-
             while (resultSet.next()) {
-                isEmpty=false;
                 long id = resultSet.getLong("id");
                 String title = resultSet.getString("title");
-                System.out.println(id + " - " + title);
+                list.add(title);
             }
 
-            if (isEmpty) {
-                System.out.println("⚠ هیچ تامین کننذه وجود ندارد. ابتدا یک تامین کننذه تعریف کنید.");
-                return -1;
-            }
 
-            System.out.print("Enter Category ID from the above list: ");
-            return Long.parseLong(scanner.nextLine());
+            return list;
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return -1;
+            return null;
         }
     }
 }

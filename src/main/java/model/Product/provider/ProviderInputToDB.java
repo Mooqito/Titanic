@@ -9,12 +9,12 @@ import java.sql.SQLException;
 
 public class ProviderInputToDB {
 
-    public static boolean providerinput (Provider provider){
+    public static boolean providerinput (String title){
         Connection connection = DBconnection.connect();
         String Query = "INSERT INTO Provider (title)"+"VALUES (?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
-            preparedStatement.setString(1,provider.getTitle());
+            preparedStatement.setString(1,title);
 
             preparedStatement.executeUpdate();
             return true;
