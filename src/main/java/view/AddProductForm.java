@@ -8,6 +8,8 @@ import javafx.collections.FXCollections;
 import model.Product.brand.Brand;
 import model.Product.brand.BrandInputToDB;
 import model.Product.brand.GetAllBrand;
+import model.Product.category.CategoruInputToDB;
+import model.Product.category.GetAllCategory;
 import model.Product.product.ProductInputToDB;
 
 import java.util.List;
@@ -169,7 +171,7 @@ public class AddProductForm {
                 boolean success = false;
                 switch (type) {
                     case "دسته‌بندی":
-//                        success = DatabaseManager.addCategory(result);
+                        success = CategoruInputToDB.categoryInput(result);
                         break;
                     case "تامین کننده":
 //                        success = DatabaseManager.addSupplier(result);
@@ -192,7 +194,8 @@ public class AddProductForm {
 
     private void loadComboBoxData() {
         // بارگذاری داده‌ها از دیتابیس
-//        categoryComboBox.setItems(FXCollections.observableArrayList(DatabaseManager.getCategories()));
+        List<String> category = GetAllCategory.category();
+        categoryComboBox.setItems(FXCollections.observableArrayList(category));
 //        supplierComboBox.setItems(FXCollections.observableArrayList(DatabaseManager.getSuppliers()));
         List<String> brands = GetAllBrand.brand();
         brandComboBox.setItems(FXCollections.observableArrayList(brands));

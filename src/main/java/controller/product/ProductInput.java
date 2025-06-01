@@ -3,7 +3,7 @@
 ////import model.Product.product.ProductInputToDB;
 //import model.Product.product.ProductInputToDB;
 //import model.Product.brand.SelectBrand;
-//import model.Product.category.SelectCategory;
+//import model.Product.category.GetAllCategory;
 //import model.Product.product.Product;
 //import model.Product.provider.SelectProvider;
 //import view.Shop;
@@ -27,7 +27,7 @@
 //        String description = scanner.nextLine();
 //
 //        System.out.println("category id");
-//        long category_id = SelectCategory.select();
+//        long category_id = GetAllCategory.select();
 //        if (category_id==-1){
 //            System.out.println("امکان ادامه نیست. ابتدا دسته‌بندی تعریف کنید.");
 //            Shop s = new Shop();
