@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class getAllBrand {
+public class GetAllBrand {
 
-    public static List<Brand> brand (){
-        List<Brand> list = new ArrayList<>();
+    public static List<String> brand (){
+        List<String> list = new ArrayList<>();
 
         Connection connection = DBconnection.connect();
         Scanner scanner = new Scanner(System.in);
@@ -29,8 +29,7 @@ public class getAllBrand {
                 long id = resultSet.getLong("id");
                 String title = resultSet.getString("title");
 
-                Brand brand = new Brand(title);
-                list.add(brand);
+                list.add(title);
             }
             return list;
 

@@ -15,9 +15,7 @@ public class BrandInput {
         System.out.println("Brand title");
         String title = scanner.nextLine();
 
-        Brand brand = new Brand(title);
-
-        BrandInputToDB.brandinput(brand);
+        BrandInputToDB.brandinput(title);
 
         Shop s = new Shop();
         s.dashbord();

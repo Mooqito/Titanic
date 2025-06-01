@@ -5,8 +5,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import model.Product.brand.Brand;
+import model.Product.brand.BrandInputToDB;
+import model.Product.brand.GetAllBrand;
 import model.Product.product.ProductInputToDB;
+
+import java.util.List;
 
 public class AddProductForm {
     private VBox content;
@@ -171,7 +175,7 @@ public class AddProductForm {
 //                        success = DatabaseManager.addSupplier(result);
                         break;
                     case "برند":
-//                        success = DatabaseManager.addBrand(result);
+                        success = BrandInputToDB.brandinput(result);
                         break;
                 }
 
@@ -190,7 +194,8 @@ public class AddProductForm {
         // بارگذاری داده‌ها از دیتابیس
 //        categoryComboBox.setItems(FXCollections.observableArrayList(DatabaseManager.getCategories()));
 //        supplierComboBox.setItems(FXCollections.observableArrayList(DatabaseManager.getSuppliers()));
-//        brandComboBox.setItems(FXCollections.observableArrayList(DatabaseManager.getBrands()));
+        List<String> brands = GetAllBrand.brand();
+        brandComboBox.setItems(FXCollections.observableArrayList(brands));
     }
 
     private boolean validateFields(TextField nameField, TextField priceField, TextField quantityField) {
