@@ -100,13 +100,27 @@ public class ProductInputToDB {
     }
     private static int getOrCreateId(Connection conn, String table, String name) throws SQLException {
         PreparedStatement selectStmt = conn.prepareStatement(
-                "SELECT id FROM " + table + " WHERE name = ?"
+                "SELECT id FROM " + table + " WHERE title = ?"
         );
         selectStmt.setString(1, name);
         ResultSet rs = selectStmt.executeQuery();
 
         if (rs.next()) {
             return rs.getInt("id");
-        }throw new SQLException("Failed to create new " + table + " entry");
+        }
+
+        // اگر وجود نداشت، اضافه کن
+        PreparedStatement insertStmt = conn.prepareStatement(
+                "INSERT INTO " + table + " (title) VALUES (?) RETURNING id"
+        );
+        insertStmt.setString(1, name);
+        ResultSet insertRs = insertStmt.executeQuery();
+
+        if (insertRs.next()) {
+            return insertRs.getInt("id");
+        }
+
+        throw new SQLException("Failed to create new " + table + " entry");
     }
+
 }

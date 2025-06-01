@@ -11,6 +11,8 @@ import model.Product.brand.GetAllBrand;
 import model.Product.category.CategoruInputToDB;
 import model.Product.category.GetAllCategory;
 import model.Product.product.ProductInputToDB;
+import model.Product.provider.GetAllProvider;
+import model.Product.provider.ProviderInputToDB;
 
 import java.util.List;
 
@@ -174,7 +176,7 @@ public class AddProductForm {
                         success = CategoruInputToDB.categoryInput(result);
                         break;
                     case "تامین کننده":
-//                        success = DatabaseManager.addSupplier(result);
+                        success = ProviderInputToDB.providerinput(result);
                         break;
                     case "برند":
                         success = BrandInputToDB.brandinput(result);
@@ -196,7 +198,8 @@ public class AddProductForm {
         // بارگذاری داده‌ها از دیتابیس
         List<String> category = GetAllCategory.category();
         categoryComboBox.setItems(FXCollections.observableArrayList(category));
-//        supplierComboBox.setItems(FXCollections.observableArrayList(DatabaseManager.getSuppliers()));
+        List<String> provider = GetAllProvider.provider();
+        supplierComboBox.setItems(FXCollections.observableArrayList(provider));
         List<String> brands = GetAllBrand.brand();
         brandComboBox.setItems(FXCollections.observableArrayList(brands));
     }

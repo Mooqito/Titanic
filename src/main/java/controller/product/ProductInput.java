@@ -5,7 +5,7 @@
 //import model.Product.brand.SelectBrand;
 //import model.Product.category.GetAllCategory;
 //import model.Product.product.Product;
-//import model.Product.provider.SelectProvider;
+//import model.Product.provider.GetAllProvider;
 //import view.Shop;
 //
 //import java.util.Scanner;
@@ -35,7 +35,7 @@
 //        }
 //
 //        System.out.println("provider id");
-//        long provider_id = SelectProvider.select();
+//        long provider_id = GetAllProvider.select();
 //        if (provider_id==-1){
 //            System.out.println("امکان ادامه نیست. ابتدا تامین کنندگاه را تعریف کنید.");
 //            Shop s = new Shop();
