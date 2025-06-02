@@ -8,7 +8,8 @@ import java.sql.SQLException;
 
 public class UpdateProduct {
 
-    public static boolean updateProduct(Product product) {
+    public static boolean updateProduct(String originalName, String newName, long price, String description,
+                                        String category, String provider, String brand, int quantity) {
         Connection connection = DBconnection.connect();
 
         String Query = """
@@ -16,30 +17,30 @@ public class UpdateProduct {
             SET title = ?,
                 price = ?,
                 description = ?,
-                category_id = ?,
-                brand_id = ?,
-                provider_id = ?,
+                category_id = (SELECT id FROM category WHERE title = ?),
+                brand_id = (SELECT id FROM brand WHERE title = ?),
+                provider_id = (SELECT id FROM provider WHERE title = ?),
                 Quantity = ?
-            WHERE id = ?
+            WHERE title = ?
             """;
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setString(1, product.getTitle());
-            preparedStatement.setLong(2, product.getPrice());
-            preparedStatement.setString(3, product.getDescription());
-            preparedStatement.setLong(4, product.getCategory_id());
-            preparedStatement.setLong(5, product.getBrand_id());
-            preparedStatement.setLong(6, product.getProviders_id());
-            preparedStatement.setLong(7,product.getQuantity());
-            preparedStatement.setLong(8, product.getId());
+            preparedStatement.setString(1, newName);
+            preparedStatement.setLong(2, price);
+            preparedStatement.setString(3, description);
+            preparedStatement.setString(4, category);
+            preparedStatement.setString(5, brand);
+            preparedStatement.setString(6, provider);
+            preparedStatement.setInt(7, quantity);
+            preparedStatement.setString(8, originalName);
 
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected > 0;
 
         } catch (SQLException e) {
-            System.out.println("خطا در بروزرسانی محصول: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }

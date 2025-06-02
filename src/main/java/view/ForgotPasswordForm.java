@@ -1,5 +1,3 @@
-package view;
-
 import controller.Authnticate.ForgetPassword;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
