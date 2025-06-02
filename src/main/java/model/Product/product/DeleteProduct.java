@@ -8,19 +8,20 @@ import java.sql.SQLException;
 
 public class DeleteProduct {
 
-    public static boolean deleteProductById(long productId) {
+    public static boolean deleteProduct(String title) {
         Connection connection = DBconnection.connect();
 
-        String deleteQuery = "DELETE FROM Product WHERE id = ?";
+        String Query = "DELETE FROM product WHERE title = ?";
 
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery);
-            preparedStatement.setLong(1, productId);
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+            preparedStatement.setString(1, title);
 
-            int affectedRows = preparedStatement.executeUpdate();
-            return affectedRows > 0;
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+
         } catch (SQLException e) {
-            System.out.println("Error deleting product: " + e.getMessage());
+            e.printStackTrace();
             return false;
         }
     }
