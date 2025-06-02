@@ -13,6 +13,7 @@ import model.Product.category.GetAllCategory;
 import model.Product.product.ProductInputToDB;
 import model.Product.provider.GetAllProvider;
 import model.Product.provider.ProviderInputToDB;
+import view.validation.ProductValidation;
 
 import java.util.List;
 
@@ -21,6 +22,10 @@ public class AddProductForm {
     private ComboBox<String> categoryComboBox;
     private ComboBox<String> supplierComboBox;
     private ComboBox<String> brandComboBox;
+    private TextField nameField;
+    private TextField priceField;
+    private TextArea descriptionArea;
+    private TextField quantityField;
 
     public AddProductForm() {
         createContent();
@@ -32,24 +37,28 @@ public class AddProductForm {
         content.setPadding(new Insets(20));
         content.setMaxWidth(600);
 
-        // فیلدهای ورودی
-        TextField nameField = new TextField();
+        // فیلدهای ورودی با اعتبارسنجی
+        nameField = new TextField();
         nameField.setPromptText("نام محصول");
+        nameField.setTextFormatter(ProductValidation.createTitleFormatter());
 
-        TextField priceField = new TextField();
+        priceField = new TextField();
         priceField.setPromptText("قیمت");
+        priceField.setTextFormatter(ProductValidation.createPriceFormatter());
 
-        TextArea descriptionArea = new TextArea();
+        descriptionArea = new TextArea();
         descriptionArea.setPromptText("توضیحات");
         descriptionArea.setPrefRowCount(3);
+        descriptionArea.setTextFormatter(ProductValidation.createDescriptionFormatter());
 
         // کامبوباکس‌ها با دکمه‌های اضافه کردن
         HBox categoryBox = createComboWithAddButton("دسته‌بندی", categoryComboBox = new ComboBox<>());
         HBox supplierBox = createComboWithAddButton("تامین کننده", supplierComboBox = new ComboBox<>());
         HBox brandBox = createComboWithAddButton("برند", brandComboBox = new ComboBox<>());
 
-        TextField quantityField = new TextField();
+        quantityField = new TextField();
         quantityField.setPromptText("تعداد");
+        quantityField.setTextFormatter(ProductValidation.createQuantityFormatter());
 
         // بارگذاری داده‌های کامبوباکس‌ها
         loadComboBoxData();
@@ -59,9 +68,9 @@ public class AddProductForm {
         submitButton.setMaxWidth(200);
 
         submitButton.setOnAction(e -> {
-            if (validateFields(nameField, priceField, quantityField)) {
+            if (validateFields()) {
                 String name = nameField.getText();
-                double price = Double.parseDouble(priceField.getText());
+                long price = Long.parseLong(priceField.getText());
                 String description = descriptionArea.getText();
                 String category = categoryComboBox.getValue();
                 String supplier = supplierComboBox.getValue();
@@ -69,7 +78,7 @@ public class AddProductForm {
                 int quantity = Integer.parseInt(quantityField.getText());
 
                 // بررسی وجود محصول
-                if (ProductInputToDB.productExist(name, (long) price, category, supplier, brand)) {
+                if (ProductInputToDB.productExist(name, price, category, supplier, brand)) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("محصول موجود");
                     alert.setHeaderText(null);
@@ -77,16 +86,16 @@ public class AddProductForm {
 
                     alert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.OK) {
-                            ProductInputToDB.updateProductQuantity(name, (long) price, category, supplier, brand, quantity);
+                            ProductInputToDB.updateProductQuantity(name, price, category, supplier, brand, quantity);
                             showSuccessMessage("تعداد محصول با موفقیت به‌روزرسانی شد");
-                            clearFields(nameField, priceField, descriptionArea, quantityField);
+                            clearFields();
                         }
                     });
                 } else {
                     // افزودن محصول جدید
-                    if (ProductInputToDB.productInput(name, (long) price, description, category, supplier, brand, quantity)) {
+                    if (ProductInputToDB.productInput(name, price, description, category, supplier, brand, quantity)) {
                         showSuccessMessage("محصول با موفقیت ثبت شد");
-                        clearFields(nameField, priceField, descriptionArea, quantityField);
+                        clearFields();
                     } else {
                         showErrorMessage("خطا در ثبت محصول");
                     }
@@ -204,27 +213,26 @@ public class AddProductForm {
         brandComboBox.setItems(FXCollections.observableArrayList(brands));
     }
 
-    private boolean validateFields(TextField nameField, TextField priceField, TextField quantityField) {
-        if (nameField.getText().isEmpty() || priceField.getText().isEmpty() ||
-                categoryComboBox.getValue() == null || supplierComboBox.getValue() == null ||
-                brandComboBox.getValue() == null || quantityField.getText().isEmpty()) {
-            showErrorMessage("لطفاً تمام فیلدهای ضروری را پر کنید");
-            return false;
-        }
+    private boolean validateFields() {
+        String validationError = ProductValidation.validateForm(
+                nameField.getText(),
+                priceField.getText(),
+                descriptionArea.getText(),
+                categoryComboBox.getValue(),
+                brandComboBox.getValue(),
+                supplierComboBox.getValue(),
+                quantityField.getText()
+        );
 
-        try {
-            Double.parseDouble(priceField.getText());
-            Integer.parseInt(quantityField.getText());
-        } catch (NumberFormatException e) {
-            showErrorMessage("لطفاً قیمت و تعداد را به صورت عددی وارد کنید");
+        if (validationError != null) {
+            showErrorMessage(validationError);
             return false;
         }
 
         return true;
     }
 
-    private void clearFields(TextField nameField, TextField priceField,
-                             TextArea descriptionArea, TextField quantityField) {
+    private void clearFields() {
         nameField.clear();
         priceField.clear();
         descriptionArea.clear();
