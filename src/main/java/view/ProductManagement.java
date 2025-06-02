@@ -82,15 +82,8 @@ public class ProductManagement extends VBox {
     }
 
     private VBox createEditForm() {
-        VBox form = new VBox(10);
-        form.setAlignment(Pos.CENTER_RIGHT);
-
-        // TODO: پیاده‌سازی فرم ویرایش محصول
-        Label label = new Label("فرم ویرایش محصول در حال توسعه...");
-        label.setStyle("-fx-font-size: 14px;");
-        form.getChildren().add(label);
-
-        return form;
+        EditProductForm editForm = new EditProductForm();
+        return editForm.getContent();
     }
 
     private VBox createDeleteForm() {
