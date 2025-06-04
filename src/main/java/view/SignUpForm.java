@@ -244,8 +244,8 @@ public class SignUpForm {
                 statusMessage.setStyle("-fx-fill: #058a0a;");
                 // Delay navigation slightly to show message
                 javafx.animation.Timeline timeline = new javafx.animation.Timeline(new javafx.animation.KeyFrame(javafx.util.Duration.seconds(1.5), event -> {
-                    LoginForm loginForm = new LoginForm(primaryStage);
-                    primaryStage.setScene(loginForm.getScene());
+                    DashboardForm dashboardForm = new DashboardForm(primaryStage);
+                    primaryStage.setScene(dashboardForm.getScene());
                 }));
                 timeline.play();
             } else {
