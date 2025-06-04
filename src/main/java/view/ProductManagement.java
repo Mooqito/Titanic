@@ -87,15 +87,8 @@ public class ProductManagement extends VBox {
     }
 
     private VBox createDeleteForm() {
-        VBox form = new VBox(10);
-        form.setAlignment(Pos.CENTER_RIGHT);
-
-        // TODO: پیاده‌سازی فرم حذف محصول
-        Label label = new Label("فرم حذف محصول در حال توسعه...");
-        label.setStyle("-fx-font-size: 14px;");
-        form.getChildren().add(label);
-
-        return form;
+        DeleteProductForm deleteForm = new DeleteProductForm();
+        return deleteForm.getContent();
     }
 
     private VBox createShowForm() {
