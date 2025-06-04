@@ -236,8 +236,8 @@ public class SignUpForm {
 
             if (SingUp.sing_up(username, password,confirmPassword,emailAddress)) {
                 Main.showAlert("موفقیت", "ثبت نام با موفقیت انجام شد!");
-                LoginForm loginForm = new LoginForm(primaryStage);
-                primaryStage.setScene(loginForm.getScene());
+                DashboardForm dashboardForm = new DashboardForm(primaryStage);
+                primaryStage.setScene(dashboardForm.getScene());
             } else {
                 Main.showAlert("خطا", "خطا در ثبت نام. لطفاً دوباره تلاش کنید.");
             }

@@ -3,7 +3,7 @@ package view;
 import controller.product.BrandInput;
 import controller.product.Categoryinput;
 import controller.product.PrividerInput;
-import controller.product.ProductInput;
+//import controller.product.ProductInput;
 
 import java.util.Scanner;
 
@@ -119,8 +119,8 @@ public class Shop {
 
         switch (option) {
             case 1:
-                ProductInput input = new ProductInput();
-                input.ProductInputList();
+//                ProductInput input = new ProductInput();
+//                input.ProductInputList();
                 break;
             case 2:
                 //remove;

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class BrandInputToDB {
 
-    public static boolean brandinput (Brand brand){
+    public static boolean brandinput (String title){
 
         Connection connection = DBconnection.connect();
 
@@ -18,7 +18,7 @@ public class BrandInputToDB {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setString(1,brand.getTitle());
+            preparedStatement.setString(1,title);
 
             preparedStatement.executeUpdate();
             return true;

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class CategoruInputToDB {
 
-    public static boolean categoryInput(Category category) {
+    public static boolean categoryInput(String title) {
 
         Connection connection = DBconnection.connect();
 
@@ -18,7 +18,7 @@ public class CategoruInputToDB {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
 
-            preparedStatement.setString(1,category.getTitle());
+            preparedStatement.setString(1,title);
 
             preparedStatement.executeUpdate();
             return true;

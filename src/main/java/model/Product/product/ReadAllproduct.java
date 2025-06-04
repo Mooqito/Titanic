@@ -19,7 +19,7 @@ public class ReadAllproduct {
         String Query = """
             SELECT 
                 p.id, p.title, p.price, p.description,
-                p.category_id, p.brand_id, p.provider_id,
+                p.category_id, p.brand_id, p.provider_id,p.Quantity,
                 c.title as category_title,
                 b.title as brand_title,
                 pr.title as provider_title
@@ -41,8 +41,9 @@ public class ReadAllproduct {
                 long category_id = resultSet.getLong("category_id");
                 long brand_id = resultSet.getLong("brand_id");
                 long provider_id = resultSet.getLong("provider_id");
+                long Quantity = resultSet.getLong("Quantity");
 
-                Product product = new Product(id,title, price, description, category_id, brand_id, provider_id);
+                Product product = new Product(id,title, price, description, category_id, brand_id, provider_id,Quantity);
                 
                 // Set the titles
                 product.setCategoryTitle(resultSet.getString("category_title"));
