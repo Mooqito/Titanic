@@ -5,7 +5,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.collections.FXCollections;
-import model.Product.brand.Brand;
 import model.Product.brand.BrandInputToDB;
 import model.Product.brand.GetAllBrand;
 import model.Product.category.CategoruInputToDB;
@@ -37,7 +36,6 @@ public class AddProductForm {
         content.setPadding(new Insets(20));
         content.setMaxWidth(600);
 
-        // فیلدهای ورودی با اعتبارسنجی
         nameField = new TextField();
         nameField.setPromptText("نام محصول");
         nameField.setTextFormatter(ProductValidation.createTitleFormatter());
@@ -51,7 +49,6 @@ public class AddProductForm {
         descriptionArea.setPrefRowCount(3);
         descriptionArea.setTextFormatter(ProductValidation.createDescriptionFormatter());
 
-        // کامبوباکس‌ها با دکمه‌های اضافه کردن
         HBox categoryBox = createComboWithAddButton("دسته‌بندی", categoryComboBox = new ComboBox<>());
         HBox supplierBox = createComboWithAddButton("تامین کننده", supplierComboBox = new ComboBox<>());
         HBox brandBox = createComboWithAddButton("برند", brandComboBox = new ComboBox<>());
@@ -60,10 +57,8 @@ public class AddProductForm {
         quantityField.setPromptText("تعداد");
         quantityField.setTextFormatter(ProductValidation.createQuantityFormatter());
 
-        // بارگذاری داده‌های کامبوباکس‌ها
         loadComboBoxData();
 
-        // دکمه ثبت
         Button submitButton = new Button("ثبت محصول");
         submitButton.setMaxWidth(200);
 
@@ -77,7 +72,6 @@ public class AddProductForm {
                 String brand = brandComboBox.getValue();
                 int quantity = Integer.parseInt(quantityField.getText());
 
-                // بررسی وجود محصول
                 if (ProductInputToDB.productExist(name, price, category, supplier, brand)) {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("محصول موجود");
@@ -86,24 +80,27 @@ public class AddProductForm {
 
                     alert.showAndWait().ifPresent(response -> {
                         if (response == ButtonType.OK) {
-                            ProductInputToDB.updateProductQuantity(name, price, category, supplier, brand, quantity);
-                            showSuccessMessage("تعداد محصول با موفقیت به‌روزرسانی شد");
-                            clearFields();
+                            boolean success = ProductInputToDB.updateProductQuantity(name, price, category, supplier, brand, quantity);
+                            if (success) {
+                                showSuccessMessage("تعداد محصول با موفقیت به‌روزرسانی شد");
+                                clearFields();
+                            } else {
+                                showErrorMessage("خطا در به‌روزرسانی تعداد");
+                            }
                         }
                     });
                 } else {
-                    // افزودن محصول جدید
-                    if (ProductInputToDB.productInput(name, price, description, category, supplier, brand, quantity)) {
+                    boolean success = ProductInputToDB.productInput(name, price, description, category, supplier, brand, quantity);
+                    if (success) {
                         showSuccessMessage("محصول با موفقیت ثبت شد");
                         clearFields();
                     } else {
-                        showErrorMessage("خطا در ثبت محصول");
+                        showErrorMessage("خطا در ثبت محصول. احتمالاً عنوان محصول تکراری است.");
                     }
                 }
             }
         });
 
-        // اضافه کردن فیلدها به فرم
         content.getChildren().addAll(
                 createLabeledField("نام محصول:", nameField),
                 createLabeledField("قیمت:", priceField),
@@ -178,7 +175,6 @@ public class AddProductForm {
 
         dialog.showAndWait().ifPresent(result -> {
             if (!result.isEmpty()) {
-                // افزودن به دیتابیس بر اساس نوع
                 boolean success = false;
                 switch (type) {
                     case "دسته‌بندی":
@@ -204,7 +200,6 @@ public class AddProductForm {
     }
 
     private void loadComboBoxData() {
-        // بارگذاری داده‌ها از دیتابیس
         List<String> category = GetAllCategory.category();
         categoryComboBox.setItems(FXCollections.observableArrayList(category));
         List<String> provider = GetAllProvider.provider();
@@ -228,7 +223,6 @@ public class AddProductForm {
             showErrorMessage(validationError);
             return false;
         }
-
         return true;
     }
 

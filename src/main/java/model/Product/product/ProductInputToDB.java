@@ -1,126 +1,111 @@
 package model.Product.product;
 
 import database.DBconnection;
-import model.Product.product.Product;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ProductInputToDB {
 
-
-    public static boolean productExist (String tile, long price, String category, String provider, String brand){
+    // بررسی فقط عنوان برای جلوگیری از خطای تکراری
+    public static boolean isTitleDuplicate(String title) {
         Connection connection = DBconnection.connect();
+        String checkQuery = "SELECT 1 FROM product WHERE title = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(checkQuery)) {
+            stmt.setString(1, title);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return true; // اگر مشکلی پیش آمد، بهتره اجازه افزودن ندیم
+        }
+    }
 
-        String Query = "SELECT 1 FROM product p " +
+    // بررسی وجود محصول دقیق (برای افزایش تعداد)
+    public static boolean productExist(String title, long price, String category, String provider, String brand) {
+        Connection connection = DBconnection.connect();
+        String query = "SELECT 1 FROM product p " +
                 "JOIN category c ON p.category_id = c.id " +
                 "JOIN provider pr ON p.provider_id = pr.id " +
                 "JOIN brand b ON p.brand_id = b.id " +
                 "WHERE p.title = ? AND p.price = ? AND c.title = ? AND pr.title = ? AND b.title = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(Query);
-
-            preparedStatement.setString(1,tile);
-            preparedStatement.setLong(2,price);
-            preparedStatement.setString(3,category);
-            preparedStatement.setString(4,provider);
-            preparedStatement.setString(5,brand);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            return resultSet.next();
-
-        }catch (SQLException e) {
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, title);
+            stmt.setLong(2, price);
+            stmt.setString(3, category);
+            stmt.setString(4, provider);
+            stmt.setString(5, brand);
+            ResultSet rs = stmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-
-    public static boolean updateProductQuantity (String title, long price, String category, String provider, String brand,long Quantity){
+    // افزایش تعداد محصول
+    public static boolean updateProductQuantity(String title, long price, String category, String provider, String brand, long quantity) {
         Connection connection = DBconnection.connect();
-
-        String Query = "UPDATE product SET Quantity = Quantity + ? " +
+        String query = "UPDATE product SET Quantity = Quantity + ? " +
                 "WHERE id IN (SELECT p.id FROM product p " +
                 "JOIN category c ON p.category_id = c.id " +
                 "JOIN provider pr ON p.provider_id = pr.id " +
                 "JOIN brand b ON p.brand_id = b.id " +
                 "WHERE p.title = ? AND p.price = ? AND c.title = ? AND pr.title = ? AND b.title = ?)";
-
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(Query);
-
-            preparedStatement.setLong(1,Quantity);
-            preparedStatement.setString(2,title);
-            preparedStatement.setLong(3,price);
-            preparedStatement.setString(4,category);
-            preparedStatement.setString(5,provider);
-            preparedStatement.setString(6,brand);
-
-            return preparedStatement.executeUpdate() > 0;
-
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setLong(1, quantity);
+            stmt.setString(2, title);
+            stmt.setLong(3, price);
+            stmt.setString(4, category);
+            stmt.setString(5, provider);
+            stmt.setString(6, brand);
+            return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-        e.printStackTrace();
-        return false;
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    }
-
-    public static boolean productInput(String title, long price,String description, String category, String provider, String brand,long Quantity) {
-
-
+    // افزودن محصول جدید
+    public static boolean productInput(String title, long price, String description, String category, String provider, String brand, long quantity) {
+        if (isTitleDuplicate(title)) {
+            System.err.println("عنوان محصول تکراری است");
+            return false;
+        }
 
         Connection connection = DBconnection.connect();
-
-        String Query = "INSERT INTO product (title,price,description,category_id,brand_id,provider_id,Quantity)" + "VALUES (?,?,?,?,?,?,?)";
-
+        String query = "INSERT INTO product (title, price, description, category_id, brand_id, provider_id, Quantity) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            int category_Id = getOrCreateId(connection, "category", category);
-            int provider_Id = getOrCreateId(connection, "provider", provider);
-            int brand_Id = getOrCreateId(connection, "brand",brand);
+            int categoryId = getOrCreateId(connection, "category", category);
+            int providerId = getOrCreateId(connection, "provider", provider);
+            int brandId = getOrCreateId(connection, "brand", brand);
 
-            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+            PreparedStatement stmt = connection.prepareStatement(query);
+            stmt.setString(1, title);
+            stmt.setLong(2, price);
+            stmt.setString(3, description);
+            stmt.setInt(4, categoryId);
+            stmt.setInt(5, brandId);
+            stmt.setInt(6, providerId);
+            stmt.setLong(7, quantity);
 
-            preparedStatement.setString(1,title);
-            preparedStatement.setLong(2,price);
-            preparedStatement.setString(3,description);
-            preparedStatement.setLong(4,category_Id);
-            preparedStatement.setLong(5,provider_Id);
-            preparedStatement.setLong(6,brand_Id);
-            preparedStatement.setLong(7,Quantity);
-
-            preparedStatement.executeUpdate();
+            stmt.executeUpdate();
             return true;
-
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return false;
         }
     }
+
     private static int getOrCreateId(Connection conn, String table, String name) throws SQLException {
-        PreparedStatement selectStmt = conn.prepareStatement(
-                "SELECT id FROM " + table + " WHERE title = ?"
-        );
+        PreparedStatement selectStmt = conn.prepareStatement("SELECT id FROM " + table + " WHERE title = ?");
         selectStmt.setString(1, name);
         ResultSet rs = selectStmt.executeQuery();
+        if (rs.next()) return rs.getInt("id");
 
-        if (rs.next()) {
-            return rs.getInt("id");
-        }
-
-        // اگر وجود نداشت، اضافه کن
-        PreparedStatement insertStmt = conn.prepareStatement(
-                "INSERT INTO " + table + " (title) VALUES (?) RETURNING id"
-        );
+        PreparedStatement insertStmt = conn.prepareStatement("INSERT INTO " + table + " (title) VALUES (?) RETURNING id");
         insertStmt.setString(1, name);
         ResultSet insertRs = insertStmt.executeQuery();
+        if (insertRs.next()) return insertRs.getInt("id");
 
-        if (insertRs.next()) {
-            return insertRs.getInt("id");
-        }
-
-        throw new SQLException("Failed to create new " + table + " entry");
+        throw new SQLException("Failed to insert or fetch ID for " + name);
     }
-
 }
