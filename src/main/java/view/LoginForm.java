@@ -160,6 +160,8 @@ public class LoginForm {
             if (loginSuccessful) {
                 statusMessage.setText("ورود با موفقیت انجام شد!");
                 statusMessage.setStyle("-fx-fill: #058a0a; -fx-font-size: 12px;");
+                DashboardForm dashboardForm = new DashboardForm(primaryStage);
+                primaryStage.setScene(dashboardForm.getScene());
             } else {
                 statusMessage.setText("نام کاربری یا رمز عبور اشتباه است.");
                 statusMessage.setStyle("-fx-fill: #d13d3d; -fx-font-size: 12px;");
