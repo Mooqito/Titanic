@@ -1,5 +1,4 @@
 package view;
-
 import controller.Authnticate.ForgetPassword;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -8,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -15,12 +15,25 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Authneticate.AuthService;
 import runner.Main;
+import javafx.stage.Screen;
 
 public class ForgotPasswordForm {
     private Scene scene;
     private Stage primaryStage;
     private Text usernameError;
     private Text emailError;
+    private Text passwordError;
+    private PasswordField pwBox;
+    private PasswordField confirmPwBox;
+    private Text statusMessage;
+    private Text resetStatusMessage;
+    private TextField userTextField;
+    private TextField emailField;
+    private PasswordField confirmPassword;
+    private TextField confirmPasswordVisible;
+    private Text confirmPwError;
+    private Text passwordStrength;
+    private final String fieldStyle = "-fx-text-align: right; -fx-background-radius: 5; -fx-background-color: rgba(175, 180, 204, 0.58); -fx-text-fill: white; -fx-padding: 5 30 5 5; -fx-prompt-text-fill: #ffffff;";
 
     public ForgotPasswordForm(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -28,51 +41,109 @@ public class ForgotPasswordForm {
     }
 
     private void createForgotPasswordScene() {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(5);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-        grid.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        // Background to very dark blue (close to navy)
+        StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: #3a5c79;");
 
-        Text sceneTitle = new Text("بازیابی رمز عبور");
-        sceneTitle.setStyle("-fx-font-size: 20px;");
-        grid.add(sceneTitle, 0, 0, 2, 1);
+        // Transparent panel to light panel with rounded corners
+        VBox forgotBox = new VBox(5);
+        forgotBox.setPadding(new Insets(30, 30, 30, 25)); // Adjust left padding to shift the title 5 pixels to the left
+        forgotBox.setAlignment(Pos.CENTER);
+        forgotBox.setStyle("-fx-background-color: rgba(175, 180, 204, 0.58); -fx-background-radius: 15;"); // Lighter and transparent background
+        forgotBox.setPrefWidth(380); // Approximate width needed based on fields and padding
+        forgotBox.setPrefHeight(390); // Approximate height needed based on content and element spacing
+        forgotBox.setMaxWidth(380); // Limit maximum width
+        forgotBox.setMaxHeight(390); // Limit maximum height
 
-        Label userName = new Label("نام کاربری:");
-        grid.add(userName, 0, 1);
+        // White title
+        Label title = new Label("بازیابی رمز عبور");
+        title.setFont(javafx.scene.text.Font.font("System", javafx.scene.text.FontWeight.BOLD, 24));
+        title.setTextFill(javafx.scene.paint.Color.web("#ffffff"));
 
-        TextField userTextField = new TextField();
-        userTextField.setAlignment(Pos.CENTER_RIGHT);
-        userTextField.setMaxWidth(Double.MAX_VALUE);
-        grid.add(userTextField, 1, 1);
+        // Add larger lock icon above the title
+        ImageView largeLockIcon = new ImageView("https://img.icons8.com/ios-filled/48/ffffff/lock-2.png");
+        largeLockIcon.setFitWidth(48);
+        largeLockIcon.setFitHeight(48);
 
+        // Create a container for title and first field with specific spacing
+        VBox titleAndFirstField = new VBox(30);  // 30 pixels spacing between title and first field
+        titleAndFirstField.setAlignment(Pos.CENTER);
+
+        // Add the large lock icon and title to a container
+        VBox titleContainer = new VBox(10);  // 10 pixels spacing between icon and title
+        titleContainer.setAlignment(Pos.CENTER);
+        titleContainer.getChildren().addAll(largeLockIcon, title);
+
+        // Username field with icon
+        HBox userBox = new HBox(10);
+        userBox.setAlignment(Pos.CENTER);
+        userBox.setPrefWidth(250);
+        userBox.setPrefHeight(50);  // Height of username box
+        ImageView userIcon = new ImageView("https://img.icons8.com/ios-filled/24/ffffff/user.png");
+        userTextField = new TextField();
+        userTextField.setPromptText("نام کاربری");
+        userTextField.setPrefWidth(250);
+        userTextField.setPrefHeight(50);  // Height of username field
+        userTextField.setStyle("-fx-text-alignment: right; -fx-background-radius: 5; -fx-background-color:rgba(175, 180, 204, 0.58); -fx-text-fill: white; -fx-prompt-text-fill: #ffffff;"); // Text field style
+        userTextField.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        userBox.getChildren().setAll(userIcon, userTextField);
+
+        // Add title and first field to their container
+        titleAndFirstField.getChildren().addAll(titleContainer, userBox);
+
+        // Create a container for fields with different spacing
+        VBox fieldsContainer = new VBox(5);  // 5 pixels spacing between fields
+        fieldsContainer.setAlignment(Pos.CENTER);
+
+        // Email field with icon
+        HBox emailBox = new HBox(10);
+        emailBox.setAlignment(Pos.CENTER);
+        emailBox.setPrefWidth(250);
+        emailBox.setPrefHeight(50);  // Height of email box
+        ImageView emailIcon = new ImageView("https://img.icons8.com/ios-filled/24/ffffff/mail.png");
+        emailField = new TextField();
+        emailField.setPromptText("ایمیل");
+        emailField.setPrefWidth(250);
+        emailField.setPrefHeight(50);  // Height of email field
+        emailField.setStyle("-fx-text-alignment: right; -fx-background-radius: 5; -fx-background-color: rgba(175, 180, 204, 0.58); -fx-text-fill: white; -fx-prompt-text-fill: #ffffff;"); // Text field style
+        emailField.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        emailBox.getChildren().setAll(emailIcon, emailField);
+        emailBox.setAlignment(Pos.CENTER);
+
+        // Error message
         usernameError = new Text();
-        usernameError.setStyle("-fx-fill: red; -fx-font-size: 11px;");
-        grid.add(usernameError, 1, 2);
-
-        Label email = new Label("ایمیل:");
-        grid.add(email, 0, 3);
-
-        TextField emailField = new TextField();
-        emailField.setAlignment(Pos.CENTER_RIGHT);
-        emailField.setMaxWidth(Double.MAX_VALUE);
-        grid.add(emailField, 1, 3);
-
+        usernameError.setStyle("-fx-fill: #d13d3d; -fx-font-size: 11px;");
         emailError = new Text();
-        emailError.setStyle("-fx-fill: red; -fx-font-size: 11px;");
-        grid.add(emailError, 1, 4);
+        emailError.setStyle("-fx-fill: #d13d3d; -fx-font-size: 11px;");
 
+        // Add fields and errors to fields container
+        fieldsContainer.getChildren().addAll(usernameError, emailBox, emailError);
+
+        // Blue buttons with white text and rounded corners
+        Button submitBtn = new Button(" بازیابی رمز عبور");
+        submitBtn.setPrefWidth(270);
+        submitBtn.setPrefHeight(50);  // Height of submit button
+        submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"); // Blue button color
+        Hyperlink backBtn = new Hyperlink("بازگشت به ورود");
+        backBtn.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;");
+
+        backBtn.setOnAction(e -> {
+            LoginForm loginForm = new LoginForm(primaryStage);
+            primaryStage.setScene(loginForm.getScene());
+            primaryStage.setMaximized(true);
+            primaryStage.centerOnScreen();
+        });
+
+        // Validation
         userTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.length() < 4) {
-                usernameError.setText("نام کاربری باید حداقل 4 کاراکتر باشد");
+                usernameError.setText("نام کاربری باید حداقل 4 کاراکتر باشد"); // Username must be at least 4 characters
             } else if (!newValue.matches("[a-zA-Z0-9]+")) {
-                usernameError.setText("نام کاربری فقط باید شامل حروف انگلیسی و اعداد باشد");
+                usernameError.setText("نام کاربری فقط باید شامل حروف انگلیسی و اعداد باشد"); // Username must contain only English letters and numbers
             } else {
                 usernameError.setText("");
             }
         });
-
         emailField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.endsWith("@gmail.com")) {
                 emailError.setText("ایمیل باید با @gmail.com تمام شود");
@@ -81,93 +152,280 @@ public class ForgotPasswordForm {
             }
         });
 
-        Button submitBtn = new Button("ارسال لینک بازیابی");
-        Button backBtn = new Button("بازگشت به صفحه ورود");
-
-        submitBtn.setMaxWidth(Double.MAX_VALUE);
-        backBtn.setMaxWidth(Double.MAX_VALUE);
-
-        VBox buttons = new VBox(5);
-        buttons.setAlignment(Pos.CENTER);
-        buttons.getChildren().addAll(submitBtn, backBtn);
-        grid.add(buttons, 1, 5);
-
         submitBtn.setOnAction(e -> {
             String username = userTextField.getText();
             String emailAddress = emailField.getText();
-
             if (!usernameError.getText().isEmpty() || !emailError.getText().isEmpty()) {
-                Main.showAlert("خطا", "لطفاً خطاهای فرم را برطرف کنید.");
+                statusMessage.setText("لطفاً خطاهای فرم را برطرف کنید.");
+                statusMessage.setStyle("-fx-fill: #d13d3d;");
                 return;
             }
-
             if (username.isEmpty() || emailAddress.isEmpty()) {
-                Main.showAlert("خطا", "لطفاً تمام فیلدها را پر کنید.");
+                statusMessage.setText("لطفاً تمام فیلدها را پر کنید.");
+                statusMessage.setStyle("-fx-fill: #d13d3d;");
                 return;
             }
-
             String resetToken = AuthService.FindUser(username, emailAddress);
             if (resetToken != null) {
-                showResetPasswordDialog(resetToken);
+                statusMessage.setText("کاربر یافت شد. به فرم تغییر رمز عبور هدایت می‌شوید.");
+                statusMessage.setStyle("-fx-fill: #058a0a;");
+                // Delay navigation slightly to show message
+                javafx.animation.Timeline timeline = new javafx.animation.Timeline(new javafx.animation.KeyFrame(javafx.util.Duration.seconds(1), event -> {
+                    showResetPasswordForm(resetToken);
+                }));
+                timeline.play();
             } else {
-                Main.showAlert("خطا", "کاربری با این مشخصات یافت نشد.");
+                statusMessage.setText("کاربری با این مشخصات یافت نشد.");
+                statusMessage.setStyle("-fx-fill: #d13d3d;");
             }
         });
 
-        backBtn.setOnAction(e -> {
-            LoginForm loginForm = new LoginForm(primaryStage);
-            primaryStage.setScene(loginForm.getScene());
-        });
+        VBox buttonsBox = new VBox(10, submitBtn, backBtn);
+        buttonsBox.setAlignment(Pos.CENTER);
+        buttonsBox.setPadding(new Insets(0, 0, 0, 25)); // Left padding
 
-        scene = new Scene(grid, 400, 300);
+        // Status message (error/success)
+        statusMessage = new Text();
+        statusMessage.setStyle("-fx-font-size: 12px;");
+
+        // Add everything to the glass panel
+        forgotBox.getChildren().setAll(titleAndFirstField, fieldsContainer, buttonsBox, statusMessage);
+        forgotBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+        // Add everything to the root
+        root.getChildren().setAll(forgotBox);
+        StackPane.setAlignment(forgotBox, Pos.CENTER);
+        scene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight());
+        primaryStage.setMaximized(true);
+        primaryStage.setX(0);
+        primaryStage.setY(0);
     }
 
-    private void showResetPasswordDialog(String resetToken) {
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setTitle("تغییر رمز عبور");
-        dialog.setHeaderText("لطفاً رمز عبور جدید خود را وارد کنید");
+    private void showResetPasswordForm(String resetToken) {
+        // Background to very dark blue (close to navy)
+        StackPane root = new StackPane();
+        root.setStyle("-fx-background-color: #3a5c79;");
 
-        ButtonType submitButtonType = new ButtonType("ثبت", ButtonBar.ButtonData.OK_DONE);
-        dialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+        // Transparent panel to light panel with rounded corners
+        VBox resetBox = new VBox(15); // Spacing in main VBox
+        resetBox.setPadding(new Insets(30, 30, 30, 30));
+        resetBox.setAlignment(Pos.CENTER);
+        resetBox.setStyle("-fx-background-color: rgba(175, 180, 204, 0.58); -fx-background-radius: 15;"); // Lighter and transparent background
+        resetBox.setPrefWidth(380); // Approximate width needed based on fields and padding
+        resetBox.setPrefHeight(400); // Approximate height needed based on content and element spacing
+        resetBox.setMaxWidth(380); // Limit maximum width
+        resetBox.setMaxHeight(400); // Limit maximum height
 
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(20, 150, 10, 10));
-        grid.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        // White title
+        Label title = new Label("تغییر رمز عبور");
+        title.setFont(javafx.scene.text.Font.font("System", javafx.scene.text.FontWeight.BOLD, 24));
+        title.setTextFill(javafx.scene.paint.Color.web("#ffffff"));
 
+        // Add larger lock icon above the title
+        ImageView largeLockIcon = new ImageView("https://img.icons8.com/ios-filled/48/ffffff/lock-2.png");
+        largeLockIcon.setFitWidth(48);
+        largeLockIcon.setFitHeight(48);
+
+        // Create a container for the title and icon
+        VBox titleContainer = new VBox(10);  // 10 pixels spacing between icon and title
+        titleContainer.setAlignment(Pos.CENTER);
+        titleContainer.getChildren().addAll(largeLockIcon, title);
+
+        // New password field with icon and eye
+        HBox newPassBox = new HBox(10);
+        newPassBox.setAlignment(Pos.CENTER);
+        newPassBox.setPrefWidth(250);
+        newPassBox.setPrefHeight(50);
+        ImageView passIcon = new ImageView("https://img.icons8.com/ios-filled/24/ffffff/lock-2.png");
         PasswordField newPassword = new PasswordField();
         TextField newPasswordVisible = new TextField();
         newPassword.setPromptText("رمز عبور جدید");
         newPasswordVisible.setPromptText("رمز عبور جدید");
-        newPasswordVisible.setManaged(false);
+        newPassword.setPrefWidth(250);
+        newPassword.setPrefHeight(50);
+        newPasswordVisible.setPrefWidth(250);
+        newPasswordVisible.setPrefHeight(50);
         newPasswordVisible.setVisible(false);
+        ToggleButton newPassToggle = new ToggleButton("👁");
+        newPassToggle.setStyle("-fx-font-size: 14px; -fx-background-color: transparent; -fx-padding: 0 5 0 0;");
+        newPassword.setStyle(fieldStyle);
+        newPasswordVisible.setStyle(fieldStyle);
+        newPassword.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        newPasswordVisible.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-        PasswordField confirmPassword = new PasswordField();
-        TextField confirmPasswordVisible = new TextField();
+        // Create StackPane to place eye button inside the field
+        StackPane newPasswordStack = new StackPane();
+        newPasswordStack.setPrefWidth(250);
+        newPasswordStack.setPrefHeight(newPassword.getPrefHeight());
+        newPasswordStack.getChildren().addAll(newPassword, newPasswordVisible);
+        StackPane.setAlignment(newPassToggle, Pos.CENTER_RIGHT);
+        StackPane.setMargin(newPassToggle, new Insets(0, 5, 0, 0));
+
+        // Add the toggle button to the StackPane
+        newPasswordStack.getChildren().add(newPassToggle);
+        newPassBox.getChildren().setAll(passIcon, newPasswordStack);
+
+        // Error messages
+        passwordStrength = new Text();
+        passwordStrength.setStyle("-fx-fill: #d13d3d; -fx-font-size: 11px;");
+        passwordStrength.setVisible(true);
+        HBox passwordStrengthBox = new HBox();
+        passwordStrengthBox.setAlignment(Pos.CENTER);
+        passwordStrengthBox.getChildren().add(passwordStrength);
+
+        // Confirm password field with icon and eye
+        HBox confirmPassBox = new HBox(10);
+        confirmPassBox.setAlignment(Pos.CENTER);
+        confirmPassBox.setPrefWidth(250);
+        confirmPassBox.setPrefHeight(50);
+        ImageView confirmIcon = new ImageView("https://img.icons8.com/ios-filled/24/ffffff/lock-2.png");
+        confirmPassword = new PasswordField();
+        confirmPasswordVisible = new TextField();
         confirmPassword.setPromptText("تکرار رمز عبور جدید");
         confirmPasswordVisible.setPromptText("تکرار رمز عبور جدید");
-        confirmPasswordVisible.setManaged(false);
+        confirmPassword.setPrefWidth(250);
+        confirmPassword.setPrefHeight(50);
+        confirmPasswordVisible.setPrefWidth(250);
+        confirmPasswordVisible.setPrefHeight(50);
         confirmPasswordVisible.setVisible(false);
-
-        ToggleButton newPassToggle = new ToggleButton("👁");
-        newPassToggle.setStyle("-fx-font-size: 14px;");
-
         ToggleButton confirmPassToggle = new ToggleButton("👁");
-        confirmPassToggle.setStyle("-fx-font-size: 14px;");
+        confirmPassToggle.setStyle("-fx-font-size: 14px; -fx-background-color: transparent; -fx-padding: 0 5 0 0;");
+        confirmPassword.setStyle(fieldStyle);
+        confirmPasswordVisible.setStyle(fieldStyle);
+        confirmPassword.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        confirmPasswordVisible.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
+        // Create StackPane to place eye button inside the field
+        StackPane confirmPasswordStack = new StackPane();
+        confirmPasswordStack.setPrefWidth(250);
+        confirmPasswordStack.setPrefHeight(confirmPassword.getPrefHeight());
+        confirmPasswordStack.getChildren().addAll(confirmPassword, confirmPasswordVisible);
+        StackPane.setAlignment(confirmPassToggle, Pos.CENTER_RIGHT);
+        StackPane.setMargin(confirmPassToggle, new Insets(0, 5, 0, 0));
+
+        // Add the toggle button to the StackPane
+        confirmPasswordStack.getChildren().add(confirmPassToggle);
+        confirmPassBox.getChildren().setAll(confirmIcon, confirmPasswordStack);
+
+        // Error messages
+        confirmPwError = new Text();
+        confirmPwError.setStyle("-fx-fill: #d13d3d; -fx-font-size: 11px;");
+        confirmPwError.setVisible(true);
+        HBox confirmPwErrorBox = new HBox();
+        confirmPwErrorBox.setAlignment(Pos.CENTER);
+        confirmPwErrorBox.getChildren().add(confirmPwError);
+
+        // Add real-time validation listeners
+        newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            validatePassword(newValue, passwordStrength, confirmPassword, confirmPwError);
+        });
+
+        newPasswordVisible.textProperty().addListener((observable, oldValue, newValue) -> {
+            validatePassword(newValue, passwordStrength, confirmPassword, confirmPwError);
+        });
+
+        confirmPassword.textProperty().addListener((observable, oldValue, newValue) -> {
+            String mainPassword = newPassword.isVisible() ? newPassword.getText() : newPasswordVisible.getText();
+            validateConfirmPassword(newValue, mainPassword, confirmPwError);
+        });
+
+        confirmPasswordVisible.textProperty().addListener((observable, oldValue, newValue) -> {
+            String mainPassword = newPassword.isVisible() ? newPassword.getText() : newPasswordVisible.getText();
+            validateConfirmPassword(newValue, mainPassword, confirmPwError);
+        });
+
+        // Group field groups with 5px spacing between them
+        VBox fieldsContainer = new VBox(5);
+        fieldsContainer.setAlignment(Pos.CENTER);
+        fieldsContainer.getChildren().addAll(newPassBox, passwordStrengthBox, confirmPassBox, confirmPwErrorBox);
+
+        // Blue submit button with white text and rounded corners
+        Button submitBtn = new Button("ثبت");
+        submitBtn.setPrefWidth(270);
+        submitBtn.setPrefHeight(60);
+        submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"); // Blue button color
+
+        // Submit button action
+        submitBtn.setOnAction(e -> {
+            String password = newPassword.getText();
+            String confirm = confirmPassword.getText();
+
+            if (newPasswordVisible.isVisible()) {
+                password = newPasswordVisible.getText();
+            }
+            if (confirmPasswordVisible.isVisible()) {
+                confirm = confirmPasswordVisible.getText();
+            }
+
+            // Check validation errors and empty fields
+            if (confirmPwError.getText().isEmpty() &&
+                    !password.isEmpty() && !confirm.isEmpty()) {
+                // If no errors, proceed with password reset
+                if (ForgetPassword.rest(resetToken, password, confirm)) {
+                    resetStatusMessage.setText("رمز عبور با موفقیت تغییر کرد. در حال انتقال به صفحه ورود...");
+                    resetStatusMessage.setStyle("-fx-fill: #058a0a; -fx-font-size: 14px;");
+                    resetStatusMessage.setVisible(true);
+                    // Delay navigation slightly to show message
+                    javafx.animation.Timeline timeline = new javafx.animation.Timeline(new javafx.animation.KeyFrame(javafx.util.Duration.seconds(2), event -> {
+                        LoginForm loginForm = new LoginForm(primaryStage);
+                        primaryStage.setScene(loginForm.getScene());
+                        primaryStage.setMaximized(true);
+                        primaryStage.centerOnScreen();
+                    }));
+                    timeline.play();
+                } else {
+                    resetStatusMessage.setText("خطا در تغییر رمز عبور. لطفاً دوباره تلاش کنید.");
+                    resetStatusMessage.setStyle("-fx-fill: #d13d3d; -fx-font-size: 14px;");
+                    resetStatusMessage.setVisible(true);
+                }
+            } else {
+                resetStatusMessage.setText("لطفاً خطاهای فرم را برطرف کنید.");
+                resetStatusMessage.setStyle("-fx-fill: #d13d3d; -fx-font-size: 14px;");
+                resetStatusMessage.setVisible(true);
+            }
+        });
+
+        // Back button to previous forgot password form
+        Hyperlink backToForgotPassword = new Hyperlink("بازگشت");
+        backToForgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;"); // Dark link color
+
+        backToForgotPassword.setOnAction(e -> {
+            view.ForgotPasswordForm forgotPasswordForm = new view.ForgotPasswordForm(primaryStage);
+            primaryStage.setScene(forgotPasswordForm.getScene());
+            primaryStage.setMaximized(true);
+            primaryStage.centerOnScreen();
+        });
+
+        // Adding elements to the panel
+        VBox buttonsBox = new VBox(10); // Spacing between buttons
+        buttonsBox.getChildren().addAll(submitBtn, backToForgotPassword);
+        buttonsBox.setAlignment(Pos.CENTER);
+        buttonsBox.setPadding(new Insets(0, 0, 0, 25)); // Left padding
+
+        // Status message (error/success) in the reset password form
+        resetStatusMessage = new Text();
+        resetStatusMessage.setStyle("-fx-font-size: 12px;");
+        resetStatusMessage.setVisible(true);
+        HBox statusMessageBox = new HBox();
+        statusMessageBox.setAlignment(Pos.CENTER);
+        statusMessageBox.getChildren().add(resetStatusMessage);
+
+        // Add all components to the main resetBox
+        resetBox.getChildren().setAll(titleContainer, fieldsContainer, buttonsBox, statusMessageBox);
+        resetBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+
+        root.getChildren().setAll(resetBox);
+        StackPane.setAlignment(resetBox, Pos.CENTER);
+
+        // Eye behavior
         newPassToggle.setOnAction(e -> {
             if (newPassToggle.isSelected()) {
                 newPasswordVisible.setText(newPassword.getText());
-                newPasswordVisible.setManaged(true);
                 newPasswordVisible.setVisible(true);
-                newPassword.setManaged(false);
                 newPassword.setVisible(false);
             } else {
                 newPassword.setText(newPasswordVisible.getText());
-                newPassword.setManaged(true);
                 newPassword.setVisible(true);
-                newPasswordVisible.setManaged(false);
                 newPasswordVisible.setVisible(false);
             }
         });
@@ -175,91 +433,75 @@ public class ForgotPasswordForm {
         confirmPassToggle.setOnAction(e -> {
             if (confirmPassToggle.isSelected()) {
                 confirmPasswordVisible.setText(confirmPassword.getText());
-                confirmPasswordVisible.setManaged(true);
                 confirmPasswordVisible.setVisible(true);
-                confirmPassword.setManaged(false);
                 confirmPassword.setVisible(false);
             } else {
                 confirmPassword.setText(confirmPasswordVisible.getText());
-                confirmPassword.setManaged(true);
                 confirmPassword.setVisible(true);
-                confirmPasswordVisible.setManaged(false);
                 confirmPasswordVisible.setVisible(false);
             }
         });
 
-        newPassword.textProperty().addListener((observable, oldValue, newValue) ->
-                newPasswordVisible.setText(newValue));
-        newPasswordVisible.textProperty().addListener((observable, oldValue, newValue) ->
-                newPassword.setText(newValue));
-        confirmPassword.textProperty().addListener((observable, oldValue, newValue) ->
-                confirmPasswordVisible.setText(newValue));
-        confirmPasswordVisible.textProperty().addListener((observable, oldValue, newValue) ->
-                confirmPassword.setText(newValue));
+        // Sync values
+        newPassword.textProperty().bindBidirectional(newPasswordVisible.textProperty());
+        confirmPassword.textProperty().bindBidirectional(confirmPasswordVisible.textProperty());
 
-        grid.add(new Label("رمز عبور جدید:"), 0, 0);
-        HBox newPassBox = new HBox(5);
-        newPassBox.getChildren().addAll(newPassToggle, newPassword, newPasswordVisible);
-        grid.add(newPassBox, 1, 0);
+        // Set the scene
+        Scene resetScene = new Scene(root, Screen.getPrimary().getVisualBounds().getWidth(), Screen.getPrimary().getVisualBounds().getHeight());
+        primaryStage.setScene(resetScene);
+        primaryStage.setTitle("تغییر رمز عبور");
+        primaryStage.setMaximized(true);
+        primaryStage.setX(0);
+        primaryStage.setY(0);
+    }
 
-        grid.add(new Label("تکرار رمز عبور:"), 0, 1);
-        HBox confirmPassBox = new HBox(5);
-        confirmPassBox.getChildren().addAll(confirmPassToggle, confirmPassword, confirmPasswordVisible);
-        grid.add(confirmPassBox, 1, 1);
+    private void validatePassword(String password, Text passwordStrength, PasswordField confirmPassword, Text confirmPwError) {
+        boolean hasLetter = password.matches(".*[a-zA-Z].*");
+        boolean hasDigit = password.matches(".*\\d.*");
+        boolean hasSpecial = password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
 
-        Text passwordStrength = new Text();
-        passwordStrength.setStyle("-fx-font-size: 11px;");
-        grid.add(passwordStrength, 1, 2);
+        if (password.isEmpty()) {
+            passwordStrength.setText("رمز عبور نمی‌تواند خالی باشد");
+            passwordStrength.setStyle("-fx-fill: #d13d3d; -fx-font-size: 11px;");
+            passwordStrength.setVisible(true);
+        } else if (password.length() < 8) {
+            passwordStrength.setText("رمز عبور باید حداقل 8 کاراکتر باشد");
+            passwordStrength.setStyle("-fx-fill: #d13d3d; -fx-font-size: 11px;");
+            passwordStrength.setVisible(true);
+        } else if ((hasLetter && !hasDigit && !hasSpecial) || (!hasLetter && hasDigit && !hasSpecial) || (!hasLetter && !hasDigit && hasSpecial)) {
+            passwordStrength.setText("قدرت رمز: ضعیف");
+            passwordStrength.setStyle("-fx-fill: #d13d3d; -fx-font-size: 11px;");
+            passwordStrength.setVisible(true);
+        } else if ((hasLetter && hasDigit && !hasSpecial) || (hasLetter && !hasDigit && hasSpecial) || (!hasLetter && hasDigit && hasSpecial)) {
+            passwordStrength.setText("قدرت رمز: متوسط");
+            passwordStrength.setStyle("-fx-fill: #dcd834; -fx-font-size: 11px;");
+            passwordStrength.setVisible(true);
+        } else if (hasLetter && hasDigit && hasSpecial) {
+            passwordStrength.setText("قدرت رمز: قوی");
+            passwordStrength.setStyle("-fx-fill: #058a0a; -fx-font-size: 11px;");
+            passwordStrength.setVisible(true);
+        } else {
+            passwordStrength.setText("");
+            passwordStrength.setVisible(false);
+        }
 
-        newPassword.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue.length() < 8) {
-                passwordStrength.setText("رمز عبور ضعیف");
-                passwordStrength.setStyle("-fx-fill: red; -fx-font-size: 11px;");
-            } else if (newValue.matches(".*[a-z].*") && newValue.matches(".*[A-Z].*") &&
-                    newValue.matches(".*\\d.*") && newValue.matches(".*[!@#$%^&*()].*")) {
-                passwordStrength.setText("رمز عبور قوی");
-                passwordStrength.setStyle("-fx-fill: green; -fx-font-size: 11px;");
-            } else {
-                passwordStrength.setText("رمز عبور متوسط");
-                passwordStrength.setStyle("-fx-fill: orange; -fx-font-size: 11px;");
-            }
-        });
+        // Validate confirm password whenever password changes
+        if (!confirmPassword.getText().isEmpty()) {
+            validateConfirmPassword(confirmPassword.getText(), password, confirmPwError);
+        }
+    }
 
-        dialog.getDialogPane().setContent(grid);
-        newPassword.requestFocus();
-
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == submitButtonType) {
-                String password = newPassword.getText();
-                String confirm = confirmPassword.getText();
-
-                if (password.isEmpty() || confirm.isEmpty()) {
-                    Main.showAlert("خطا", "لطفاً تمام فیلدها را پر کنید.");
-                    return null;
-                }
-
-                if (!password.equals(confirm)) {
-                    Main.showAlert("خطا", "رمز عبور و تکرار آن یکسان نیستند.");
-                    return null;
-                }
-
-                if (password.length() < 8) {
-                    Main.showAlert("خطا", "رمز عبور باید حداقل 8 کاراکتر باشد.");
-                    return null;
-                }
-
-                if (ForgetPassword.rest(resetToken, password,confirm)) {
-                    Main.showAlert("موفقیت", "رمز عبور با موفقیت تغییر کرد.");
-                    LoginForm loginForm = new LoginForm(primaryStage);
-                    primaryStage.setScene(loginForm.getScene());
-                } else {
-                    Main.showAlert("خطا", "خطا در تغییر رمز عبور. لطفاً دوباره تلاش کنید.");
-                }
-            }
-            return null;
-        });
-
-        dialog.showAndWait();
+    private void validateConfirmPassword(String confirmPassword, String password, Text confirmPwError) {
+        if (confirmPassword.isEmpty()) {
+            confirmPwError.setText("تکرار رمز عبور نمی‌تواند خالی باشد");
+            confirmPwError.setVisible(true);
+        } else if (!confirmPassword.equals(password)) {
+            confirmPwError.setText("رمز عبور و تکرار آن یکسان نیستند");
+            confirmPwError.setVisible(true);
+        } else {
+            confirmPwError.setText("");
+            confirmPwError.setVisible(false);
+        }
     }
 
     public Scene getScene() {
