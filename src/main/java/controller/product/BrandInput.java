@@ -15,8 +15,7 @@ public class BrandInput {
 
         BrandInputToDB.brandinput(title);
 
-        Shop s = new Shop();
-        s.dashbord();
+
         return true;
     }
 }

@@ -15,9 +15,9 @@ public class PrividerInput {
 
         Provider provider = new Provider(title);
 
-//        ProviderInputToDB.providerinput(provider);
-        Shop s = new Shop();
-        s.dashbord();
+////        ProviderInputToDB.providerinput(provider);
+//        Shop s = new Shop();
+//        s.dashbord();
         return true;
     }
 }

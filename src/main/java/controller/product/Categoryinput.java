@@ -16,8 +16,8 @@ public class Categoryinput {
         Category category = new Category(title);
 
 //        CategoruInputToDB.categoryInput(category);
-        Shop s = new Shop();
-        s.dashbord();
+//        Shop s = new Shop();
+//        s.dashbord();
 
         return true;
     }
