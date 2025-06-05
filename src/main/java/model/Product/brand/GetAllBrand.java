@@ -38,4 +38,26 @@ public class GetAllBrand {
             return null;
         }
     }
+    public static List<Brand> getAllBrand() {
+        List<Brand> brands = new ArrayList<>();
+        Connection connection = DBconnection.connect();
+
+        String Query = "SELECT * FROM Brand";
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String title = resultSet.getString("title");
+                brands.add(new Brand(id, title));
+            }
+            return brands;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return new ArrayList<>();
+        }
+    }
 }

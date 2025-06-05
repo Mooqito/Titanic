@@ -9,7 +9,7 @@ public class ManagementMenu extends VBox {
     private MainMenu mainMenu;
     private VBox contentArea;
     private ProductManagement productManagement;
-//    private BrandManagement brandManagement;
+    private BrandManagement brandManagement;
 //    private CategoryManagement categoryManagement;
 //    private SupplierManagement supplierManagement;
 
@@ -33,15 +33,15 @@ public class ManagementMenu extends VBox {
 //
 //        // ایجاد بخش‌های مدیریتی
         productManagement = new ProductManagement(contentArea);
-//        brandManagement = new BrandManagement(contentArea);
+        brandManagement = new BrandManagement(contentArea);
 //        categoryManagement = new CategoryManagement(contentArea);
 //        supplierManagement = new SupplierManagement(contentArea);
 //
 //        // مخفی کردن همه بخش‌های مدیریتی در ابتدا
         productManagement.setVisible(false);
         productManagement.setManaged(false);
-//        brandManagement.setVisible(false);
-//        brandManagement.setManaged(false);
+        brandManagement.setVisible(false);
+        brandManagement.setManaged(false);
 //        categoryManagement.setVisible(false);
 //        categoryManagement.setManaged(false);
 //        supplierManagement.setVisible(false);
@@ -78,8 +78,8 @@ public class ManagementMenu extends VBox {
 //            // مخفی کردن همه زیرمنوها هنگام بازگشت
             productManagement.setVisible(false);
             productManagement.setManaged(false);
-//            brandManagement.setVisible(false);
-//            brandManagement.setManaged(false);
+            brandManagement.setVisible(false);
+            brandManagement.setManaged(false);
 //            categoryManagement.setVisible(false);
 //            categoryManagement.setManaged(false);
 //            supplierManagement.setVisible(false);
@@ -88,14 +88,14 @@ public class ManagementMenu extends VBox {
 
         // تنظیم رویدادها
         setupManagementButton(productManagementBtn, productManagement);
-//        setupManagementButton(brandManagementBtn, brandManagement);
+        setupManagementButton(brandManagementBtn, brandManagement);
 //        setupManagementButton(categoryManagementBtn, categoryManagement);
 //        setupManagementButton(supplierManagementBtn, supplierManagement);
 //
 //        // اضافه کردن همه المان‌ها به منو
         getChildren().addAll(
                 productManagementBtn, productManagement,
-//                brandManagementBtn, brandManagement,
+                brandManagementBtn, brandManagement,
 //                categoryManagementBtn, categoryManagement,
 //                supplierManagementBtn, supplierManagement,
                 backToMainBtn
@@ -109,8 +109,8 @@ public class ManagementMenu extends VBox {
             // مخفی کردن همه زیرمنوها
             productManagement.setVisible(false);
             productManagement.setManaged(false);
-//            brandManagement.setVisible(false);
-//            brandManagement.setManaged(false);
+            brandManagement.setVisible(false);
+            brandManagement.setManaged(false);
 //            categoryManagement.setVisible(false);
 //            categoryManagement.setManaged(false);
 //            supplierManagement.setVisible(false);

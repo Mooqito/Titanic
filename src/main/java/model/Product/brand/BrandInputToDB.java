@@ -9,6 +9,10 @@ import java.sql.SQLException;
 
 public class BrandInputToDB {
 
+    public static boolean brandInput(Brand brand) {
+        return brandinput(brand.getTitle());
+    }
+
     public static boolean brandinput (String title){
 
         Connection connection = DBconnection.connect();
