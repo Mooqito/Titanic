@@ -1,12 +1,12 @@
-package view;
+package view.menu;
 
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import view.menu.MainMenu;
+import view.menu.ManagementMenu;
 
 public class DashboardForm {
     private Scene scene;

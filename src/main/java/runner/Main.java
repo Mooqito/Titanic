@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import database.DBinitialazation.*;
-import view.LoginForm;
+import view.Authnticate.LoginForm;
 
 public class Main {
 

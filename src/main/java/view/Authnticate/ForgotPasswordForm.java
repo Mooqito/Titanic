@@ -1,20 +1,17 @@
-package view;
+package view.Authnticate;
 import controller.Authnticate.ForgetPassword;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Authneticate.AuthService;
-import runner.Main;
 import javafx.stage.Screen;
 
 public class ForgotPasswordForm {
@@ -390,7 +387,7 @@ public class ForgotPasswordForm {
         backToForgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;"); // Dark link color
 
         backToForgotPassword.setOnAction(e -> {
-            view.ForgotPasswordForm forgotPasswordForm = new view.ForgotPasswordForm(primaryStage);
+            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm(primaryStage);
             primaryStage.setScene(forgotPasswordForm.getScene());
             primaryStage.setMaximized(true);
             primaryStage.centerOnScreen();

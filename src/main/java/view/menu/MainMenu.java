@@ -1,9 +1,10 @@
-package view;
+package view.menu;
 
 
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import view.menu.ManagementMenu;
 
 public class MainMenu extends VBox {
     private ManagementMenu managementMenu;

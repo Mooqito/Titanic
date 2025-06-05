@@ -1,4 +1,4 @@
-package view;
+package view.Authnticate;
 import controller.Authnticate.Login;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -6,17 +6,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import runner.Main;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.Screen;
+import view.menu.DashboardForm;
 
 public class LoginForm {
     private Scene scene;

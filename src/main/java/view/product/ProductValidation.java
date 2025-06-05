@@ -1,4 +1,4 @@
-package view.validation;
+package view.product;
 
 import javafx.scene.control.TextFormatter;
 import java.util.function.UnaryOperator;

@@ -1,4 +1,4 @@
-package view;
+package view.product;
 
 import model.Product.product.Product;
 import model.Product.product.ReadAllproduct;

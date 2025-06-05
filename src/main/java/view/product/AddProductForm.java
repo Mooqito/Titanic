@@ -1,4 +1,4 @@
-package view;
+package view.product;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,7 +12,6 @@ import model.Product.category.GetAllCategory;
 import model.Product.product.ProductInputToDB;
 import model.Product.provider.GetAllProvider;
 import model.Product.provider.ProviderInputToDB;
-import view.validation.ProductValidation;
 
 import java.util.List;
 

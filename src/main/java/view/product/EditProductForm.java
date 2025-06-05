@@ -1,4 +1,4 @@
-package view;
+package view.product;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,11 +9,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import model.Product.brand.GetAllBrand;
 import model.Product.category.GetAllCategory;
 import model.Product.product.Product;
-import model.Product.product.ProductInputToDB;
 import model.Product.product.ReadAllproduct;
 import model.Product.product.UpdateProduct;
 import model.Product.provider.GetAllProvider;
-import view.validation.ProductValidation;
 
 import java.util.List;
 

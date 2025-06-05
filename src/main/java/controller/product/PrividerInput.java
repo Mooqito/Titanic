@@ -1,8 +1,6 @@
 package controller.product;
 
-import model.Product.provider.ProviderInputToDB;
 import model.Product.provider.Provider;
-import view.Shop;
 
 import java.util.Scanner;
 

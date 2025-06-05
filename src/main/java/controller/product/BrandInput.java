@@ -1,8 +1,6 @@
 package controller.product;
 
 import model.Product.brand.BrandInputToDB;
-import model.Product.brand.Brand;
-import view.Shop;
 
 import java.util.Scanner;
 

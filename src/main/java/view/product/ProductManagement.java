@@ -1,4 +1,4 @@
-package view;
+package view.product;
 
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;

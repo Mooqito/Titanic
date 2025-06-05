@@ -1,4 +1,4 @@
-package view;
+package view.Authnticate;
 import controller.Authnticate.SingUp;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
@@ -6,16 +6,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import runner.Main;
+import view.menu.DashboardForm;
 
 public class SignUpForm {
     private Scene scene;
