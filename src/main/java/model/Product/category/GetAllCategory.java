@@ -35,7 +35,7 @@ public class GetAllCategory {
         }
     }
 
-    public static List<Category> getAllCategory (Category category){
+    public static List<Category> getAllCategory (){
         List<Category> list = new ArrayList<>();
         Connection connection = DBconnection.connect();
         String Query = "SELECT * FROM Category";

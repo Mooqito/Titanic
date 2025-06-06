@@ -5,6 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import view.BrandManagement;
+import view.CategoryManagement;
 import view.product.ProductManagement;
 
 public class ManagementMenu extends VBox {
@@ -12,7 +13,7 @@ public class ManagementMenu extends VBox {
     private VBox contentArea;
     private ProductManagement productManagement;
     private BrandManagement brandManagement;
-//    private CategoryManagement categoryManagement;
+    private CategoryManagement categoryManagement;
 //    private SupplierManagement supplierManagement;
 
     public ManagementMenu(VBox contentArea) {
@@ -36,7 +37,7 @@ public class ManagementMenu extends VBox {
 //        // ایجاد بخش‌های مدیریتی
         productManagement = new ProductManagement(contentArea);
         brandManagement = new BrandManagement(contentArea);
-//        categoryManagement = new CategoryManagement(contentArea);
+        categoryManagement = new CategoryManagement(contentArea);
 //        supplierManagement = new SupplierManagement(contentArea);
 //
 //        // مخفی کردن همه بخش‌های مدیریتی در ابتدا
@@ -44,8 +45,8 @@ public class ManagementMenu extends VBox {
         productManagement.setManaged(false);
         brandManagement.setVisible(false);
         brandManagement.setManaged(false);
-//        categoryManagement.setVisible(false);
-//        categoryManagement.setManaged(false);
+        categoryManagement.setVisible(false);
+        categoryManagement.setManaged(false);
 //        supplierManagement.setVisible(false);
 //        supplierManagement.setManaged(false);
 
@@ -82,8 +83,8 @@ public class ManagementMenu extends VBox {
             productManagement.setManaged(false);
             brandManagement.setVisible(false);
             brandManagement.setManaged(false);
-//            categoryManagement.setVisible(false);
-//            categoryManagement.setManaged(false);
+            categoryManagement.setVisible(false);
+            categoryManagement.setManaged(false);
 //            supplierManagement.setVisible(false);
 //            supplierManagement.setManaged(false);
         });
@@ -91,14 +92,14 @@ public class ManagementMenu extends VBox {
         // تنظیم رویدادها
         setupManagementButton(productManagementBtn, productManagement);
         setupManagementButton(brandManagementBtn, brandManagement);
-//        setupManagementButton(categoryManagementBtn, categoryManagement);
+        setupManagementButton(categoryManagementBtn, categoryManagement);
 //        setupManagementButton(supplierManagementBtn, supplierManagement);
 //
 //        // اضافه کردن همه المان‌ها به منو
         getChildren().addAll(
                 productManagementBtn, productManagement,
                 brandManagementBtn, brandManagement,
-//                categoryManagementBtn, categoryManagement,
+                categoryManagementBtn, categoryManagement,
 //                supplierManagementBtn, supplierManagement,
                 backToMainBtn
         );
@@ -113,8 +114,8 @@ public class ManagementMenu extends VBox {
             productManagement.setManaged(false);
             brandManagement.setVisible(false);
             brandManagement.setManaged(false);
-//            categoryManagement.setVisible(false);
-//            categoryManagement.setManaged(false);
+            categoryManagement.setVisible(false);
+            categoryManagement.setManaged(false);
 //            supplierManagement.setVisible(false);
 //            supplierManagement.setManaged(false);
 
