@@ -25,6 +25,8 @@ public class BrandManagement extends VBox {
     private VBox contentArea;
     private ListView<String> brandListView;
 
+    AddDeleteCategory addDeleteCategory = new AddDeleteCategory();
+
     public BrandManagement(VBox contentArea) {
         super(5);
         this.contentArea = contentArea;
@@ -63,7 +65,7 @@ public class BrandManagement extends VBox {
         content.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
         if (title.equals("افزودن و حذف برند")) {
-            content.getChildren().add(createAddDeleteBrandForm());
+            content.getChildren().add(addDeleteCategory.createAddDeleteBrandForm());
         } else if (title.equals("نمایش برند‌ها")) {
             content.getChildren().add(createShowBrandsForm());
         }
@@ -76,96 +78,6 @@ public class BrandManagement extends VBox {
         Scene scene = new Scene(content, 600, 400);
         stage.setScene(scene);
         stage.show();
-    }
-
-    private VBox createAddDeleteBrandForm() {
-        VBox form = new VBox(15);
-        form.setAlignment(Pos.TOP_RIGHT);
-
-        // بخش افزودن برند
-        Label addLabel = new Label("افزودن برند جدید");
-        addLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
-        TextField brandNameField = new TextField();
-        brandNameField.setPromptText("نام برند را وارد کنید");
-        brandNameField.setMaxWidth(300);
-
-        Button addButton = new Button("افزودن");
-        addButton.setOnAction(e -> {
-            String brandName = brandNameField.getText().trim();
-            if (!brandName.isEmpty()) {
-                // بررسی تکراری نبودن برند
-                List<Brand> existingBrands = GetAllBrand.getAllBrand();
-                boolean isDuplicate = existingBrands.stream()
-                        .anyMatch(brand -> brand.getTitle().equalsIgnoreCase(brandName));
-
-                if (isDuplicate) {
-                    Main.showAlert("خطا", "این برند قبلاً ثبت شده است!");
-                } else {
-                    Brand newBrand = new Brand(brandName);
-                    BrandInputToDB.brandInput(newBrand);
-                    Main.showAlert("موفقیت", "برند با موفقیت اضافه شد.");
-                    brandNameField.clear();
-                    updateBrandList(brandListView); // بروزرسانی لیست
-                }
-            } else {
-                Main.showAlert("خطا", "لطفاً نام برند را وارد کنید.");
-            }
-        });// بخش نمایش و حذف برند‌ها
-        Label listLabel = new Label("لیست برند‌ها");
-        listLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
-
-        brandListView = new ListView<>();
-        brandListView.setPrefHeight(200);
-        updateBrandList(brandListView);
-
-        Button deleteButton = new Button("حذف برند انتخاب شده");
-        deleteButton.setStyle("-fx-background-color: #ff4444; -fx-text-fill: white;");
-        deleteButton.setDisable(true);
-
-        brandListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            deleteButton.setDisable(newSelection == null);
-        });
-
-        deleteButton.setOnAction(e -> {
-            String selectedBrand = brandListView.getSelectionModel().getSelectedItem();
-            if (selectedBrand != null) {
-                // بررسی استفاده از برند در محصولات
-                List<Product> products = ReadAllproduct.Readproduct();
-                boolean isUsed = products.stream()
-                        .anyMatch(product -> product.getBrandTitle().equals(selectedBrand));
-
-                if (isUsed) {
-                    Main.showAlert("خطا", "این برند در محصولات استفاده شده است و نمی‌توان آن را حذف کرد.");
-                } else {
-                    DeleteBrand.deleteBrand(selectedBrand);
-                    Main.showAlert("موفقیت", "برند با موفقیت حذف شد.");
-                    updateBrandList(brandListView);
-                }
-            }
-        });
-
-        form.getChildren().addAll(
-                addLabel,
-                brandNameField,
-                addButton,
-                new Separator(),
-                listLabel,
-                brandListView,
-                deleteButton
-        );
-
-        return form;
-    }
-
-    private void updateBrandList(ListView<String> listView) {
-        List<Brand> brands = GetAllBrand.getAllBrand();
-        ObservableList<String> brandNames = FXCollections.observableArrayList(
-                brands.stream()
-                        .map(Brand::getTitle)
-                        .collect(Collectors.toList())
-        );
-        listView.setItems(brandNames);
     }
 
     private VBox createShowBrandsForm() {

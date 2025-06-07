@@ -10,9 +10,7 @@ import javafx.stage.Stage;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.cell.PropertyValueFactory;
-import model.Product.brand.Brand;
 import model.Product.brand.DeleteBrand;
-import model.Product.brand.GetAllBrand;
 import model.Product.category.CategoruInputToDB;
 import model.Product.category.Category;
 import model.Product.category.GetAllCategory;
@@ -44,7 +42,7 @@ public class CategoryManagement extends VBox{
 
         String buttnStyle = "-fx-alignment:CENTER_RIGHT;    -fx-padding:5 10 5 5;   -fx-content-display: RIGHT;";
         Button addBut = new Button("افزودن و حذف دسته بندی");
-        Button showBut = new Button("نمایش برند‌ها");
+        Button showBut = new Button("نمایش دسته بندی");
 
         addBut.setStyle(buttnStyle);
         showBut.setStyle(buttnStyle);
