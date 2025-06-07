@@ -5,7 +5,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import view.Brand.BrandManagement;
-import view.CategoryManagement;
+import view.Category.CategoryManagement;
 import view.product.ProductManagement;
 
 public class ManagementMenu extends VBox {
