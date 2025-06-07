@@ -4,7 +4,7 @@ package view.menu;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import view.BrandManagement;
+import view.Brand.BrandManagement;
 import view.CategoryManagement;
 import view.product.ProductManagement;
 

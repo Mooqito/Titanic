@@ -1,4 +1,4 @@
-package view;
+package view.Brand;
 
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
