@@ -7,26 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.scene.control.cell.PropertyValueFactory;
-import model.Product.brand.Brand;
-import model.Product.brand.GetAllBrand;
-import model.Product.brand.BrandInputToDB;
-import model.Product.brand.DeleteBrand;
-import model.Product.product.Product;
-import model.Product.product.ReadAllproduct;
-import runner.Main;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BrandManagement extends VBox {
     private VBox contentArea;
     private ListView<String> brandListView;
 
-    AddDeleteCategory addDeleteCategory = new AddDeleteCategory();
-    ShowCategoryList showCategoryList = new ShowCategoryList();
+    AddDeleteBrand addDeletebrand = new AddDeleteBrand();
+    ShowBrandList showBrandList = new ShowBrandList();
 
     public BrandManagement(VBox contentArea) {
         super(5);
@@ -66,9 +53,9 @@ public class BrandManagement extends VBox {
         content.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
         if (title.equals("افزودن و حذف برند")) {
-            content.getChildren().add(addDeleteCategory.createAddDeleteBrandForm());
+            content.getChildren().add(addDeletebrand.createAddDeleteBrandForm());
         } else if (title.equals("نمایش برند‌ها")) {
-            content.getChildren().add(showCategoryList.createShowBrandsForm());
+            content.getChildren().add(showBrandList.createShowBrandsForm());
         }
 
         Button backBtn = new Button("بازگشت");

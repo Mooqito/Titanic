@@ -14,7 +14,7 @@ import model.Product.product.ReadAllproduct;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShowCategoryList {
+public class ShowBrandList {
 
 
     public VBox createShowBrandsForm() {

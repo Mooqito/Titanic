@@ -16,7 +16,7 @@ import runner.Main;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AddDeleteCategory {
+public class AddDeleteBrand {
     private ListView<String> brandListView;
 
 
