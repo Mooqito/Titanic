@@ -6,10 +6,12 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
 import model.Product.category.Category;
 import model.Product.category.GetAllCategory;
 import model.Product.product.Product;
 import model.Product.product.ReadAllproduct;
+import javafx.geometry.NodeOrientation;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,9 +24,11 @@ public class ShowCategoryList {
         scrollPane.setFitToWidth(true);
         scrollPane.setPrefViewportHeight(500);
 
-        VBox form = new VBox();
-        form.setAlignment(Pos.TOP_RIGHT);
+        VBox form = new VBox(15);
+        form.setAlignment(Pos.CENTER);
         form.setPadding(new Insets(10));
+        form.setPrefWidth(Double.MAX_VALUE);
+        form.setMaxWidth(Double.MAX_VALUE);
 
         List<Category> categories = GetAllCategory.getAllCategory();
         List<Product> products = ReadAllproduct.Readproduct();
@@ -32,6 +36,7 @@ public class ShowCategoryList {
         for (Category category : categories){
             TitledPane titledPane = new TitledPane();
             titledPane.setText(category.getTitle());
+            titledPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
             List<Product> categoryPruduct =  products.stream()
                     .filter(product -> product.getBrandTitle().equals(category.getTitle()))
@@ -42,6 +47,8 @@ public class ShowCategoryList {
                 titledPane.setContent(emptyLabel);
             } else {
                 TableView<Product> table = new TableView<>();
+                table.setMaxWidth(950);
+                table.setPrefHeight(400);
                 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
                 TableColumn<Product, String> titleCol = new TableColumn<>("نام محصول");
@@ -91,8 +98,6 @@ public class ShowCategoryList {
 
                 table.setItems(FXCollections.observableArrayList(categoryPruduct));
 
-                table.setPrefHeight(Math.min(categoryPruduct.size() * 30 + 40, 200));
-
                 titledPane.setContent(table);
             }
 
@@ -103,6 +108,8 @@ public class ShowCategoryList {
 
         VBox mainContainer = new VBox(scrollPane);
         mainContainer.setPadding(new Insets(10));
+        mainContainer.setAlignment(Pos.CENTER);
+        VBox.setVgrow(mainContainer, Priority.ALWAYS);
 
         return mainContainer;
     }
