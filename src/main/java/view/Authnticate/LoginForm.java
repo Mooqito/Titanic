@@ -1,16 +1,19 @@
 package view.Authnticate;
 import controller.Authnticate.Login;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import runner.Main;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -28,10 +31,16 @@ public class LoginForm {
     private ToggleButton passToggle;
     private TextField visiblePasswordFieldLogin;
     private Text statusMessage;
+    private SignUpForm signUpForm;
+    private ForgotPasswordForm forgotPasswordForm;
+    private DashboardForm dashboardForm;
 
     public LoginForm(Stage primaryStage) {
         this.primaryStage = primaryStage;
         createLoginScene();
+        signUpForm = new SignUpForm(primaryStage, this);
+        forgotPasswordForm = new ForgotPasswordForm(primaryStage, this);
+        dashboardForm = new DashboardForm(primaryStage, this);
     }
 
     private void createLoginScene() {
@@ -50,7 +59,7 @@ public class LoginForm {
         loginBox.setMaxHeight(510); // Limit maximum height
 
         // Add logo image
-        ImageView logo = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/Picture2.png")));
+        ImageView logo = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/Lamp.png")));
         logo.setFitWidth(100);
         logo.setFitHeight(100);
         logo.setPreserveRatio(true);
@@ -113,7 +122,6 @@ public class LoginForm {
 
         // Add the toggle button to the StackPane
         passwordStack.getChildren().add(passToggle);
-
         passBox.getChildren().setAll(passIcon, passwordStack);
         passBox.setAlignment(Pos.CENTER);
 
@@ -137,6 +145,8 @@ public class LoginForm {
         signIn.setPrefWidth(290);
         signIn.setPrefHeight(50);  // Height of sign in button
         signIn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"); // Blue button color
+        signIn.setOnMouseEntered(e -> signIn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, #a6cbeb, 10, 0.5, 0, 0);"));
+        signIn.setOnMouseExited(e -> signIn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"));
 
         // Login button action
         signIn.setOnAction(e -> {
@@ -159,8 +169,10 @@ public class LoginForm {
             if (loginSuccessful) {
                 statusMessage.setText("ورود با موفقیت انجام شد!");
                 statusMessage.setStyle("-fx-fill: #058a0a; -fx-font-size: 12px;");
-                DashboardForm dashboardForm = new DashboardForm(primaryStage);
                 primaryStage.setScene(dashboardForm.getScene());
+                primaryStage.centerOnScreen();
+                primaryStage.setMaximized(true);
+                primaryStage.show();
             } else {
                 statusMessage.setText("نام کاربری یا رمز عبور اشتباه است.");
                 statusMessage.setStyle("-fx-fill: #d13d3d; -fx-font-size: 12px;");
@@ -172,12 +184,11 @@ public class LoginForm {
         signUp.setPrefWidth(290);
         signUp.setPrefHeight(50);  // Height of sign up button
         signUp.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"); // Blue button color
-
+        signUp.setOnMouseEntered(e -> signUp.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, #a6cbeb, 10, 0.5, 0, 0);"));
+        signUp.setOnMouseExited(e -> signUp.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"));
         signUp.setOnAction(e -> {
-            SignUpForm signUpForm = new SignUpForm(primaryStage);
             primaryStage.setScene(signUpForm.getScene());
             primaryStage.setMaximized(true);
-            primaryStage.centerOnScreen();
         });
 
         // Forgot Password hyperlink
@@ -185,12 +196,12 @@ public class LoginForm {
         forgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;");
         forgotPassword.setPrefWidth(250);
         forgotPassword.setAlignment(Pos.CENTER);
+        forgotPassword.setOnMouseEntered(e -> forgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true; -fx-effect: dropshadow(gaussian, #9ac5ea, 10, 0.5, 0, 0);"));
+        forgotPassword.setOnMouseExited(e -> forgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;"));
 
         forgotPassword.setOnAction(e -> {
-            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm(primaryStage);
             primaryStage.setScene(forgotPasswordForm.getScene());
             primaryStage.setMaximized(true);
-            primaryStage.centerOnScreen();
         });
 
         // Real-time error definitions
@@ -252,19 +263,5 @@ public class LoginForm {
 
     public Scene getScene() {
         return scene;
-    }
-}
-
-class LoginApp extends Application {
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-        primaryStage.setTitle("Login");
-        primaryStage.setScene(new Scene(root, 400, 350));
-        primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }
