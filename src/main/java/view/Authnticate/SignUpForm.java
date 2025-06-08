@@ -6,13 +6,16 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import runner.Main;
 import view.menu.DashboardForm;
 
 public class SignUpForm {
@@ -35,8 +38,14 @@ public class SignUpForm {
     private final String successStyle = "-fx-fill: #058a0a; -fx-font-size: 11px;";
     private final String warningStyle = "-fx-fill: #dcd834; -fx-font-size: 11px;";
 
-    public SignUpForm(Stage primaryStage) {
+    // Pre-created scenes for faster transitions
+    private static Scene loginScene;
+    private static Scene dashboardScene;
+    private LoginForm loginForm;
+
+    public SignUpForm(Stage primaryStage, LoginForm loginForm) {
         this.primaryStage = primaryStage;
+        this.loginForm = loginForm;
         createRegisterScene();
     }
     private void createRegisterScene() {
@@ -55,7 +64,7 @@ public class SignUpForm {
         registerBox.setMaxHeight(550); // Limit maximum height
 
         // Add logo image
-        ImageView logo = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/Picture2.png")));
+        ImageView logo = new ImageView(new javafx.scene.image.Image(getClass().getResourceAsStream("/images/Lamp.png")));
         logo.setFitWidth(100);
         logo.setFitHeight(100);
         logo.setPreserveRatio(true);
@@ -206,6 +215,8 @@ public class SignUpForm {
         registerBtn.setPrefWidth(270);
         registerBtn.setPrefHeight(50);  // Height of sign up button
         registerBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"); // Blue button color
+        registerBtn.setOnMouseEntered(e -> registerBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, #a6cbeb, 10, 0.5, 0, 0);"));
+        registerBtn.setOnMouseExited(e -> registerBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"));
 
         // Signup button action
         registerBtn.setOnAction(e -> {
@@ -240,12 +251,11 @@ public class SignUpForm {
             if (SingUp.sing_up(username, password, confirmPassword, emailAddress)) {
                 statusMessage.setText("ثبت نام با موفقیت انجام شد!");
                 statusMessage.setStyle("-fx-fill: #058a0a;");
-                // Delay navigation slightly to show message
-                javafx.animation.Timeline timeline = new javafx.animation.Timeline(new javafx.animation.KeyFrame(javafx.util.Duration.seconds(1.5), event -> {
-                    DashboardForm dashboardForm = new DashboardForm(primaryStage);
-                    primaryStage.setScene(dashboardForm.getScene());
-                }));
-                timeline.play();
+                // Use pre-created scene for immediate transition
+                if (dashboardScene == null) {
+                    dashboardScene = new DashboardForm(primaryStage).getScene();
+                }
+                primaryStage.setScene(dashboardScene);
             } else {
                 statusMessage.setText("کاربر با این مشخصات موجود است.");
                 statusMessage.setStyle("-fx-fill: #d13d3d;");
@@ -255,10 +265,14 @@ public class SignUpForm {
         // Back button to login
         Hyperlink backToLogin = new Hyperlink("بازگشت به ورود");
         backToLogin.setStyle("-fx-text-fill: white; -fx-underline: true;");
+        backToLogin.setOnMouseEntered(e -> backToLogin.setStyle("-fx-text-fill: white; -fx-underline: true; -fx-effect: dropshadow(gaussian, #9ac5ea, 10, 0.5, 0, 0);"));
+        backToLogin.setOnMouseExited(e -> backToLogin.setStyle("-fx-text-fill: white; -fx-underline: true;"));
 
         backToLogin.setOnAction(e -> {
-            LoginForm loginForm = new LoginForm(primaryStage);
-            primaryStage.setScene(loginForm.getScene());
+            if (loginScene == null) {
+                loginScene = new LoginForm(primaryStage).getScene();
+            }
+            primaryStage.setScene(loginScene);
             primaryStage.setMaximized(true);
             primaryStage.centerOnScreen();
         });
