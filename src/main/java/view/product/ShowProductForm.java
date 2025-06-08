@@ -20,14 +20,45 @@ public class ShowProductForm {
     public VBox getContent() {
         VBox root = new VBox(15);
         root.setPadding(new Insets(20));
-        root.setAlignment(Pos.CENTER_RIGHT);
+        root.setAlignment(Pos.TOP_CENTER);
         root.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
         Label titleLabel = new Label("لیست کالاها");
-        titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+        // Container for title label (right-aligned)
+        HBox titleBox = new HBox();
+        titleBox.setAlignment(Pos.CENTER_LEFT);
+        titleBox.getChildren().add(titleLabel);
 
         TableView<Product> table = new TableView<>();
+        table.setMaxWidth(950);
+        table.setPrefHeight(400);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        // Style for column headers similar to management menu buttons
+        table.getStylesheets().add("data:text/css," +
+                ".table-view .column-header-background {" +
+                "    -fx-background-color: linear-gradient(to bottom, rgb(200, 215, 230), rgb(180, 195, 210));" + // گرادیان آبی کم رنگ مایل به طوسی
+                "    -fx-background-radius: 5px 5px 0 0;" + 
+                "    -fx-border-color: rgb(160, 180, 200);" + 
+                "    -fx-border-width: 1px 1px 0 1px;" + 
+                "    -fx-border-radius: 5px 5px 0 0;" +
+                "}" +
+                ".table-view .column-header {" +
+                "    -fx-background-color: transparent;" + 
+                "    -fx-border-color: rgb(160, 180, 200);" + 
+                "    -fx-border-width: 0 1px 0 0;" + 
+                "}" +
+                ".table-view .filler {" +
+                "    -fx-background-color: transparent;" +
+                "}" +
+                ".table-view .column-header, .table-view .filler { -fx-size: 50px; }" + 
+                ".table-view .column-header .label {" + 
+                "    -fx-text-fill: white;" +
+                "    -fx-font-weight: bold;" +
+                "}"
+        );
 
         TableColumn<Product, Long> idCol = new TableColumn<>("شناسه");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -56,8 +87,12 @@ public class ShowProductForm {
         ObservableList<Product> products = FXCollections.observableArrayList(productList);
         table.setItems(products);
 
+        table.setPrefHeight(500); 
+
+        // Set row height
         table.setRowFactory(tv -> {
             TableRow<Product> row = new TableRow<>();
+            row.setPrefHeight(60); 
             row.setOnMouseClicked(event -> {
                 if (!row.isEmpty()) {
                     Product clickedProduct = row.getItem();
@@ -67,7 +102,12 @@ public class ShowProductForm {
             return row;
         });
 
-        root.getChildren().addAll(titleLabel, table);
+        // Set placeholder text when table is empty
+        Label noContentLabel = new Label("محصولی برای نمایش وجود ندارد");
+        noContentLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gray;");
+        table.setPlaceholder(noContentLabel);
+
+        root.getChildren().addAll(titleBox, table);
         return root;
     }
 
