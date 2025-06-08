@@ -5,6 +5,8 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.collections.FXCollections;
@@ -22,64 +24,67 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-public class CategoryManagement extends VBox{
+// Category Management class for handling category-related operations
+public class CategoryManagement extends VBox {
 
     private VBox contentArea;
     private ListView<String> categoryListView;
     AddDeleteCategory addDeleteCategory = new AddDeleteCategory();
     ShowCategoryList showCategoryList = new ShowCategoryList();
 
-    public CategoryManagement (VBox contentArea){
+    public CategoryManagement(VBox contentArea) {
         super(5);
         this.contentArea = contentArea;
         setVisible(false);
         setManaged(false);
-        setStyle("-fx-padding:0 20 0 0;");
+        setStyle("-fx-padding:0 35 0 0;");
         setAlignment(Pos.TOP_RIGHT);
         createCategoryMenu();
     }
 
     private void createCategoryMenu() {
+        String buttonStyle = "-fx-background-color: rgba(175, 180, 204, 0.58); -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-alignment: CENTER_RIGHT; -fx-content-display: RIGHT;";
+        String buttonHoverStyle = "-fx-background-color: rgba(175, 180, 204, 0.58); -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 10 20; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, #a6cbeb, 10, 0.5, 0, 0); -fx-alignment: CENTER_RIGHT; -fx-content-display: RIGHT;";
 
-        String buttnStyle = "-fx-alignment:CENTER_RIGHT;    -fx-padding:5 10 5 5;   -fx-content-display: RIGHT;";
-        Button addBut = new Button("افزودن و حذف دسته بندی");
-        Button showBut = new Button("نمایش دسته بندی");
+        Button addBtn = createCategoryButton("افزودن و حذف دسته بندی", "/images/AddDeleteBrand.png", buttonStyle, buttonHoverStyle);
+        Button showBtn = createCategoryButton("نمایش دسته بندی", "/images/ShowProduct.png", buttonStyle, buttonHoverStyle);
 
-        addBut.setStyle(buttnStyle);
-        showBut.setStyle(buttnStyle);
+        addBtn.setPrefWidth(240);
+        showBtn.setPrefWidth(240);
 
-        addBut.maxWidth(Double.MAX_VALUE);
-        showBut.maxWidth(Double.MAX_VALUE);
+        addBtn.setOnAction(e -> {
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(addDeleteCategory.createAddDeleteCategoryForm());
+        });
+        showBtn.setOnAction(e -> {
+            contentArea.getChildren().clear();
+            contentArea.getChildren().add(showCategoryList.createShowCategoryForm());
+        });
 
-        addBut.setOnAction(e -> openCategoryWindow("افزودن و حذف دسته بندی"));
-        showBut.setOnAction(e -> openCategoryWindow("نمایش دسته بندی"));
-
-        getChildren().addAll(addBut,showBut);
+        getChildren().addAll(addBtn, showBtn);
     }
 
-    public void openCategoryWindow(String title) {
-        Stage stage = new Stage();
-        stage.setTitle(title);
+    private Button createCategoryButton(String text, String imagePath, String buttonStyle, String buttonHoverStyle) {
+        ImageView icon = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
+        icon.setFitWidth(35);
+        icon.setFitHeight(35);
 
-        VBox content = new VBox(10);
-        content.setAlignment(Pos.CENTER_RIGHT);
-        content.setPadding(new Insets(20));
-        content.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+        Label textLabel = new Label(text);
+        textLabel.setFont(javafx.scene.text.Font.font("System", 14));
+        textLabel.setTextFill(javafx.scene.paint.Color.WHITE);
 
-        if(title.equals("افزودن و حذف دسته بندی")) {
-            content.getChildren().add(addDeleteCategory.createAddDeleteCategoryForm());
-        } else if (title.equals("نمایش دسته بندی")) {
-            content.getChildren().add(showCategoryList.createShowCategoryForm());
-        }
+        HBox buttonContent = new HBox(10);
+        buttonContent.setAlignment(Pos.CENTER_LEFT);
+        buttonContent.getChildren().addAll(icon, textLabel);
+        buttonContent.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
-        Button backBut = new Button("بازگشت");
-        backBut.setStyle("-fx-alignment: CENTER_RIGHT;-fx-padding: 5 10 5 5");
-        backBut.setOnAction(e -> stage.close());
-        content.getChildren().add(backBut);
+        Button button = new Button();
+        button.setGraphic(buttonContent);
+        button.setStyle(buttonStyle);
 
-        Scene scene = new Scene(content,600,400);
-        stage.setScene(scene);
-        stage.show();
+        button.setOnMouseEntered(e -> button.setStyle(buttonHoverStyle));
+        button.setOnMouseExited(e -> button.setStyle(buttonStyle));
+
+        return button;
     }
 }
