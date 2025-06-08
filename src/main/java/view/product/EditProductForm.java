@@ -1,6 +1,7 @@
 package view.product;
 
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -27,6 +28,7 @@ public class EditProductForm {
     private ComboBox<String> brandComboBox;
     private TextField quantityField;
     private Label titleLabel;
+    private Label statusMessageLabel;
 
     public EditProductForm() {
         createContent();
@@ -34,29 +36,61 @@ public class EditProductForm {
 
     private void createContent() {
         content = new VBox(15);
-        content.setAlignment(Pos.CENTER_RIGHT);
+        content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));
-        content.setMaxWidth(800);
+        content.setMaxWidth(Double.MAX_VALUE);
+        VBox.setVgrow(content, Priority.ALWAYS);
 
         titleLabel = new Label("لیست محصولات");
-        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
+        titleLabel.setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+
+        HBox titleBox = new HBox();
+        titleBox.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+        titleBox.getChildren().add(titleLabel);
 
         createProductTable();
         createEditForm();
 
-        // در ابتدا فرم ویرایش را مخفی می‌کنیم
+        // Initially hide the edit form
         editForm.setVisible(false);
         editForm.setManaged(false);
 
-        content.getChildren().addAll(titleLabel, productTable, editForm);
+        content.getChildren().addAll(titleBox, productTable, editForm);
     }
 
     private void createProductTable() {
         productTable = new TableView<>();
+        productTable.setMaxWidth(950);
+        productTable.setPrefHeight(400);
         productTable.setStyle("-fx-alignment: CENTER-RIGHT;");
         productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        // تعریف ستون‌ها
+        // Style for column headers similar to management menu buttons
+        productTable.getStylesheets().add("data:text/css," +
+                ".table-view .column-header-background {" +
+                "    -fx-background-color: linear-gradient(to bottom, rgb(200, 215, 230), rgb(180, 195, 210));" + // گرادیان آبی کم رنگ مایل به طوسی
+                "    -fx-background-radius: 5px 5px 0 0;" +
+                "    -fx-border-color: rgb(160, 180, 200);" +
+                "    -fx-border-width: 1px 1px 0 1px;" +
+                "    -fx-border-radius: 5px 5px 0 0;" +
+                "}" +
+                ".table-view .column-header {" +
+                "    -fx-background-color: transparent;" +
+                "    -fx-border-color: rgb(160, 180, 200);" +
+                "    -fx-border-width: 0 1px 0 0;" +
+                "}" +
+                ".table-view .filler {" +
+                "    -fx-background-color: transparent;" +
+                "}" +
+                ".table-view .column-header, .table-view .filler { -fx-size: 50px; }" +
+                ".table-view .column-header .label {" +
+                "    -fx-text-fill: white;" +
+                "    -fx-font-weight: bold;" +
+                "}"
+        );
+
+        // Define columns
         TableColumn<Product, String> titleCol = new TableColumn<>("نام محصول");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
 
@@ -78,7 +112,7 @@ public class EditProductForm {
         TableColumn<Product, Long> quantityCol = new TableColumn<>("تعداد");
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        // تنظیم راست به چپ برای همه ستون‌ها
+        // Set right-to-left alignment for all columns
         titleCol.setStyle("-fx-alignment: CENTER-RIGHT;");
         priceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
         descriptionCol.setStyle("-fx-alignment: CENTER-RIGHT;");
@@ -92,10 +126,17 @@ public class EditProductForm {
                 brandCol, providerCol, quantityCol
         );
 
-        // بارگذاری داده‌ها
+        // Set row height
+        productTable.setRowFactory(tv -> {
+            TableRow<Product> row = new TableRow<>();
+            row.setPrefHeight(60);
+            return row;
+        });
+
+        // Load data
         loadTableData();
 
-        // رویداد انتخاب محصول
+        // Product selection event
         productTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 System.out.println("Selected product: " + newSelection.getTitle());
@@ -104,75 +145,104 @@ public class EditProductForm {
             }
         });
 
-        productTable.setPrefHeight(300);
+        productTable.setPrefHeight(500);
+
+        // Set placeholder text when table is empty
+        Label noContentLabel = new Label(" محصولی برای نمایش وجود ندارد ");
+        noContentLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gray;");
+        productTable.setPlaceholder(noContentLabel);
     }
 
     private void showEditForm() {
-        // مخفی کردن جدول و تغییر عنوان
+        // Hide table and change title
         titleLabel.setText("ویرایش محصول");
         productTable.setVisible(false);
         productTable.setManaged(false);
 
-        // نمایش فرم ویرایش
+        // Show edit form
         editForm.setVisible(true);
         editForm.setManaged(true);
     }
 
     private void showProductTable() {
-        // نمایش مجدد جدول و تغییر عنوان
+        // Show table again and change title
         titleLabel.setText("لیست محصولات");
         productTable.setVisible(true);
         productTable.setManaged(true);
 
-        // مخفی کردن فرم ویرایش
+        // Hide edit form
         editForm.setVisible(false);
         editForm.setManaged(false);
 
-        // پاک کردن انتخاب در جدول
+        // Clear selection in table
         productTable.getSelectionModel().clearSelection();
 
-        // بارگذاری مجدد داده‌های جدول
         loadTableData();
+        // Clear any previous status message
+        statusMessageLabel.setText("");
     }
 
     private void createEditForm() {
-        editForm = new VBox(10);
-        editForm.setAlignment(Pos.CENTER_RIGHT);
-        editForm.setPadding(new Insets(10));
-        editForm.setStyle("-fx-border-color: #cccccc; -fx-border-radius: 5; -fx-padding: 10;");
+        editForm = new VBox(15);
+        editForm.setAlignment(Pos.CENTER);
+        editForm.setStyle("-fx-background-color: #3a5c79; -fx-padding: 20;");
+        editForm.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+        editForm.setPrefWidth(800);
+        editForm.setMaxWidth(800);
 
-        // فیلدهای ویرایش با اعمال اعتبارسنجی
+        // Initialize status message label for edit form
+        statusMessageLabel = new Label("");
+        statusMessageLabel.setStyle("-fx-font-size: 14px; -fx-padding: 5 0;");
+
+        // Edit fields with validation
         nameField = new TextField();
         nameField.setPromptText("نام محصول");
+        nameField.setPrefHeight(40);
+        nameField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
         nameField.setTextFormatter(ProductValidation.createTitleFormatter());
 
         priceField = new TextField();
         priceField.setPromptText("قیمت");
+        priceField.setPrefHeight(40);
+        priceField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
         priceField.setTextFormatter(ProductValidation.createPriceFormatter());
 
         descriptionArea = new TextArea();
         descriptionArea.setPromptText("توضیحات");
-        descriptionArea.setPrefRowCount(3);
+        descriptionArea.setPrefRowCount(4);
+        descriptionArea.setPrefHeight(120);
+        descriptionArea.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
         descriptionArea.setTextFormatter(ProductValidation.createDescriptionFormatter());
 
-        // کامبوباکس‌ها
+        // Combo boxes
         categoryComboBox = new ComboBox<>();
         categoryComboBox.setPromptText("دسته‌بندی را انتخاب کنید");
+        categoryComboBox.setPrefHeight(40);
+        categoryComboBox.setPrefWidth(400);
+        categoryComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
 
         supplierComboBox = new ComboBox<>();
         supplierComboBox.setPromptText("تامین کننده را انتخاب کنید");
+        supplierComboBox.setPrefHeight(40);
+        supplierComboBox.setPrefWidth(400);
+        supplierComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
 
         brandComboBox = new ComboBox<>();
         brandComboBox.setPromptText("برند را انتخاب کنید");
+        brandComboBox.setPrefHeight(40);
+        brandComboBox.setPrefWidth(400);
+        brandComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
 
         quantityField = new TextField();
         quantityField.setPromptText("تعداد");
+        quantityField.setPrefHeight(40);
+        quantityField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
         quantityField.setTextFormatter(ProductValidation.createQuantityFormatter());
 
-        // بارگذاری داده‌های کامبوباکس‌ها
+        // Load combo box data
         loadComboBoxData();
 
-        // دکمه‌ها
+        // Buttons
         HBox buttonBox = new HBox(10);
         buttonBox.setAlignment(Pos.CENTER);
 
@@ -194,7 +264,7 @@ public class EditProductForm {
             showProductTable();
         });
 
-        // اضافه کردن فیلدها به فرم
+        // Add fields to form
         editForm.getChildren().addAll(
                 createLabeledField("نام محصول:", nameField),
                 createLabeledField("قیمت:", priceField),
@@ -203,7 +273,8 @@ public class EditProductForm {
                 createLabeledField("تامین کننده:", supplierComboBox),
                 createLabeledField("برند:", brandComboBox),
                 createLabeledField("تعداد:", quantityField),
-                buttonBox
+                buttonBox,
+                statusMessageLabel
         );
     }
 
@@ -238,11 +309,15 @@ public class EditProductForm {
     private HBox createLabeledField(String labelText, Control field) {
         HBox box = new HBox(10);
         box.setAlignment(Pos.CENTER_RIGHT);
+        box.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(box, Priority.ALWAYS);
 
         Label label = new Label(labelText);
         label.setMinWidth(100);
         label.setAlignment(Pos.CENTER_RIGHT);
+        label.setStyle("-fx-text-fill: white;");
 
+        // Ensure the field itself can grow horizontally
         field.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(field, Priority.ALWAYS);
 
@@ -295,19 +370,23 @@ public class EditProductForm {
     }
 
     private void showSuccessMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("موفقیت");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        statusMessageLabel.setText(message);
+        statusMessageLabel.setStyle("-fx-text-fill: #00ba2d; -fx-font-size: 14px; -fx-padding: 5 0;");
+        hideMessageAfterDelay();
     }
 
     private void showErrorMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("خطا");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        statusMessageLabel.setText(message);
+        statusMessageLabel.setStyle("-fx-text-fill: #7a0000; -fx-font-size: 14px; -fx-padding: 5 0;");
+        hideMessageAfterDelay();
+    }
+
+    private void hideMessageAfterDelay() {
+        javafx.animation.Timeline timeline = new javafx.animation.Timeline(new javafx.animation.KeyFrame(javafx.util.Duration.seconds(3), event -> {
+            statusMessageLabel.setText("");
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     public VBox getContent() {
