@@ -1,6 +1,7 @@
 package view.product;
 
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -18,6 +19,7 @@ public class DeleteProductForm {
     private TableView<Product> productTable;
     private Button deleteButton;
     private Label titleLabel;
+    private Label statusMessageLabel;
 
     public DeleteProductForm() {
         createContent();
@@ -27,45 +29,80 @@ public class DeleteProductForm {
         content = new VBox(15);
         content.setAlignment(Pos.CENTER);
         content.setPadding(new Insets(20));
-        content.setMaxWidth(900);
+        content.setStyle("-fx-background-color: #3a5c79; -fx-padding: 20;");
+        content.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 
         titleLabel = new Label("حذف کالا");
-        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+        HBox titleBox = new HBox();
+        titleBox.setAlignment(Pos.CENTER_RIGHT);
+        titleBox.getChildren().add(titleLabel);
 
         createProductTable();
 
+        statusMessageLabel = new Label();
+        statusMessageLabel.setStyle("-fx-font-size: 14px; -fx-padding: 5 0;");
+
         deleteButton = new Button("حذف کالا");
         deleteButton.setStyle("-fx-background-color: #f44336; -fx-text-fill: white;");
-        deleteButton.setDisable(true); // اول غیر فعال چون چیزی انتخاب نشده
+        deleteButton.setDisable(true);
+
+        HBox deleteButtonBox = new HBox();
+        deleteButtonBox.setAlignment(Pos.CENTER_LEFT);
+        deleteButtonBox.getChildren().addAll(deleteButton, statusMessageLabel);
 
         deleteButton.setOnAction(e -> {
             Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
             if (selectedProduct != null) {
-                boolean confirmed = showConfirmDialog("آیا مطمئن هستید می‌خواهید این کالا را حذف کنید؟");
-                if (confirmed) {
-                    boolean deleted = DeleteProduct.deleteProduct(selectedProduct.getTitle());
-                    if (deleted) {
-                        showSuccessMessage("کالا با موفقیت حذف شد.");
-                        loadTableData();
-                        deleteButton.setDisable(true);
-                    } else {
-                        showErrorMessage("خطا در حذف کالا.");
-                    }
+                boolean deleted = DeleteProduct.deleteProduct(selectedProduct.getTitle());
+                if (deleted) {
+                    showSuccessMessage("کالا با موفقیت حذف شد.");
+                    loadTableData();
+                    deleteButton.setDisable(true);
+                } else {
+                    showErrorMessage("خطا در حذف کالا.");
                 }
             }
         });
 
-        // فعال/غیرفعال کردن دکمه حذف بر اساس انتخاب جدول
+        // Enable/disable delete button based on table selection
         productTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             deleteButton.setDisable(newSelection == null);
         });
 
-        content.getChildren().addAll(titleLabel, productTable, deleteButton);
+        content.getChildren().addAll(titleBox, productTable, deleteButtonBox);
     }
 
     private void createProductTable() {
         productTable = new TableView<>();
+        productTable.setMaxWidth(950);
+        productTable.setPrefHeight(400);
         productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        // Style for column headers similar to management menu buttons
+        productTable.getStylesheets().add("data:text/css," +
+                ".table-view .column-header-background {" +
+                "    -fx-background-color: linear-gradient(to bottom, rgb(200, 215, 230), rgb(180, 195, 210));" + // گرادیان آبی کم رنگ مایل به طوسی
+                "    -fx-background-radius: 5px 5px 0 0;" +
+                "    -fx-border-color: rgb(160, 180, 200);" +
+                "    -fx-border-width: 1px 1px 0 1px;" +
+                "    -fx-border-radius: 5px 5px 0 0;" +
+                "}" +
+                ".table-view .column-header {" +
+                "    -fx-background-color: transparent;" +
+                "    -fx-border-color: rgb(160, 180, 200);" +
+                "    -fx-border-width: 0 1px 0 0;" +
+                "}" +
+                ".table-view .filler {" +
+                "    -fx-background-color: transparent;" +
+                "}" +
+                ".table-view .column-header, .table-view .filler { -fx-size: 50px; }" +
+                ".table-view .column-header .label {" +
+                "    -fx-text-fill: white;" +
+                "    -fx-font-weight: bold;" +
+                "}"
+        );
 
         TableColumn<Product, String> titleCol = new TableColumn<>("نام محصول");
         titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -88,7 +125,7 @@ public class DeleteProductForm {
         TableColumn<Product, Long> quantityCol = new TableColumn<>("تعداد");
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        // راست‌چین ستون‌ها
+        // Right-align columns
         titleCol.setStyle("-fx-alignment: CENTER-RIGHT;");
         priceCol.setStyle("-fx-alignment: CENTER-RIGHT;");
         descriptionCol.setStyle("-fx-alignment: CENTER-RIGHT;");
@@ -102,7 +139,19 @@ public class DeleteProductForm {
                 brandCol, providerCol, quantityCol
         );
 
-        productTable.setPrefHeight(300);
+        // Set row height
+        productTable.setRowFactory(tv -> {
+            TableRow<Product> row = new TableRow<>();
+            row.setPrefHeight(60);
+            return row;
+        });
+
+        productTable.setPrefHeight(500);
+
+        // Set placeholder text when table is empty
+        Label noContentLabel = new Label("محصولی برای نمایش وجود ندارد");
+        noContentLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: gray;");
+        productTable.setPlaceholder(noContentLabel);
 
         loadTableData();
     }
@@ -112,34 +161,24 @@ public class DeleteProductForm {
         productTable.setItems(FXCollections.observableArrayList(products));
     }
 
-    private boolean showConfirmDialog(String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("تایید حذف");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-
-        ButtonType yesBtn = new ButtonType("بله");
-        ButtonType noBtn = new ButtonType("خیر", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-        alert.getButtonTypes().setAll(yesBtn, noBtn);
-
-        return alert.showAndWait().filter(buttonType -> buttonType == yesBtn).isPresent();
-    }
-
     private void showSuccessMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("موفقیت");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        statusMessageLabel.setText(message);
+        statusMessageLabel.setStyle("-fx-text-fill: #00ba2d; -fx-font-size: 14px; -fx-padding: 5 0;");
+        hideMessageAfterDelay();
     }
 
     private void showErrorMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("خطا");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+        statusMessageLabel.setText(message);
+        statusMessageLabel.setStyle("-fx-text-fill: #7a0000; -fx-font-size: 14px; -fx-padding: 5 0;");
+        hideMessageAfterDelay();
+    }
+
+    private void hideMessageAfterDelay() {
+        javafx.animation.Timeline timeline = new javafx.animation.Timeline(new javafx.animation.KeyFrame(javafx.util.Duration.seconds(3), event -> {
+            statusMessageLabel.setText("");
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
     }
 
     public VBox getContent() {
