@@ -5,13 +5,16 @@ import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.Authneticate.AuthService;
+import runner.Main;
 import javafx.stage.Screen;
 
 public class ForgotPasswordForm {
@@ -31,9 +34,11 @@ public class ForgotPasswordForm {
     private Text confirmPwError;
     private Text passwordStrength;
     private final String fieldStyle = "-fx-text-align: right; -fx-background-radius: 5; -fx-background-color: rgba(175, 180, 204, 0.58); -fx-text-fill: white; -fx-padding: 5 30 5 5; -fx-prompt-text-fill: #ffffff;";
+    private LoginForm loginForm;
 
-    public ForgotPasswordForm(Stage primaryStage) {
+    public ForgotPasswordForm(Stage primaryStage, LoginForm loginForm) {
         this.primaryStage = primaryStage;
+        this.loginForm = loginForm;
         createForgotPasswordScene();
     }
 
@@ -121,14 +126,20 @@ public class ForgotPasswordForm {
         submitBtn.setPrefWidth(270);
         submitBtn.setPrefHeight(50);  // Height of submit button
         submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"); // Blue button color
+        submitBtn.setOnMouseEntered(e -> submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, #9ac5ea, 10, 0.5, 0, 0);"));
+        submitBtn.setOnMouseExited(e -> submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"));
         Hyperlink backBtn = new Hyperlink("بازگشت به ورود");
         backBtn.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;");
+        backBtn.setOnMouseEntered(e -> backBtn.setStyle("-fx-text-fill: #ffffff; -fx-underline: true; -fx-effect: dropshadow(gaussian, #9ac5ea, 10, 0.5, 0, 0);"));
+        backBtn.setOnMouseExited(e -> backBtn.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;"));
 
         backBtn.setOnAction(e -> {
-            LoginForm loginForm = new LoginForm(primaryStage);
-            primaryStage.setScene(loginForm.getScene());
-            primaryStage.setMaximized(true);
-            primaryStage.centerOnScreen();
+            if (getScene() != null && loginForm != null) {
+                Stage stage = (Stage) getScene().getWindow();
+                stage.setScene(loginForm.getScene());
+                stage.setMaximized(true);
+                stage.centerOnScreen();
+            }
         });
 
         // Validation
@@ -341,6 +352,8 @@ public class ForgotPasswordForm {
         submitBtn.setPrefWidth(270);
         submitBtn.setPrefHeight(60);
         submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"); // Blue button color
+        submitBtn.setOnMouseEntered(e -> submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5; -fx-effect: dropshadow(gaussian, #9ac5ea, 10, 0.5, 0, 0);"));
+        submitBtn.setOnMouseExited(e -> submitBtn.setStyle("-fx-background-color: #52799b; -fx-text-fill: white; -fx-background-radius: 5;"));
 
         // Submit button action
         submitBtn.setOnAction(e -> {
@@ -384,10 +397,12 @@ public class ForgotPasswordForm {
 
         // Back button to previous forgot password form
         Hyperlink backToForgotPassword = new Hyperlink("بازگشت");
-        backToForgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;"); // Dark link color
+        backToForgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;");
+        backToForgotPassword.setOnMouseEntered(e -> backToForgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true; -fx-effect: dropshadow(gaussian, #9ac5ea, 10, 0.5, 0, 0);"));
+        backToForgotPassword.setOnMouseExited(e -> backToForgotPassword.setStyle("-fx-text-fill: #ffffff; -fx-underline: true;"));
 
         backToForgotPassword.setOnAction(e -> {
-            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm(primaryStage);
+            view.Authnticate.ForgotPasswordForm forgotPasswordForm = new view.Authnticate.ForgotPasswordForm(primaryStage, loginForm);
             primaryStage.setScene(forgotPasswordForm.getScene());
             primaryStage.setMaximized(true);
             primaryStage.centerOnScreen();
