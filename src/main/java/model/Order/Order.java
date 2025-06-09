@@ -1,6 +1,5 @@
 package model.Order;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,7 @@ public class Order {
     // Getters
     public int getId() { return id; }
     public int getCustomerId() { return customerId; }
-    public Timestamp getOrderDate() { return orderDate; }
+    public LocalDateTime getOrderDate() { return orderDate; }
     public double getTotalAmount() { return totalAmount; }
     public List<OrderItem> getOrderItems() { return orderItems; }
 
