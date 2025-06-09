@@ -15,7 +15,7 @@ public class InitCustomer {
                 "first_name VARCHAR(100)," +
                 "last_name VARCHAR(100)," +
                 "phone_number VARCHAR(20)" +
-                ")";
+                ");";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
             preparedStatement.executeUpdate();
