@@ -13,10 +13,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+import model.Authneticate.AuthService;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import runner.Main;
 import view.menu.DashboardForm;
+import javafx.application.Platform;
 
 public class SignUpForm {
     private Scene scene;
@@ -247,17 +251,43 @@ public class SignUpForm {
                 return;
             }
 
+            // First check if user exists
+            if (AuthService.FindUser(username, emailAddress) != null) {
+                statusMessage.setText("این نام کاربری قبلاً ثبت شده است.");
+                statusMessage.setStyle("-fx-fill: #d13d3d;");
+                return;
+            }
+
             // Call backend signup method
-            if (SingUp.sing_up(username, password, confirmPassword, emailAddress)) {
+            boolean signupResult = SingUp.sing_up(username, password, confirmPassword, emailAddress);
+            System.out.println("Signup result: " + signupResult); // Debug message
+
+            if (signupResult) {
                 statusMessage.setText("ثبت نام با موفقیت انجام شد!");
                 statusMessage.setStyle("-fx-fill: #058a0a;");
-                // Use pre-created scene for immediate transition
-                if (dashboardScene == null) {
-                    dashboardScene = new DashboardForm(primaryStage).getScene();
-                }
-                primaryStage.setScene(dashboardScene);
+
+                // Create and show dashboard after 3 seconds
+                PauseTransition delay = new PauseTransition(Duration.seconds(3));
+                delay.setOnFinished(event -> {
+                    Platform.runLater(() -> {
+                        try {
+                            DashboardForm dashboardForm = new DashboardForm(primaryStage, loginForm);
+                            Scene dashboardScene = dashboardForm.getScene();
+                            primaryStage.setScene(dashboardScene);
+                            primaryStage.setMaximized(true);
+                            primaryStage.centerOnScreen();
+                            primaryStage.show();
+                        } catch (Exception ex) {
+                            System.out.println("Error showing dashboard: " + ex.getMessage());
+                            ex.printStackTrace();
+                            statusMessage.setText("خطا در نمایش داشبورد. لطفاً دوباره تلاش کنید.");
+                            statusMessage.setStyle("-fx-fill: #d13d3d;");
+                        }
+                    });
+                });
+                delay.play();
             } else {
-                statusMessage.setText("کاربر با این مشخصات موجود است.");
+                statusMessage.setText("خطا در ثبت نام. لطفاً دوباره تلاش کنید.");
                 statusMessage.setStyle("-fx-fill: #d13d3d;");
             }
         });
