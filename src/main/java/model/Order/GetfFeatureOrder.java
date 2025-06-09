@@ -30,6 +30,30 @@ public class GetfFeatureOrder {
         }catch (SQLException e){
             e.getMessage();
         }
+        return list;
+    }
 
+    public static List<OrderItem> getAllOrderItem (int orderId){
+        Connection connection = DBconnection.connect();
+        List<OrderItem> list = new ArrayList<>();
+        String Query = "SELECT * FROM order_items WHERE order_id = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(Query);
+            preparedStatement.setInt(1,orderId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                OrderItem item = new OrderItem(
+                        resultSet.getInt("id"),
+                        resultSet.getInt("order_id"),
+                        resultSet.getInt("product_id"),
+                        resultSet.getInt("quantity"),
+                        resultSet.getDouble("unit_price")
+                );
+                list.add(item);
+            }
+        }catch (SQLException e){
+            e.getMessage();
+        }
+        return list;
     }
 }
