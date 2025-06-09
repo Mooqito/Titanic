@@ -10,7 +10,7 @@ public class InitOrderItem {
 
     public static void order_item (){
         Connection connection = DBconnection.connect();
-        String Query = "CRATE TABLE IF NOT EXISTS order_item" +
+        String Query = "CREATE TE TABLE IF NOT EXISTS order_item" +
                 "( id serial PRIMARY KEY," +
                 "order_id INTEGER REFERENCES order(id)," +
                 "product_id INTEGER REFERENCES Product(id)," +
