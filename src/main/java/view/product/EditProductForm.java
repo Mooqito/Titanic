@@ -198,46 +198,53 @@ public class EditProductForm {
         nameField = new TextField();
         nameField.setPromptText("نام محصول");
         nameField.setPrefHeight(40);
-        nameField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
+        nameField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: black; -fx-alignment: CENTER-RIGHT; -fx-text-alignment: RIGHT;");
         nameField.setTextFormatter(ProductValidation.createTitleFormatter());
+        nameField.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 
         priceField = new TextField();
         priceField.setPromptText("قیمت");
         priceField.setPrefHeight(40);
-        priceField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
+        priceField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: black; -fx-alignment: CENTER-RIGHT; -fx-text-alignment: RIGHT;");
         priceField.setTextFormatter(ProductValidation.createPriceFormatter());
+        priceField.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 
         descriptionArea = new TextArea();
         descriptionArea.setPromptText("توضیحات");
         descriptionArea.setPrefRowCount(4);
         descriptionArea.setPrefHeight(120);
-        descriptionArea.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
+        descriptionArea.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: black; -fx-alignment: CENTER-RIGHT; -fx-text-alignment: RIGHT;");
         descriptionArea.setTextFormatter(ProductValidation.createDescriptionFormatter());
+        descriptionArea.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
         // Combo boxes
         categoryComboBox = new ComboBox<>();
         categoryComboBox.setPromptText("دسته‌بندی را انتخاب کنید");
         categoryComboBox.setPrefHeight(40);
         categoryComboBox.setPrefWidth(400);
-        categoryComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
+        categoryComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white; -fx-alignment: CENTER-RIGHT; -fx-text-alignment: RIGHT;");
+        categoryComboBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
         supplierComboBox = new ComboBox<>();
         supplierComboBox.setPromptText("تامین کننده را انتخاب کنید");
         supplierComboBox.setPrefHeight(40);
         supplierComboBox.setPrefWidth(400);
-        supplierComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
+        supplierComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white; -fx-alignment: CENTER-RIGHT; -fx-text-alignment: RIGHT;");
+        supplierComboBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
         brandComboBox = new ComboBox<>();
         brandComboBox.setPromptText("برند را انتخاب کنید");
         brandComboBox.setPrefHeight(40);
         brandComboBox.setPrefWidth(400);
-        brandComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
+        brandComboBox.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white; -fx-alignment: CENTER-RIGHT; -fx-text-alignment: RIGHT;");
+        brandComboBox.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
         quantityField = new TextField();
         quantityField.setPromptText("تعداد");
         quantityField.setPrefHeight(40);
-        quantityField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: white;");
+        quantityField.setStyle("-fx-background-color: rgba(255, 255, 255, 0.58); -fx-text-fill: black; -fx-alignment: CENTER-RIGHT; -fx-text-alignment: RIGHT;");
         quantityField.setTextFormatter(ProductValidation.createQuantityFormatter());
+        quantityField.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
 
         // Load combo box data
         loadComboBoxData();
