@@ -7,21 +7,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CustomerInputToDB {
+public class OrderInputToDB {
 
-    public static int customer (Customer customer){
+    public static int order (Order order){
         Connection connection = DBconnection.connect();
-        String Query = "INSERT INTO customer (first_name,last_name,phone_number)" +
+        String Query = "INSERT INTO order (customer_id,order_date,total_amount)" +
                 "VALUES (?,?,?) RETURNING id";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(Query);
-            preparedStatement.setString(1,customer.getFirstName());
-            preparedStatement.setString(2,customer.getLastName());
-            preparedStatement.setString(3,customer.getPhoneNumber());
+            preparedStatement.setInt(1,order.getCustomerId());
+            preparedStatement.setTimestamp(2,order.getOrderDate());
+            preparedStatement.setDouble(3,order.getTotalAmount());
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet= preparedStatement.executeQuery();
+
             if (resultSet.next()){
-                return customer.getId();
+                return order.getId();
             }
 
         }catch (SQLException e){
