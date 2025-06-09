@@ -8,6 +8,7 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import view.Brand.BrandManagement;
+import view.Order.OrderManagement;
 import view.product.ProductManagement;
 import view.Category.CategoryManagement;
 
@@ -17,6 +18,8 @@ public class ManagementMenu extends VBox {
     private ProductManagement productManagement;
     private BrandManagement brandManagement;
     private CategoryManagement categoryManagement;
+    private OrderManagement orderManagement;
+
     private DashboardForm dashboardForm;
 
     public ManagementMenu(VBox contentArea) {
@@ -64,6 +67,7 @@ public class ManagementMenu extends VBox {
         productManagement = new ProductManagement(contentArea);
         brandManagement = new BrandManagement(contentArea);
         categoryManagement = new CategoryManagement(contentArea);
+        orderManagement = new OrderManagement(contentArea);
 
         // Hide all management sections initially
         productManagement.setVisible(false);
@@ -72,11 +76,14 @@ public class ManagementMenu extends VBox {
         brandManagement.setManaged(false);
         categoryManagement.setVisible(false);
         categoryManagement.setManaged(false);
+        orderManagement.setVisible(false);
+        orderManagement.setManaged(false);
 
         // Main management buttons
         Button productManagementBtn = createManagementButton("مدیریت محصول", "/images/ProductManagement.png");
         Button brandManagementBtn = createManagementButton("مدیریت برند", "/images/BrandManagement.png");
         Button categoryManagementBtn = createManagementButton("مدیریت دسته‌بندی", "/images/CategoryManagement.png");
+        Button orderManagementBtn = new Button("مدیرت سفارش");
 //        Button supplierManagementBtn = createManagementButton("مدیریت تامین‌کنندگان", "/images/ProviderManagement.png");
 
         // Set button widths
@@ -84,11 +91,13 @@ public class ManagementMenu extends VBox {
         brandManagementBtn.setPrefWidth(270);
         categoryManagementBtn.setPrefWidth(270);
 //        supplierManagementBtn.setPrefWidth(270);
+        orderManagementBtn.setPrefWidth(270);
 
         // Set button actions
         setupManagementButton(productManagementBtn, productManagement);
         setupManagementButton(brandManagementBtn, brandManagement);
         setupManagementButton(categoryManagementBtn, categoryManagement);
+        setupManagementButton(orderManagementBtn,orderManagement);
 
         // Group buttons with their submenus
         VBox productGroup = new VBox(5); // 5 pixel spacing between button and submenu
@@ -103,12 +112,17 @@ public class ManagementMenu extends VBox {
         categoryGroup.getChildren().addAll(categoryManagementBtn, categoryManagement);
         categoryGroup.setAlignment(Pos.TOP_CENTER);
 
+        VBox orderGroup = new VBox(5); // 5 pixel spacing between button and submenu
+        orderGroup.getChildren().addAll(orderManagementBtn, orderManagement);
+        orderGroup.setAlignment(Pos.TOP_CENTER);
+
         // Add all elements to the menu
         getChildren().addAll(
                 dashboardHeader, // Add dashboard header at the top
                 productGroup,
                 brandGroup,
-                categoryGroup
+                categoryGroup,
+                orderGroup
 //                supplierManagementBtn
         );
     }
@@ -124,6 +138,8 @@ public class ManagementMenu extends VBox {
             brandManagement.setManaged(false);
             categoryManagement.setVisible(false);
             categoryManagement.setManaged(false);
+            orderManagement.setVisible(false);
+            orderManagement.setManaged(false);
 
             // Show selected submenu
             subMenu.setVisible(!isVisible);
