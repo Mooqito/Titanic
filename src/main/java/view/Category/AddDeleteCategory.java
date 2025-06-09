@@ -14,6 +14,7 @@ import model.Product.category.Category;
 import model.Product.category.GetAllCategory;
 import model.Product.product.Product;
 import model.Product.product.ReadAllproduct;
+import model.Product.category.DeleteCategory;
 import runner.Main;
 
 import java.util.List;
@@ -125,7 +126,7 @@ public class AddDeleteCategory {
                     deleteStatusLabel.setText("این دسته بندی در محصولات استفاده شده است و نمی‌توان آن را حذف کرد.");
                     deleteStatusLabel.setStyle("-fx-text-fill: #7a0000; -fx-font-size: 13px;");
                 } else {
-                    DeleteBrand.deleteBrand(selectCategory);
+                    DeleteCategory.category(selectCategory);
                     deleteStatusLabel.setText("دسته بندی با موفقیت حذف شد.");
                     deleteStatusLabel.setStyle("-fx-text-fill: #00ba2d; -fx-font-size: 13px;");
                     updateCategoryList(categoryListView);
