@@ -29,6 +29,9 @@ public class Main {
             InitProviderProduct.inintprovider();
             DbInitializerAuth.initAuth();
             DbInitializerProduct.initProduct();
+            InitCustomer.customer();
+            InitOrder.order();
+            InitOrderItem.order_item();
 
             LoginForm loginForm = new LoginForm(primaryStage);
             primaryStage.setTitle("سیستم مدیریت فروشگاه");
