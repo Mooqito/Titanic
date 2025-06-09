@@ -65,7 +65,7 @@ public class LoginForm {
         logo.setPreserveRatio(true);
 
         // White title
-        Label title = new Label("سیستم مدیریت فروشگاه");
+        Label title = new Label("فروشگاه لوازم الکتریکی");
         title.setFont(javafx.scene.text.Font.font("System", javafx.scene.text.FontWeight.BOLD, 24));
         title.setTextFill(javafx.scene.paint.Color.web("#ffffff"));
 

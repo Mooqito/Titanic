@@ -34,7 +34,7 @@ public class Main {
             InitOrderItem.order_item();
 
             LoginForm loginForm = new LoginForm(primaryStage);
-            primaryStage.setTitle("سیستم مدیریت فروشگاه");
+            primaryStage.setTitle("سیستم مدیریت فروشگاه لوازم الکتریکی");
             primaryStage.setScene(loginForm.getScene());
             primaryStage.show();
         }
