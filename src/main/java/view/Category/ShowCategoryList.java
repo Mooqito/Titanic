@@ -39,7 +39,7 @@ public class ShowCategoryList {
             titledPane.setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
 
             List<Product> categoryPruduct =  products.stream()
-                    .filter(product -> product.getBrandTitle().equals(category.getTitle()))
+                    .filter(product -> product.getCategoryTitle().equals(category.getTitle()))
                     .collect(Collectors.toList());
 
             if (categoryPruduct.isEmpty()){
@@ -48,8 +48,10 @@ public class ShowCategoryList {
             } else {
                 TableView<Product> table = new TableView<>();
                 table.setMaxWidth(950);
-                table.setPrefHeight(400);
+                table.setPrefHeight(Math.min(categoryPruduct.size() * 30 + 30, 400));
                 table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+                VBox.setVgrow(table, Priority.NEVER);
 
                 TableColumn<Product, String> titleCol = new TableColumn<>("نام محصول");
                 titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
@@ -72,7 +74,7 @@ public class ShowCategoryList {
                 quantityCol.setCellValueFactory(new PropertyValueFactory<>("quantity"));
                 quantityCol.setPrefWidth(80);
 
-                TableColumn<Product, String> brandCol = new TableColumn<>("برنذ ");
+                TableColumn<Product, String> brandCol = new TableColumn<>("برند ");
                 brandCol.setCellValueFactory(new PropertyValueFactory<>("brandTitle"));
                 brandCol.setPrefWidth(120);
 
@@ -102,6 +104,7 @@ public class ShowCategoryList {
             }
 
             form.getChildren().add(titledPane);
+            VBox.setVgrow(titledPane, Priority.NEVER);
         }
 
         scrollPane.setContent(form);
