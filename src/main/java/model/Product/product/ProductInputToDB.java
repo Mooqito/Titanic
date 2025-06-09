@@ -5,19 +5,19 @@ import java.sql.*;
 
 public class ProductInputToDB {
 
-    // بررسی فقط عنوان برای جلوگیری از خطای تکراری
-    public static boolean isTitleDuplicate(String title) {
-        Connection connection = DBconnection.connect();
-        String checkQuery = "SELECT 1 FROM product WHERE title = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(checkQuery)) {
-            stmt.setString(1, title);
-            ResultSet rs = stmt.executeQuery();
-            return rs.next();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return true; // اگر مشکلی پیش آمد، بهتره اجازه افزودن ندیم
-        }
-    }
+//    // بررسی فقط عنوان برای جلوگیری از خطای تکراری
+//    public static boolean isTitleDuplicate(String title) {
+//        Connection connection = DBconnection.connect();
+//        String checkQuery = "SELECT 1 FROM product WHERE title = ?";
+//        try (PreparedStatement stmt = connection.prepareStatement(checkQuery)) {
+//            stmt.setString(1, title);
+//            ResultSet rs = stmt.executeQuery();
+//            return rs.next();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return true; // اگر مشکلی پیش آمد، بهتره اجازه افزودن ندیم
+//        }
+//    }
 
     // بررسی وجود محصول دقیق (برای افزایش تعداد)
     public static boolean productExist(String title, long price, String category, String provider, String brand) {
@@ -66,10 +66,10 @@ public class ProductInputToDB {
 
     // افزودن محصول جدید
     public static boolean productInput(String title, long price, String description, String category, String provider, String brand, long quantity) {
-        if (isTitleDuplicate(title)) {
-            System.err.println("عنوان محصول تکراری است");
-            return false;
-        }
+//        if (isTitleDuplicate(title)) {
+//            System.err.println("عنوان محصول تکراری است");
+//            return false;
+//        }
 
         Connection connection = DBconnection.connect();
         String query = "INSERT INTO product (title, price, description, category_id, brand_id, provider_id, Quantity) VALUES (?, ?, ?, ?, ?, ?, ?)";
