@@ -77,13 +77,13 @@ public class ManagementMenu extends VBox {
         Button productManagementBtn = createManagementButton("مدیریت محصول", "/images/ProductManagement.png");
         Button brandManagementBtn = createManagementButton("مدیریت برند", "/images/BrandManagement.png");
         Button categoryManagementBtn = createManagementButton("مدیریت دسته‌بندی", "/images/CategoryManagement.png");
-        Button supplierManagementBtn = createManagementButton("مدیریت تامین‌کنندگان", "/images/ProviderManagement.png");
+//        Button supplierManagementBtn = createManagementButton("مدیریت تامین‌کنندگان", "/images/ProviderManagement.png");
 
         // Set button widths
         productManagementBtn.setPrefWidth(270);
         brandManagementBtn.setPrefWidth(270);
         categoryManagementBtn.setPrefWidth(270);
-        supplierManagementBtn.setPrefWidth(270);
+//        supplierManagementBtn.setPrefWidth(270);
 
         // Set button actions
         setupManagementButton(productManagementBtn, productManagement);
@@ -108,8 +108,8 @@ public class ManagementMenu extends VBox {
                 dashboardHeader, // Add dashboard header at the top
                 productGroup,
                 brandGroup,
-                categoryGroup,
-                supplierManagementBtn
+                categoryGroup
+//                supplierManagementBtn
         );
     }
 
